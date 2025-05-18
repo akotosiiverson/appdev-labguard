@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LabGuard - Test Auth Connection</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 30px;
+            line-height: 1.6;
+        }
+        .container {
+            background-color: #f5f5f5;
+            border-radius: 10px;
+            padding: 30px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #ff8c00;
+            margin-bottom: 20px;
+        }
+        button {
+            background-color: #ff8c00;
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            margin-top: 20px;
+        }
+        button:hover {
+            background-color: #e67e00;
+        }
+        #status {
+            margin-top: 20px;
+            padding: 15px;
+            background-color: #ffe5d3;
+            border-radius: 5px;
+            min-height: 100px;
+        }
+        .error {
+            color: #dc3545;
+            font-weight: bold;
+        }
+        .success {
+            color: #28a745;
+            font-weight: bold;
+        }
+        pre {
+            background: #f0f0f0;
+            padding: 15px;
+            border-radius: 5px;
+            overflow-x: auto;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Authentication Test Tool</h1>
+        
+        <p>This page tests the connection to your Firestore database and checks if the auth collection is accessible.</p>
+        
+        <p>This will help diagnose any issues with your login system:</p>
+        
+        <button id="testButton">Test Auth Collection</button>
+        
+        <div id="status">
+            <p>Click the button to test the connection.</p>
+        </div>
+        
+        <p>After testing, you can return to the <a href="/index.htm">login page</a>.</p>
+    </div>
+    
+    <!-- Firebase JS -->
+    <script type="module" src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js"></script>
+    <script type="module" src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js"></script>
+    <script type="module" src="/backend/test-auth.js"></script>
+</body>
+</html>
