@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PC Specifications</title>
+    <link rel="stylesheet" href="pc.css">
+      <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+</head>
+<body>
+    <div id="main-container" class="container">
+
+        <div>
+            <h3 class="header-title">SPECIFICATION</h3>
+        </div>
+
+        <!-- Status Section -->
+        <div>
+            <span class="status-label">Status:</span>
+            <span id="current-status">IN REPAIR</span>
+        </div>
+
+        <!-- Specifications Content -->
+        <div id="specifications">
+            <div class="specs-grid">
+
+        <!-- Keyboard Specs -->                
+                <div id="keyboard-spec" class="spec-card peripheral">
+                    <div class="spec-header">
+                        <h3 class="component-title">Keyboard</h3>
+                        <i class='bx bxs-keyboard component-icon'></i>
+                        <span class="spec-component">Generic USB (Full-size Wired)</span>
+                    </div>
+                    <div class="spec-description">
+                        <p>Description: Durable mechanical keyboard with customizable key-caps for efficient typing and coding.</p>
+                    </div>
+                </div>                <!-- Mouse Specs -->                <div id="mouse-spec" class="spec-card peripheral">
+                    <div class="spec-header">
+                        <h3 class="component-title">Mouse</h3>
+                        <i class='bx bx-mouse component-icon'></i>
+                        <span class="spec-component">Logitech G203 (Wired Optical, 8000 DPI)</span>
+                    </div>
+                    <div class="spec-description">
+                        <p>Description: Responsive and ergonomic wired mouse with customizable DPI settings.</p>
+                    </div>
+                </div>
+
+                <!-- Headphones Specs -->
+                <div id="headphones-spec" class="spec-card peripheral">
+                    <div class="spec-header">
+                        <h3 class="component-title">Headphones</h3>
+                        <i class='bx bx-headphone component-icon'></i>
+                        <span class="spec-component">HyperX Cloud Stinger Core (Wired, 3.5mm Jack)</span>
+                    </div>
+                    <div class="spec-description">
+                        <p>Description: Comfortable over-ear headset with clear audio and a built-in microphone for online meetings and study sessions.</p>
+                    </div>
+                </div>
+
+                <!-- Operating System Specs -->
+                <div id="os-spec" class="spec-card system">
+                    <div class="spec-header">
+                        <h3 class="component-title">Operating System</h3>
+                        <i class='bx bxl-windows component-icon'></i>
+                        <span class="spec-component">Windows 11 Pro</span>
+                    </div>
+                    <div class="spec-description">
+                        <p>Description: Latest version of Windows with enhanced security, virtualization support, and developer-friendly features.</p>
+                    </div>
+                </div>
+
+                <!-- CPU Cooler Specs -->
+                <div id="cpu-cooler-spec" class="spec-card hardware">
+                    <div class="spec-header">
+                        <h3 class="component-title">CPU Cooler</h3>
+                        <i class='bx bx-wind component-icon'></i>
+                        <span class="spec-component">Cooler Master Hyper 212 Black Edition</span>
+                    </div>
+                    <div class="spec-description">
+                        <p>Description: A high-performance air cooler that keeps the CPU temperatures low, reducing thermal throttling and extending the lifespan of components.</p>
+                    </div>
+                </div>
+
+                <!-- Power Strip Specs -->
+                <div id="power-strip-spec" class="spec-card peripheral">
+                    <div class="spec-header">
+                        <h3 class="component-title">Power Strip/Surge Protector</h3>
+                        <i class='bx bxs-plug component-icon'></i>
+                        <span class="spec-component">APC SurgeArrest 8-Outlet</span>
+                    </div>
+                    <div class="spec-description">
+                        <p>Description: A high-quality power strip with surge protection to safeguard PC components from power fluctuations. Includes USB ports for charging peripherals.</p>
+                    </div>
+                </div>
+
+                <!-- Ethernet Cable Specs -->                <div id="ethernet-cable-spec" class="spec-card peripheral">
+                    <div class="spec-header">
+                        <h3 class="component-title">Ethernet Cable</h3>
+                        <i class='bx bx-network-chart component-icon'></i>
+                        <span class="spec-component">Cable Matters Cat 6A Ethernet Cable</span>
+                    </div>
+                    <div class="spec-description">
+                        <p>Description: A durable and high-speed Cat 6A cable that supports up to 10Gbps data transfer with low latency, ensuring stable internet for coding, gaming, and video calls. The shielded design minimizes signal interference.</p>
+                    </div>
+                </div>
+
+                <!-- Case Specs -->
+                <div id="case-spec" class="spec-card hardware">
+                    <div class="spec-header">
+                        <h3 class="component-title">Case</h3>
+                        <i class='bx bx-desktop component-icon'></i>
+                        <span class="spec-component">Corsair 4000D Airflow (Mid-Tower ATX)</span>
+                    </div>
+                    <div class="spec-description">
+                        <p>Description: A well-ventilated case with mesh front for better cooling. Supports multiple fans and cable management.</p>
+                    </div>
+                </div>
+                
+                <!-- Power Supply Specs -->
+                <div id="psu-spec" class="spec-card hardware">
+                    <div class="spec-header">
+                        <h3 class="component-title">Power Supply (PSU)</h3>
+                        <i class='bx bx-power-off component-icon'></i>
+                        <span class="spec-component">Corsair CV550 (550W 80+ Bronze)</span>
+                    </div>
+                    <div class="spec-description">
+                        <p>Description: Reliable power supply with 80+ Bronze efficiency, ensuring stable power delivery for daily tasks.</p>
+                    </div>
+                </div>
+                
+                <!-- Processor Specs -->
+                <div id="processor-spec" class="spec-card hardware">
+                    <div class="spec-header">
+                        <h3 class="component-title">Processor (CPU)</h3>
+                        <i class='bx bx-microchip component-icon'></i>
+                        <span class="spec-component">Intel Core i5-12400 (6 Cores, 12 Threads, 4.4GHz Boost)</span>
+                    </div>
+                    <div class="spec-description">
+                        <p>Description: A powerful mid-range processor ideal for programming, compiling code, and running virtual machines.</p>
+                    </div>
+                </div>
+                
+                <!-- Motherboard Specs -->
+                <div id="motherboard-spec" class="spec-card hardware">
+                    <div class="spec-header">
+                        <h3 class="component-title">Motherboard</h3>
+                        <i class='bx bx-chip component-icon'></i>
+                        <span class="spec-component">MSI PRO B760M-A WiFi (Intel B760 chipset)</span>
+                    </div>
+                    <div class="spec-description">
+                        <p>Description: Supports the latest Intel processors, Wi-Fi connectivity, and multiple USB ports for peripherals.</p>
+                    </div>
+                </div>
+                
+                <!-- RAM Specs -->
+                <div id="ram-spec" class="spec-card hardware">
+                    <div class="spec-header">
+                        <h3 class="component-title">RAM</h3>
+                        <i class='bx bx-memory-card component-icon'></i>
+                        <span class="spec-component">Kingston Fury Beast 16GB DDR4 3200MHz (2x8GB)</span>
+                    </div>
+                    <div class="spec-description">
+                        <p>Description: High-speed RAM for smooth multitasking, running development environments, and virtualization.</p>
+                    </div>
+                </div>
+                
+                <!-- Storage Specs -->
+                <div id="storage-spec" class="spec-card hardware">
+                    <div class="spec-header">
+                        <h3 class="component-title">Storage</h3>
+                        <i class='bx bx-hdd component-icon'></i>
+                        <span class="spec-component">Western Digital 1TB NVMe SSD (Gen 3, PCIe 4.0)</span>
+                    </div>
+                    <div class="spec-description">
+                        <p>Description: Ultra-fast SSD with high read/write speeds, reducing boot times and improving application loading speed.</p>
+                    </div>
+                </div>
+                  <!-- Graphics Specs -->
+                <div id="graphics-spec" class="spec-card hardware">
+                    <div class="spec-header">
+                        <h3 class="component-title">Graphics (GPU)</h3>
+                        <i class='bx bx-chip component-icon'></i>
+                        <span class="spec-component">Integrated Intel UHD 730 (Built-in with CPU)</span>
+                    </div>
+                    <div class="spec-description">
+                        <p>Description: Handles programming, database management, and light graphical tasks without needing a dedicated GPU.</p>
+                    </div>
+                </div>
+                
+                <!-- Network Specs -->
+                <div id="network-spec" class="spec-card hardware">
+                    <div class="spec-header">
+                        <h3 class="component-title">Network</h3>
+                        <i class='bx bx-network-chart component-icon'></i>
+                        <span class="spec-component">Intel 2.5G Gigabit Ethernet</span>
+                    </div>
+                    <div class="spec-description">
+                        <p>Description: Provides high-speed wired internet for fast downloads, remote work, and stable connections.</p>
+                    </div>
+                </div>
+                
+                <!-- Monitor Specs -->
+                <div id="monitor-spec" class="spec-card peripheral">
+                    <div class="spec-header">
+                        <h3 class="component-title">Monitor</h3>
+                        <i class='bx bx-desktop component-icon'></i>
+                        <span class="spec-component">Dell P2422H (24-inch 1080p, 75Hz IPS Panel)</span>
+                    </div>
+                    <div class="spec-description">
+                        <p>Description: High-quality IPS display with good color accuracy and viewing angles, perfect for coding and long hours of work.</p>
+                    </div>
+                </div>                
+                
+                <!-- Add New Component Button --><div id="add-component">
+                    <button id="add-btn">
+                        <span class="icon-container">+</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+
+
+        <!-- Repair History Content -->
+        <h3 id="repair-header">REPAIR-HISTORY</h3>
+        <div id="repair-history">
+            <div class="repair-list">                <div class="repair-item clickable" data-repair-id="1">
+                    <div class="current-status"><i class='bx bx-check-circle status-icon'></i> Repaired</div>
+                    <div class="repair-date"><i class='bx bx-calendar date-icon'></i> 07/17/2023</div>                </div><div class="repair-item clickable" data-repair-id="2">
+                    <div class="current-status"><i class='bx bx-check-circle status-icon'></i> Repaired</div>
+                    <div class="repair-date"><i class='bx bx-calendar date-icon'></i> 09/13/2023</div>                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Repair Info Modal -->
+    <div id="repair-modal" class="modal">
+        <div class="modal-content">            <span class="close-btn">&times;</span>
+            <h2><i class='bx bx-wrench'></i> Repair Details</h2>
+            <div class="modal-body">                <div class="info-row">
+                    <span class="info-label"><i class='bx bx-calendar-event'></i> Date:</span>
+                    <span id="modal-date" class="info-value"></span>
+                </div>
+                <div class="info-row">
+                    <span class="info-label"><i class='bx bx-check-shield'></i> Status:</span>
+                    <span id="modal-status" class="info-value"></span>
+                </div>
+                <div class="info-row">
+                    <span class="info-label"><i class='bx bx-user'></i> Technician:</span>
+                    <span id="modal-tech" class="info-value">John Doe</span>
+                </div>
+                <div class="info-row">
+                    <span class="info-label"><i class='bx bx-chip'></i> Parts Replaced:</span>
+                    <span id="modal-parts" class="info-value">None</span>
+                </div>
+                <div class="info-row">
+                    <span class="info-label"><i class='bx bx-notepad'></i> Notes:</span>
+                    <p id="modal-notes" class="info-notes">Regular maintenance performed. System cleaned and updated.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add Component Modal -->
+    <div id="add-component-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn add-modal-close">&times;</span>
+            <h2><i class='bx bx-plus-circle'></i> Add New Component</h2>
+            <div class="modal-body">
+                <form id="add-component-form">
+                    <div class="form-group">
+                        <label for="component-name"><i class='bx bx-tag'></i> Component Name:</label>
+                        <input type="text" id="component-name" placeholder="e.g., Graphics Card, SSD, etc." required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="component-type"><i class='bx bx-category'></i> Component Type:</label>
+                        <select id="component-type" required>
+                            <option value="">-- Select Type --</option>
+                            <option value="hardware">Hardware</option>
+                            <option value="peripheral">Peripheral</option>
+                            <option value="system">System</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="component-model"><i class='bx bx-barcode'></i> Model/Specifications:</label>
+                        <input type="text" id="component-model" placeholder="e.g., NVIDIA RTX 3060, 12GB GDDR6" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="component-desc"><i class='bx bx-detail'></i> Description:</label>
+                        <textarea id="component-desc" rows="3" placeholder="Brief description of the component..." required></textarea>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="component-icon"><i class='bx bx-image'></i> Icon:</label>
+                        <select id="component-icon" required>
+                            <option value="">-- Select Icon --</option>
+                            <option value="bx-chip">Chip</option>
+                            <option value="bx-desktop">Desktop/Monitor</option>
+                            <option value="bx-hdd">Storage</option>
+                            <option value="bx-memory-card">Memory</option>
+                            <option value="bx-microchip">CPU</option>
+                            <option value="bx-mouse">Mouse</option>
+                            <option value="bxs-keyboard">Keyboard</option>
+                            <option value="bx-power-off">Power</option>
+                            <option value="bx-network-chart">Network</option>
+                            <option value="bx-wind">Cooling</option>
+                            <option value="bx-headphone">Audio</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-actions">
+                        <button type="submit" id="save-component" class="submit-btn">
+                            <i class='bx bx-save'></i> Save Component
+                        </button>
+                        <button type="button" id="cancel-add" class="cancel-btn">
+                            <i class='bx bx-x'></i> Cancel
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Edit Component Modal -->
+    <div id="edit-component-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn edit-modal-close">&times;</span>
+            <h2><i class='bx bx-edit'></i> Edit Component</h2>
+            <div class="modal-body">
+                <form id="edit-component-form">
+                    <input type="hidden" id="edit-component-id">
+                    <div class="form-group">
+                        <label for="edit-component-name"><i class='bx bx-tag'></i> Component Name:</label>
+                        <input type="text" id="edit-component-name" placeholder="e.g., Graphics Card, SSD, etc." required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="edit-component-type"><i class='bx bx-category'></i> Component Type:</label>
+                        <select id="edit-component-type" required>
+                            <option value="">-- Select Type --</option>
+                            <option value="hardware">Hardware</option>
+                            <option value="peripheral">Peripheral</option>
+                            <option value="system">System</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="edit-component-model"><i class='bx bx-barcode'></i> Model/Specifications:</label>
+                        <input type="text" id="edit-component-model" placeholder="e.g., NVIDIA RTX 3060, 12GB GDDR6" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="edit-component-desc"><i class='bx bx-detail'></i> Description:</label>
+                        <textarea id="edit-component-desc" rows="3" placeholder="Brief description of the component..." required></textarea>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="edit-component-icon"><i class='bx bx-image'></i> Icon:</label>
+                        <select id="edit-component-icon" required>
+                            <option value="">-- Select Icon --</option>
+                            <option value="bx-chip">Chip</option>
+                            <option value="bx-desktop">Desktop/Monitor</option>
+                            <option value="bx-hdd">Storage</option>
+                            <option value="bx-memory-card">Memory</option>
+                            <option value="bx-microchip">CPU</option>
+                            <option value="bx-mouse">Mouse</option>
+                            <option value="bxs-keyboard">Keyboard</option>
+                            <option value="bx-power-off">Power</option>
+                            <option value="bx-network-chart">Network</option>
+                            <option value="bx-wind">Cooling</option>
+                            <option value="bx-headphone">Audio</option>
+                            <option value="bxl-windows">Windows</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-actions">
+                        <button type="submit" id="update-component" class="submit-btn">
+                            <i class='bx bx-save'></i> Update Component
+                        </button>
+                        <button type="button" id="cancel-edit" class="cancel-btn">
+                            <i class='bx bx-x'></i> Cancel
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Delete Confirmation Modal -->
+    <div id="delete-confirmation-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn delete-modal-close">&times;</span>
+            <h2><i class='bx bx-trash' style="color: #f44336;"></i> Confirm Deletion</h2>
+            <div class="modal-body">
+                <p>Are you sure you want to delete the <strong id="delete-component-name"></strong> component?</p>
+                <p class="warning-text" style="color: #f44336; margin-top: 10px;"><i class='bx bx-error-circle'></i> This action cannot be undone.</p>
+                
+                <input type="hidden" id="delete-component-id">
+                
+                <div class="form-actions" style="margin-top: 20px;">
+                    <button type="button" id="confirm-delete" class="delete-btn" style="background-color: #f44336; color: white; width: auto; height: auto; padding: 10px 15px; opacity: 1;">
+                        <i class='bx bx-trash'></i> Delete Component
+                    </button>
+                    <button type="button" id="cancel-delete" class="cancel-btn">
+                        <i class='bx bx-x'></i> Cancel
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="pc.js"></script>
+</body>
+</html>

@@ -1,18 +1,13 @@
-import {
-  collection,
-  query,
-  orderBy,
-  onSnapshot,
-  doc,
-  updateDoc,
-  getDoc
+import { 
+  doc, updateDoc, getDoc, collection, addDoc, serverTimestamp,
+  query, where, getDocs
 } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 import { db } from "../../backend/firebase-config.js";
 
 let currentStatusFilter = "All";
 let currentStartDate = null;
 let currentEndDate = null;
-//
+
 function setupRealtimeListener() {
   const reportListEl = document.querySelector('.report-list');
   if (!reportListEl) return;
@@ -75,6 +70,7 @@ function setupRealtimeListener() {
 
     reportListEl.innerHTML = reportSummary;
     attachModalAndActionListeners();
+    attachEventListeners();  // Re-bind action buttons after DOM update
   });
 }
 
@@ -118,32 +114,121 @@ function attachModalAndActionListeners() {
       });
     });
   });
+}
 
-  const updateStatus = async (id, status, button) => {
-    try {
-      const ref = doc(db, "reportList", id);
-      await updateDoc(ref, { statusReport: status });
+const updateStatus = async (id, status, button) => {
+  try {
+    const reportRef = doc(db, "reportList", id);
+    await updateDoc(reportRef, { statusReport: status });
 
-      if (status === 'Processing') {
-        button.remove();
-      } else {
-        button.parentElement.innerHTML = `<strong>${status}</strong>`;
+    if (status === "Approved") {
+      const reportSnap = await getDoc(reportRef);
+      if (!reportSnap.exists()) {
+        console.error(`❌ Report with ID ${id} not found`);
+        return;
       }
-    } catch (err) {
-      console.error(`Failed to update status:`, err);
-    }
-  };
 
+      const reportData = reportSnap.data();
+      const { pc, room, equipment, issue, date } = reportData;
+
+      const formattedDate = typeof date === "object" && date.toDate
+        ? `${date.toDate().toLocaleString('en-US', {
+            timeZone: 'Asia/Manila',
+            dateStyle: 'long',
+            timeStyle: 'medium'
+          })} UTC+8`
+        : date;
+
+      // Add new document to the pc subcollection
+      const pcCollectionRef = collection(db, "comlabrooms", room.toString(), `pc${pc}`);
+      await addDoc(pcCollectionRef, {
+        equipment,
+        issue,
+        reportDate: formattedDate,
+        statusReport: status,
+        approvedDate: serverTimestamp()
+      });
+
+      console.log(`✅ New report added to /comlabrooms/${room}/pc${pc}/`);
+
+      // DEBUG: Log pc and room and their types
+      console.log("PC (from report):", pc, "type:", typeof pc);
+      console.log("Room (from report):", room, "type:", typeof room);
+
+      // Query all reports for this PC and room with type casting to string
+      const reportsQuery = query(
+        collection(db, "reportList"),
+        where("pc", "==", String(pc)),
+        where("room", "==", String(room))
+      );
+      const reportsSnapshot = await getDocs(reportsQuery);
+
+      console.log(`Reports found: ${reportsSnapshot.size}`);
+
+      if (reportsSnapshot.empty) {
+        console.warn("⚠️ No reports found for this PC and room");
+      }
+
+      let allResolved = true;
+      reportsSnapshot.forEach(doc => {
+        const data = doc.data();
+        const rStatus = data.statusReport;
+        console.log(`Report ID: ${doc.id}, Status: ${rStatus}, pc: ${data.pc}, room: ${data.room}`);
+        if (rStatus !== "Approved" && rStatus !== "Declined") {
+          allResolved = false;
+        }
+      });
+
+      console.log("allResolved =", allResolved);
+
+      // Update the PC status based on whether all reports are resolved
+      const pcRef = doc(db, "comlabrooms", room.toString(), `pc${pc}`, "document1");
+      if (allResolved) {
+        console.log(`✅ All reports resolved. Setting PC status to 'available'.`);
+        await updateDoc(pcRef, { status: "available" });
+      } else {
+        console.log(`⏳ Some reports still pending. Setting PC status to 'not available'.`);
+        await updateDoc(pcRef, { status: "not available" });
+      }
+
+    } else {
+      // For other statuses (Processing, Declined), set PC status to not available
+      const reportSnap = await getDoc(reportRef);
+      if (!reportSnap.exists()) {
+        console.error(`❌ Report with ID ${id} not found`);
+        return;
+      }
+      const { pc, room } = reportSnap.data();
+      const pcRef = doc(db, "comlabrooms", room.toString(), `pc${pc}`, "document1");
+      await updateDoc(pcRef, { status: "not available" });
+    }
+
+    if (status === 'Processing') {
+      button.remove();
+    } else {
+      button.parentElement.innerHTML = `<strong>${status}</strong>`;
+    }
+  } catch (err) {
+    console.error(`❌ Failed to update status:`, err);
+  }
+};
+
+/**
+ * Attach event listeners for each button type.
+ */
+const attachEventListeners = () => {
   document.querySelectorAll('.approve-btn-js').forEach(button => {
     button.addEventListener('click', () => updateStatus(button.dataset.id, "Approved", button));
   });
+
   document.querySelectorAll('.processing-btn-js').forEach(button => {
     button.addEventListener('click', () => updateStatus(button.dataset.id, "Processing", button));
   });
+
   document.querySelectorAll('.decline-btn-js').forEach(button => {
     button.addEventListener('click', () => updateStatus(button.dataset.id, "Declined", button));
   });
-}
+};
 
 // Event Listeners on DOM Load
 document.addEventListener("DOMContentLoaded", () => {
