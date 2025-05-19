@@ -9,7 +9,7 @@ import {
 } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js"; // ✅ addDoc & collection must be imported
 
 import { getStorage } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-storage.js";
-//import {addReport} from './data/firebase.js';
+//import {addReport} from './data/firebase.js'; //
 
 export function printYourrequestInfo() {
   const requestButton = document.querySelector('.js-submit-button-report');
