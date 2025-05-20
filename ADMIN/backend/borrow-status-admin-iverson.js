@@ -1,12 +1,14 @@
-import { 
-  orderBy,onSnapshot,
+import {
+  orderBy, onSnapshot,
   doc, updateDoc, getDoc, collection, addDoc, serverTimestamp,
   query, where, getDocs
 } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 import { db } from "../../backend/firebase-config.js";
+
 let currentStatusFilter = "All";
 let currentStartDate = null;
 let currentEndDate = null;
+let allReports = []; // store all reports once on load
 
 function setupRealtimeListener() {
   const reportListEl = document.querySelector('.report-list');
@@ -15,62 +17,73 @@ function setupRealtimeListener() {
   const reportsQuery = query(collection(db, "borrowList"), orderBy("timestamp", "desc"));
 
   onSnapshot(reportsQuery, (querySnapshot) => {
-    let reportSummary = '';
-
-    querySnapshot.forEach((docSnap) => {
-      const data = docSnap.data();
-      const status = data.statusReport || 'Pending';
-      const firestoreDate = data.timestamp?.toDate?.();
-
-      if (currentStatusFilter !== "All" && status.toLowerCase() !== currentStatusFilter.toLowerCase()) return;
-
-      if (firestoreDate) {
-        if (currentStartDate && firestoreDate < currentStartDate) return;
-        if (currentEndDate && firestoreDate > currentEndDate) return;
-      }
-
-      const formattedDate = firestoreDate
-        ? firestoreDate.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })
-        : 'No Date';
-
-      let actionButtons = '';
-      if (status === "Pending") {
-        actionButtons = `
-          <button class="approve-btn-js" data-id="${docSnap.id}">Approve</button>
-          <button class="decline-btn-js" data-id="${docSnap.id}">Decline</button>
-        `;
-      } else {
-        actionButtons = `<strong>${status}</strong>`;
-      }
-
-      reportSummary += `
-     <tr class="report-row"
-            data-id="${doc.id}"
-            data-date="${formattedDate}"
-            data-product="${data.equipment}"
-            data-img="${data.imageUrl || ''}"
-            data-issue="${data.purpose || 'No details provided'}"
-            data-faculty="${data.Name || 'Unknown'}">
-          <td>${data.Name || 'Unknown'}</td>
-          <td>${data.borrowDate}</td>
-          <td>${data.returnDate} </td>
-          <td>${data.equipment}</td>
-           <td><span class="status status-span-row">${actionButtons}</span></td>
-        </tr>
-      `;
+    allReports = [];
+    querySnapshot.forEach(docSnap => {
+      allReports.push({ id: docSnap.id, ...docSnap.data(), timestamp: docSnap.data().timestamp?.toDate() });
     });
 
-    reportListEl.innerHTML = reportSummary;
-    attachModalAndActionListeners();
-    attachEventListeners();  // Re-bind action buttons after DOM update
+    renderFilteredReports();
   });
+}
+
+function renderFilteredReports() {
+  const reportListEl = document.querySelector('.report-list');
+  if (!reportListEl) return;
+
+  let reportSummary = '';
+
+  allReports.forEach(data => {
+    const status = data.statusReport || 'Pending';
+    const firestoreDate = data.timestamp;
+
+    if (currentStatusFilter !== "All" && status.toLowerCase() !== currentStatusFilter.toLowerCase()) return;
+
+    if (firestoreDate) {
+      if (currentStartDate && firestoreDate < currentStartDate) return;
+      if (currentEndDate && firestoreDate > currentEndDate) return;
+    }
+
+    const formattedDate = firestoreDate
+      ? firestoreDate.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })
+      : 'No Date';
+
+    let actionButtons = '';
+    if (status === "Pending") {
+      actionButtons = `
+        <button class="approve-btn-js" data-id="${data.id}">Approve</button>
+        <button class="decline-btn-js" data-id="${data.id}">Decline</button>
+      `;
+    } else {
+      actionButtons = `<strong>${status}</strong>`;
+    }
+
+    reportSummary += `
+      <tr class="report-row"
+          data-id="${data.id}"
+          data-date="${formattedDate}"
+          data-product="${data.equipment}"
+          data-img="${data.imageUrl || ''}"
+          data-issue="${data.purpose || 'No details provided'}"
+          data-faculty="${data.Name || 'Unknown'}">
+        <td class="td-name-clickable">${data.Name || 'Unknown'}</td>
+        <td>${data.borrowDate}</td>
+        <td>${data.returnDate}</td>
+        <td>${data.equipment}</td>
+        <td><span class="status status-span-row">${actionButtons}</span></td>
+      </tr>
+    `;
+  });
+
+  reportListEl.innerHTML = reportSummary;
+  attachModalAndActionListeners();
+  attachEventListeners();
 }
 
 function attachModalAndActionListeners() {
   document.querySelectorAll('.td-name-clickable').forEach(cell => {
     cell.addEventListener('click', async () => {
       const row = cell.closest('.report-row');
-      const {  date,  product, issue, img, id } = row.dataset;
+      const { date, product, issue, img, id } = row.dataset;
 
       const docSnap = await getDoc(doc(db, "borrowList", id));
       const status = docSnap.exists() ? (docSnap.data().statusReport || 'Unknown') : 'Unknown';
@@ -113,10 +126,7 @@ const updateStatus = async (id, status, button) => {
 
     if (status === "Approved") {
       const reportSnap = await getDoc(reportRef);
-      if (!reportSnap.exists()) {
-        console.error(`❌ Report with ID ${id} not found`);
-        return;
-      }
+      if (!reportSnap.exists()) return;
 
       const reportData = reportSnap.data();
       const { pc, room, equipment, issue, date } = reportData;
@@ -129,7 +139,6 @@ const updateStatus = async (id, status, button) => {
           })} UTC+8`
         : date;
 
-      // Add new document to the pc subcollection
       const pcCollectionRef = collection(db, "comlabrooms", room.toString(), `pc${pc}`);
       await addDoc(pcCollectionRef, {
         equipment,
@@ -139,9 +148,6 @@ const updateStatus = async (id, status, button) => {
         approvedDate: serverTimestamp()
       });
 
-      console.log(`✅ New report added to /comlabrooms/${room}/pc${pc}/`);
-
-      // Query all reports for this PC and room using number types (no String)
       const reportsQuery = query(
         collection(db, "borrowList"),
         where("pc", "==", pc),
@@ -158,26 +164,16 @@ const updateStatus = async (id, status, button) => {
         }
       });
 
-      // Update the PC status based on whether all reports are resolved
       const pcRef = doc(db, "comlabrooms", room.toString(), `pc${pc}`, "document1");
-      if (allResolved) {
-        await updateDoc(pcRef, { status: "available" });
-      } else {
-        await updateDoc(pcRef, { status: "not available" });
-      }
-
+      await updateDoc(pcRef, { status: allResolved ? "available" : "not available" });
     }
 
-    // Remove or update the button after action
     button.parentElement.innerHTML = `<strong>${status}</strong>`;
   } catch (err) {
     console.error(`❌ Failed to update status:`, err);
   }
 };
 
-/**
- * Attach event listeners for each button type.
- */
 const attachEventListeners = () => {
   document.querySelectorAll('.approve-btn-js').forEach(button => {
     button.addEventListener('click', () => updateStatus(button.dataset.id, "Approved", button));
@@ -187,8 +183,6 @@ const attachEventListeners = () => {
     button.addEventListener('click', () => updateStatus(button.dataset.id, "Declined", button));
   });
 };
-
-
 
 // Event Listeners on DOM Load
 document.addEventListener("DOMContentLoaded", () => {
@@ -200,24 +194,19 @@ document.addEventListener("DOMContentLoaded", () => {
 
   filterSelect.addEventListener('change', () => {
     const selected = filterSelect.value;
-    if (selected === "process-sort") currentStatusFilter = "Processing";
-    else if (selected === "pending-sort") currentStatusFilter = "Pending";
+    if (selected === "pending-sort") currentStatusFilter = "Pending";
     else if (selected === "approve-sort") currentStatusFilter = "Approved";
     else if (selected === "decline-sort") currentStatusFilter = "Declined";
     else currentStatusFilter = "All";
 
-    setupRealtimeListener();
+    renderFilteredReports(); // only re-render
   });
 
   const handleDateChange = () => {
-    const startVal = startDateInput.value;
-    const endVal = endDateInput.value;
-
-    currentStartDate = startVal ? new Date(startVal) : null;
-    currentEndDate = endVal ? new Date(endVal) : null;
-
+    currentStartDate = startDateInput.value ? new Date(startDateInput.value) : null;
+    currentEndDate = endDateInput.value ? new Date(endDateInput.value) : null;
     if (currentEndDate) currentEndDate.setHours(23, 59, 59, 999);
-    setupRealtimeListener();
+    renderFilteredReports(); // only re-render
   };
 
   startDateInput.addEventListener("change", handleDateChange);
