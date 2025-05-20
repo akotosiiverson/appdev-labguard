@@ -12,7 +12,7 @@ function setupRealtimeListener() {
   const reportListEl = document.querySelector('.report-list');
   if (!reportListEl) return;
 
-  const reportsQuery = query(collection(db, "reportList"), orderBy("date", "desc"));
+  const reportsQuery = query(collection(db, "borrowList"), orderBy("timestamp", "desc"));
 
   onSnapshot(reportsQuery, (querySnapshot) => {
     let reportSummary = '';
@@ -20,7 +20,7 @@ function setupRealtimeListener() {
     querySnapshot.forEach((docSnap) => {
       const data = docSnap.data();
       const status = data.statusReport || 'Pending';
-      const firestoreDate = data.date?.toDate?.();
+      const firestoreDate = data.timestamp?.toDate?.();
 
       if (currentStatusFilter !== "All" && status.toLowerCase() !== currentStatusFilter.toLowerCase()) return;
 
@@ -44,20 +44,18 @@ function setupRealtimeListener() {
       }
 
       reportSummary += `
-        <tr class="report-row"
-            data-id="${docSnap.id}"
-            data-faculty="${data.Name}"
+     <tr class="report-row"
+            data-id="${doc.id}"
             data-date="${formattedDate}"
-            data-location="${data.room} - ${data.pc}"
             data-product="${data.equipment}"
             data-img="${data.imageUrl || ''}"
-            data-issue="${data.issue || 'No details provided'}"
-            data-position="${data.position || 'Faculty'}">
-          <td class="td-name-clickable">${data.Name}</td>
-          <td>${formattedDate}</td>
-          <td>${data.room} - ${data.pc}</td>
+            data-issue="${data.purpose || 'No details provided'}"
+            data-faculty="${data.Name || 'Unknown'}">
+          <td>${data.Name || 'Unknown'}</td>
+          <td>${data.borrowDate}</td>
+          <td>${data.returnDate} </td>
           <td>${data.equipment}</td>
-          <td><span class="status status-span-row">${actionButtons}</span></td>
+           <td><span class="status status-span-row">${actionButtons}</span></td>
         </tr>
       `;
     });
@@ -72,9 +70,9 @@ function attachModalAndActionListeners() {
   document.querySelectorAll('.td-name-clickable').forEach(cell => {
     cell.addEventListener('click', async () => {
       const row = cell.closest('.report-row');
-      const { faculty, date, location, product, issue, position, img, id } = row.dataset;
+      const {  date,  product, issue, img, id } = row.dataset;
 
-      const docSnap = await getDoc(doc(db, "reportList", id));
+      const docSnap = await getDoc(doc(db, "borrowList", id));
       const status = docSnap.exists() ? (docSnap.data().statusReport || 'Unknown') : 'Unknown';
 
       const overlay = document.createElement('div');
@@ -88,9 +86,7 @@ function attachModalAndActionListeners() {
         <p class="confirm-text">REQUEST DETAILS</p>
         <p class="request-status-indicator">Status: ${status}</p>
         <div class="request-details">
-          <p><strong>Faculty:</strong> ${faculty} (${position})</p>
           <p><strong>Date Submitted:</strong> ${date}</p>
-          <p><strong>Room & PC:</strong> ${location}</p>
           <p><strong>Item Type:</strong> ${product}</p>
           <p><strong>Issue:</strong> ${issue}</p>
         </div>
@@ -112,7 +108,7 @@ function attachModalAndActionListeners() {
 
 const updateStatus = async (id, status, button) => {
   try {
-    const reportRef = doc(db, "reportList", id);
+    const reportRef = doc(db, "borrowList", id);
     await updateDoc(reportRef, { statusReport: status });
 
     if (status === "Approved") {
@@ -145,62 +141,35 @@ const updateStatus = async (id, status, button) => {
 
       console.log(`✅ New report added to /comlabrooms/${room}/pc${pc}/`);
 
-      console.log("PC (from report):", pc, "type:", typeof pc);
-      console.log("Room (from report):", room, "type:", typeof room);
-
       // Query all reports for this PC and room using number types (no String)
       const reportsQuery = query(
-        collection(db, "reportList"),
+        collection(db, "borrowList"),
         where("pc", "==", pc),
         where("room", "==", room)
       );
       const reportsSnapshot = await getDocs(reportsQuery);
 
-      console.log(`Reports found: ${reportsSnapshot.size}`);
-
-      if (reportsSnapshot.empty) {
-        console.warn("⚠️ No reports found for this PC and room");
-      }
-
       let allResolved = true;
       reportsSnapshot.forEach(doc => {
         const data = doc.data();
         const rStatus = data.statusReport;
-        console.log(`Report ID: ${doc.id}, Status: ${rStatus}, pc: ${data.pc}, room: ${data.room}`);
         if (rStatus !== "Approved" && rStatus !== "Declined") {
           allResolved = false;
         }
       });
 
-      console.log("allResolved =", allResolved);
-
       // Update the PC status based on whether all reports are resolved
       const pcRef = doc(db, "comlabrooms", room.toString(), `pc${pc}`, "document1");
       if (allResolved) {
-        console.log(`✅ All reports resolved. Setting PC status to 'available'.`);
         await updateDoc(pcRef, { status: "available" });
       } else {
-        console.log(`⏳ Some reports still pending. Setting PC status to 'not available'.`);
         await updateDoc(pcRef, { status: "not available" });
       }
 
-    } else if (status === "Processing") {
-      // Only set PC to not available when status is Processing
-      const reportSnap = await getDoc(reportRef);
-      if (!reportSnap.exists()) {
-        console.error(`❌ Report with ID ${id} not found`);
-        return;
-      }
-      const { pc, room } = reportSnap.data();
-      const pcRef = doc(db, "comlabrooms", room.toString(), `pc${pc}`, "document1");
-      await updateDoc(pcRef, { status: "not available" });
     }
 
-    if (status === 'Processing') {
-      button.remove();
-    } else {
-      button.parentElement.innerHTML = `<strong>${status}</strong>`;
-    }
+    // Remove or update the button after action
+    button.parentElement.innerHTML = `<strong>${status}</strong>`;
   } catch (err) {
     console.error(`❌ Failed to update status:`, err);
   }
@@ -212,10 +181,6 @@ const updateStatus = async (id, status, button) => {
 const attachEventListeners = () => {
   document.querySelectorAll('.approve-btn-js').forEach(button => {
     button.addEventListener('click', () => updateStatus(button.dataset.id, "Approved", button));
-  });
-
-  document.querySelectorAll('.processing-btn-js').forEach(button => {
-    button.addEventListener('click', () => updateStatus(button.dataset.id, "Processing", button));
   });
 
   document.querySelectorAll('.decline-btn-js').forEach(button => {
