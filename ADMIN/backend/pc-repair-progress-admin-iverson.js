@@ -1,21 +1,5 @@
 
-// iverson code
 
-let repairListDiv = document.querySelector('.repair-list');
-
-
-       let repairViewHTML=``;
-       
-     repairViewHTML  +=`
-        <div class="repair-item clickable" data-repair-id="1">
-                            <div class="current-status"><i class="bx bx-check-circle status-icon"></i> Repaired</div>
-                            <div class="repair-date"><i class="bx bx-calendar date-icon"></i> 07/17/2023</div>                
-                    </div>
-        
-       
-        `;
-
-        repairListDiv.innerHTML=repairViewHTML;
 
 //jiro code
 
@@ -663,3 +647,22 @@ function deleteComponent(componentId) {
 
 
 
+// iverson code
+
+let repairListDiv = document.querySelector('.repair-list');
+
+
+       let repairViewHTML=``;
+
+       
+       
+     repairViewHTML  +=`
+        <div class="repair-item clickable" data-repair-id="1">
+                            <div class="current-status"><i class="bx bx-check-circle status-icon"></i> Repaired</div>
+                            <div class="repair-date"><i class="bx bx-calendar date-icon"></i> 07/17/2023</div>                
+                    </div>
+        
+       
+        `;
+
+        repairListDiv.innerHTML=repairViewHTML;
