@@ -1,111 +1,26 @@
 export const items = [
-    {
+       {
        id:1,
-        name:'COMPUTER',
-        image:'/asset/icons/computer-icon.png',
-        quantity:0
+        name:'MICROPHONE',
+        image:'/ADMIN/asset/icons/mic-icon.png',
+        quantity:3
     },
     {
-        id:2,
-        name:'MONITOR',
-        image:'/asset/icons/monitor-icon.png',
-        quantity:35
+        id:12,
+        name:'HDMI CABLE',
+        image:'/ADMIN/asset/icons/hdmi-icon.png',
+        quantity:10
     },
     {
         id:3,
-        name:'MOUSE',
-        image:'/asset/icons/mouse-icon.png"',
+        name:'EXTENSION CORD',
+        image:'/ADMIN/asset/icons/extension-icon.png"',
         quantity:3
     },
     {
         id:4,
-        name:'KEYBOARD',
-        image:'/asset/icons/keyboard-icon.png',
+        name:'JACK SPEAKER',
+        image:'/ADMIN/asset/icons/jack-icon.png',
         quantity:6
-    },
-    {
-        id:5,
-        name:'PROJECTOR',
-        image:'/asset/icons/projector-icon.png',
-        quantity:4
-    },
-    {
-        id:6,
-        name:'LAN CABLE',
-        image:'/asset/icons/lancable-icon.png',
-        quantity:23
-    },
-    {
-        id:7,
-        name:'COMPUTER',
-        image:'/asset/icons/computer-icon.png',
-        quantity:3
-    },
-    {
-        id:8,
-        name:'MONITOR',
-        image:'/asset/icons/monitor-icon.png',
-        quantity:35
-    },
-    {
-        id:9,
-        name:'MOUSE',
-        image:'/asset/icons/mouse-icon.png"',
-        quantity:0
-    },
-    {
-        id:10,
-        name:'KEYBOARD',
-        image:'/asset/icons/keyboard-icon.png',
-        quantity:6
-    },
-    {
-        id:11,
-        name:'PROJECTOR',
-        image:'/asset/icons/projector-icon.png',
-        quantity:4
-    },
-    {
-        id:12,
-        name:'LAN CABLE',
-        image:'/asset/icons/lancable-icon.png',
-        quantity:23
-    }
-    ,
-    {
-        id:13,
-        name:'COMPUTER',
-        image:'/asset/icons/computer-icon.png',
-        quantity:3
-    },
-    {
-        id:14,
-        name:'MONITOR',
-        image:'/asset/icons/monitor-icon.png',
-        quantity:35
-    },
-    {
-        id:15,
-        name:'MOUSE',
-        image:'/asset/icons/mouse-icon.png"',
-        quantity:3
-    },
-    {
-        id:16,
-        name:'KEYBOARD',
-        image:'/asset/icons/keyboard-icon.png',
-        quantity:6
-    },
-    {
-        id:17,
-        name:'PROJECTOR',
-        image:'/asset/icons/projector-icon.png',
-        quantity:4
-    },
-    {
-        id:18,
-        name:'LAN CABLE',
-        image:'/asset/icons/lancable-icon.png',
-        quantity:23
     }
 ]

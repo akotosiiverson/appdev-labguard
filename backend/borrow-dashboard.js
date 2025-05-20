@@ -63,14 +63,12 @@ document.querySelectorAll('.rqst-btn').forEach((button) => {
         </div>
 
         <form>
-          <input class="full-name" type="text" placeholder="Full name:" required />
-          <select class="faculty-position" required>
-            <option value="" disabled selected>Select Full-time/Part-time</option>
-            <option value="Full-time">Full-time</option>
-            <option value="Part-time">Part-time</option>
-          </select>
-          <input class="borrowed-date" type="date" required placeholder="Borrowed Date" />
-          <input class="return-date" type="date" required placeholder="Return Date" />
+          <label for="borrowed-date">Borrowed Date</label>
+          <input id="borrowed-date" class="borrowed-date" type="date" required />
+
+          <label for="return-date">Return Date</label>
+          <input id="return-date" class="return-date" type="date" required />
+          
           <textarea class="purpose" placeholder="Remark/Purpose:" required></textarea>
           <button class="submit-button-request" type="submit">BORROW</button>
         </form>

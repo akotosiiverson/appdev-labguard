@@ -32,12 +32,26 @@ items.forEach((item) => {
     </div>
   `;
 });
+const othersData = { id: 13, name: 'OTHERS', image: '/ADMIN/asset/icons/others-icon.png' };
+const addItemHTML = `<div class="item-container">
+      <div class="img-container">
+          <img src="${othersData.image}" alt="Others Icon">    
+      </div>
+      <p class="item-name">${othersData.name}</p>
+      <button class="rqst-btn" data-item-id="${othersData.id}">OTHERS</button>
+    </div>
+  `;
+itemHTML += addItemHTML;
 document.querySelector('.available-item').innerHTML = itemHTML;
 
 document.querySelectorAll('.rqst-btn').forEach((button) => {
   button.addEventListener('click', (event) => {
-    const product = getProduct(+button.dataset.itemId);
-
+    let product = getProduct(+button.dataset.itemId);
+    // Handle "OTHERS" case
+    if (!product && +button.dataset.itemId === 13) {
+      product = { id: 13, name: 'OTHERS', image: '/ADMIN/asset/icons/others-icon.png' };
+    }
+    console.log(product);
     document.querySelectorAll('.rqst-btn').forEach((btn) => {
       btn.disabled = true;
     });
