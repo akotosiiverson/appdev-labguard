@@ -1,4 +1,5 @@
 import { 
+  orderBy,onSnapshot,
   doc, updateDoc, getDoc, collection, addDoc, serverTimestamp,
   query, where, getDocs,orderBy ,onSnapshot
 } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";

@@ -1,0 +1,216 @@
+
+/* 
+ * PC Grid Layout Styles for LabGuard System
+ *
+ * This CSS defines the styling for the PC grid layout in the repair progress
+ * tracking page, including hover effects for edit and delete controls.
+ * The grid displays PCs as circular elements with PC labels and hover controls.
+ */
+
+/* =============================================
+   PC GRID LAYOUT STYLES
+   ============================================= */
+
+/* Section title styling */
+.section-title {
+    color: #ff8000;
+    font-size: 18px;
+    text-align: center;
+    font-weight: 700;
+    margin-top: 0;
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #ececec;
+    font-family: 'Open Sans', sans-serif;
+    letter-spacing: 0.7px;
+    text-transform: uppercase;
+}
+
+/* Panel content styling */
+.panel-content {
+    padding: 20px;
+    overflow-y: auto; /* Enable vertical scrolling */
+    max-height: calc(100vh - 260px); /* Account for header and padding */
+}
+
+/* PC Grid Container - Displays PCs in a responsive grid layout */
+.pc-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+    gap: 10px;
+    margin-bottom: 20px;
+    padding: 5px;
+}
+
+/* Individual PC item container */
+.pc-item {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative; /* For positioning hover controls */
+    margin: 5px;
+}
+
+/* PC circular representation */
+.pc-circle {
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    background: linear-gradient(145deg, #e6e6e6, #ffffff);
+    border: 3px solid #ff8000; /* Orange border */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* PC Label (PC-1, PC-2, etc.) */
+.pc-label {
+    font-family: 'Roboto', sans-serif;
+    font-weight: 700;
+    font-size: 14px;
+    color: #ff8000; /* Orange text color */
+}
+
+/* Hover controls container (Edit and Delete buttons) */
+.hover-controls {
+    position: absolute;
+    top: -35px; /* Position above the circle */
+    left: 0;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    gap: 3px;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.2s ease;
+    z-index: 10;
+}
+
+/* Show hover controls when PC is hovered */
+.pc-circle:hover .hover-controls {
+    opacity: 1;
+    visibility: visible;
+    top: -38px; /* Slight upward animation on hover */
+}
+
+/* PC Hover effects */
+.pc-circle:hover {
+    transform: translateY(2px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+    border-color: #e67300; /* Darker orange on hover */
+}
+
+/* Edit button styling */
+.edit-btn {
+    background-color: #4285F4; /* Google blue */
+    color: white;
+    border: none;
+    border-radius: 3px;
+    padding: 3px 6px;
+    font-family: 'Roboto', sans-serif;
+    font-weight: 700;
+    font-size: 10px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+}
+
+/* Edit button hover effect */
+.edit-btn:hover {
+    background-color: #3367D6; /* Darker blue */
+    transform: scale(1.05);
+}
+
+/* Delete button styling */
+.delete-btn {
+    background-color: #EA4335; /* Google red */
+    color: white;
+    border: none;
+    border-radius: 3px;
+    padding: 3px 6px;
+    font-family: 'Roboto', sans-serif;
+    font-weight: 700;
+    font-size: 10px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+}
+
+/* Delete button hover effect */
+.delete-btn:hover {
+    background-color: #D32F2F; /* Darker red */
+    transform: scale(1.05);
+}
+
+/* Different status styles for PC circles */
+.pc-circle.available {
+    border-color: #4CAF50; /* Green for available */
+}
+
+.pc-circle.in-repair {
+    border-color: #F44336; /* Red for repair */
+}
+
+.pc-circle.maintenance {
+    border-color: #FFC107; /* Yellow/amber for maintenance */
+}
+
+/* Dark mode support for PC grid */
+body.dark .pc-circle {
+    background: linear-gradient(145deg, #2a2a2a, #333333);
+    border-color: #ff8000;
+}
+
+body.dark .pc-label {
+    color: #ff8000;
+}
+
+body.dark .pc-circle:hover {
+    background: linear-gradient(145deg, #333333, #3a3a3a);
+    border-color: #e67300;
+}
+
+/* Responsive adjustments for smaller screens */
+@media screen and (max-width: 1400px) {
+    .pc-grid {
+        grid-template-columns: repeat(6, 1fr); /* 6 PCs per row */
+    }
+}
+
+@media screen and (max-width: 1200px) {
+    .pc-grid {
+        grid-template-columns: repeat(5, 1fr); /* 5 PCs per row */
+    }
+}
+
+@media screen and (max-width: 992px) {
+    .pc-grid {
+        grid-template-columns: repeat(4, 1fr); /* 4 PCs per row */
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .pc-grid {
+        grid-template-columns: repeat(3, 1fr); /* 3 PCs per row */
+        gap: 10px;
+    }
+    
+    .pc-circle {
+        width: 65px;
+        height: 65px;
+    }
+    
+    .pc-label {
+        font-size: 14px;
+    }
+}
+
+@media screen and (max-width: 576px) {
+    .pc-grid {
+        grid-template-columns: repeat(1, 1fr); /* 1 PC per row */
+    }
+}

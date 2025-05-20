@@ -1,0 +1,493 @@
+<!DOCTYPE html>
+<html lang="en">
+<!-- 
+ new start palatandaan
+ -->
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <!-- External CSS Stylesheets -->
+  <link rel="stylesheet" href="../CSS/design-admin-iverson.css"><!-- Base design system -->  <link rel="stylesheet" href="repair-progress.css"><!-- Page-specific styles -->
+  <link rel="stylesheet" href="view-details.css"><!-- View details styles -->
+  <link href='../CSS/logout-admin-iverson.css' rel='stylesheet'><!-- Logout functionality styles -->
+  
+  <!-- Boxicons Icon Library - For all icons used throughout the page -->
+  <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+  
+  <title>Gordon College - Dashboard</title>
+</head>
+
+
+<body>
+
+<!-- ===================================
+     SIDEBAR NAVIGATION
+     This section contains the sidebar with navigation links
+     =================================== -->
+  <aside class="sidebar" id="sidebar">
+  
+    <!-- College Logo and Title -->
+    <a href="#" class="sidebar__brand">
+        <img src="/asset/image/CCS-GCLOGO.png" alt="Gordon College Logo" class="sidebar__logo">
+        <span class="sidebar__title">GORDON COLLEGE</span>
+    </a>
+    
+    <!-- Main Navigation Menu -->
+    <ul class="sidebar__menu sidebar__menu--main">
+
+      <!-- User Profile -->
+      <li class="sidebar__item ">
+        <a href="structure-admin-iverson.html" class="sidebar__link">
+          <i class='bx bxs-user-rectangle'></i>
+          <span class="sidebar__text">JIRO DICHOS</span>
+        </a>
+      </li>
+      
+      <!-- Borrower Management -->
+      <li class="sidebar__item ">
+        <a href="borrow-dashboard-admin-iverson.html" class="sidebar__link">
+          <i class='bx bxs-receipt '></i>
+          <span class="sidebar__text">BORROWER</span>
+        </a>
+      </li>
+      
+      <!-- Report and Request System -->
+      <li class="sidebar__item">
+        <a href="../report-dashboard-faculty-admin-iverson.html" class="sidebar__link">
+          <i class='bx bxs-copy-alt'></i>
+          <span class="sidebar__text">REPORT / REQUEST</span>
+        </a>
+      </li>
+      
+      <!-- Repair Progress Tracker - Currently Active Page -->
+      <li class="sidebar__item sidebar__item--active">
+        <a href="repair-progress.html" class="sidebar__link">
+          <i class='bx bxs-doughnut-chart'></i>
+          <span class="sidebar__text">REPAIR PROGRESS</span>
+        </a>
+      </li>
+      
+      <!-- Request Status Monitor -->
+      <li class="sidebar__item">
+        <a href="request-status-dashboard-faculty-admin-iverson.html" class="sidebar__link">
+          <i class='bx bxs-group'></i>
+          <span class="sidebar__text">REQUEST STATUS</span>
+        </a>
+      </li>
+
+    </ul>
+    
+    <!-- Logout Option - Fixed at bottom of sidebar -->
+    <ul class="sidebar__menu sidebar__menu--bottom">
+      <li class="sidebar__item logout-button">
+        <a href="#" class="sidebar__link sidebar__link--logout">
+          <i class='bx bxs-log-out-circle'></i>
+          <span class="sidebar__text">Logout</span>
+        </a>
+      </li>
+    </ul>
+
+  </aside>
+<!-- End of SIDEBAR NAVIGATION -->
+
+
+<!-- ===================================
+     TOP NAVIGATION BAR
+     Contains hamburger menu toggle and theme switch
+     =================================== -->
+<main class="main" id="content">
+  <!-- Top Navigation Bar -->
+  <nav class="navbar">
+    <!-- Left Side of Navigation -->
+    <div class="navbar__left">
+      <!-- Menu Toggle Button (Hamburger icon) - Controls sidebar visibility -->
+      <i class='bx bx-menu navbar__toggle'></i>
+      
+      <!-- Dashboard Link -->
+      <a href="#" class="navbar__link">Dashboard</a>
+    </div>
+
+    <!-- Right Side of Navigation -->
+    <div class="navbar__right">
+      <!-- Dark/Light Mode Toggle Switch -->
+      <input type="checkbox" id="theme-switch" hidden>
+      <label for="theme-switch" class="theme-switch"></label>
+    </div>
+  </nav>
+  <!-- End of Top Navigation Bar -->
+
+
+
+<!-- ===================================
+     MAIN CONTENT AREA
+     Contains all repair progress information and room selection
+     =================================== -->
+<div class="body">
+  <!-- Main content wrapper -->
+  <div class="content-wrapper">
+    
+    <!-- Summary Cards Section - Shows key metrics -->
+    <div class="summary-cards">
+      <!-- Total Rooms Card -->
+      <div class="summary-card">
+        <h3>Total Rooms</h3>
+        <span class="count">value</span>
+      </div>
+      
+      <!-- Total PC Card -->
+      <div class="summary-card">
+        <h3>Total PC</h3>
+        <span class="count">value</span>
+      </div>
+      
+      <!-- Total Available PC Card -->
+      <div class="summary-card">
+        <h3>Total Available PC</h3>
+        <span class="count">value</span>
+      </div>
+    </div>
+      
+    <!-- Main Content Area - Two Column Layout -->
+    <div class="main-content">
+
+      <!-- PC Specifications Panel - Left Column -->
+      <div class="pc-details-panel">
+        <!-- Panel Header with PC Identifier -->
+        <div class="panel-header">
+          <h2>VALUE</h2>
+        </div>    
+
+        
+        <!-- Panel Content with Scrollable Area -->
+        <div class="panel-content">
+          <!-- Specifications Section -->
+          <h3 class="section-title">SPECIFICATION</h3>
+          
+          <!-- Repair Status Indicator -->
+          <div class="status-container">
+            <p class="status-label">Status:</p>
+            <span class="status-value status-repair">IN REPAIR</span>
+            <!-- Alternate statuses that can be used:
+            <span class="status-value status-repaired">REPAIRED</span>
+            <span class="status-value status-repair">IN REPAIR</span>
+            -->
+          </div>
+            <!-- Components Grid - Scrollable Container -->
+          <div class="components-grid">
+            <!-- Each div.component represents one hardware component card -->
+            
+            <!-- Ethernet Cable Component -->
+            <div class="component">
+              <!-- Component Header with Icon and Name -->
+              <div class="component-header">
+                <i class="bx bx-cable-connector"></i>
+                <span>Ethernet Cable</span>
+              </div>
+              <!-- Component Details Section -->
+              <div class="component-details">
+                <p class="component-description">Category 6 UTP 10ft Network Cable</p>
+                <p class="component-status">Description: Standard network cable with RJ-45 connectors, providing reliable Ethernet connectivity for computer networking.</p>
+              </div>
+            </div>
+            
+            <!-- Computer Case Component -->
+            <div class="component">
+              <div class="component-header">
+                <i class="bx bx-desktop"></i>
+                <span>Case</span>
+              </div>
+              <div class="component-details">
+                <p class="component-description">DEEPCOOL MATREXX 40 3FS Black Micro ATX</p>
+                <p class="component-status">Description: Mid-tower case with excellent airflow, supports standard ATX motherboards and has good cable management.</p>
+              </div>
+            </div>
+            
+            <!-- Power Supply Component -->
+            <div class="component">
+              <div class="component-header">
+                <i class="bx bx-power-off"></i>
+                <span>Power Supply (PSU)</span>
+              </div>
+              <div class="component-details">
+                <p class="component-description">CORSAIR CV550 550W 80 PLUS Bronze</p>
+                <p class="component-status">Description: Reliable power supply with 80+ Bronze efficiency, providing stable power delivery to all components.</p>
+              </div>
+            </div>
+            
+            <!-- Processor/CPU Component -->
+            <div class="component">
+              <div class="component-header">
+                <i class="bx bx-chip"></i>
+                <span>Processor (CPU)</span>
+              </div>
+              <div class="component-details">
+                <p class="component-description">INTEL CORE i3-10100F 3.60GHz Turbo 4.30GHz 6MB</p>
+                <p class="component-status">Description: 4-core/8-thread Intel processor ideal for everyday computing tasks and moderate workloads.</p>
+              </div>
+            </div>
+            
+            <!-- Motherboard Component -->
+            <div class="component">
+              <div class="component-header">
+                <i class="bx bx-circuit-board"></i>
+                <span>Motherboard</span>
+              </div>
+              <div class="component-details">
+                <p class="component-description">MSI H510M-A PRO LGA 1200 Intel H510 SATA</p>
+                <p class="component-status">Description: Supports 10th and 11th generation Intel processors, with standard ports for connectivity.</p>
+              </div>
+            </div>
+            
+            <!-- RAM Component -->
+            <div class="component">
+              <div class="component-header">
+                <i class="bx bx-memory-card"></i>
+                <span>RAM</span>
+              </div>
+              <div class="component-details">
+                <p class="component-description">KINGSTON FURY Beast DDR4 8GB 3200MHz</p>
+                <p class="component-status">Description: High-speed RAM for smooth multitasking, application performance, and fast data access.</p>
+              </div>
+            </div>
+
+            <!-- Graphics Card Component -->
+            <div class="component">
+              <div class="component-header">
+                <i class="bx bx-card"></i>
+                <span>Graphics Card</span>
+              </div>
+              <div class="component-details">
+                <p class="component-description">NVIDIA GeForce GTX 1650 4GB GDDR6</p>
+                <p class="component-status">Description: Entry-level dedicated graphics card suitable for light gaming and graphics work with good energy efficiency.</p>
+              </div>
+            </div>
+
+            <!-- Storage Component -->
+            <div class="component">
+              <div class="component-header">
+                <i class="bx bx-hdd"></i>
+                <span>Storage</span>
+              </div>
+              <div class="component-details">
+                <p class="component-description">Samsung 970 EVO Plus 500GB NVMe M.2 SSD</p>
+                <p class="component-status">Description: High-performance NVMe SSD with fast read/write speeds for quick boot times and responsive application loading.</p>
+              </div>
+            </div>
+
+            <!-- Monitor Component -->
+            <div class="component">
+              <div class="component-header">
+                <i class="bx bx-desktop"></i>
+                <span>Monitor</span>
+              </div>
+              <div class="component-details">
+                <p class="component-description">Dell P2419H 24-inch IPS Full HD Monitor</p>
+                <p class="component-status">Description: Professional monitor with excellent color accuracy, adjustable stand, and eye comfort features for extended use.</p>
+              </div>
+            </div>
+
+            <!-- Keyboard Component -->
+            <div class="component">
+              <div class="component-header">
+                <i class="bx bx-keyboard"></i>
+                <span>Keyboard</span>
+              </div>
+              <div class="component-details">
+                <p class="component-description">Logitech K845 Mechanical Keyboard</p>
+                <p class="component-status">Description: Mechanical keyboard with tactile feedback for comfortable typing and durable construction for extended use.</p>
+              </div>
+            </div>
+
+            <!-- Mouse Component -->
+            <div class="component">
+              <div class="component-header">
+                <i class="bx bx-mouse"></i>
+                <span>Mouse</span>
+              </div>
+              <div class="component-details">
+                <p class="component-description">Logitech G203 Prodigy Wired Gaming Mouse</p>
+                <p class="component-status">Description: Responsive gaming mouse with adjustable DPI settings and comfortable ergonomics for extended use.</p>              </div>
+            </div>
+          </div><!-- End of Components Grid -->
+                    <!-- Repair History Section -->
+          <div class="repair-history">
+            <!-- Repair History Header -->
+            <h3 class="section-title">REPAIR HISTORY</h3> 
+            
+            <!-- Repair History Content with Scrollable Grid -->
+            <div class="repair-history-content">
+              <!-- History Items Grid - Scrollable Container -->
+              <div class="history-items">
+                <!-- Each div.history-item represents one repair history record -->
+                  <!-- Sample History Items - In a real app, these would be generated dynamically -->
+                <div class="history-item">
+                  <span class="status-tag status-Repaired">Repaired</span>
+                  <span class="date">09/18/2023</span>
+                  <span class="view-details"><i class='bx bx-info-circle'></i> View Details</span>
+                </div>
+
+                <div class="history-item">
+                  <span class="status-tag status-Repaired">Repaired</span>
+                  <span class="date">09/18/2023</span>
+                  <span class="view-details"><i class='bx bx-info-circle'></i> View Details</span>
+                </div>
+
+                <div class="history-item">
+                  <span class="status-tag status-Repaired">Repaired</span>
+                  <span class="date">09/18/2023</span>
+                  <span class="view-details"><i class='bx bx-info-circle'></i> View Details</span>
+                </div>
+
+                <div class="history-item">
+                  <span class="status-tag status-Repaired">Repaired</span>
+                  <span class="date">09/18/2023</span>
+                  <span class="view-details"><i class='bx bx-info-circle'></i> View Details</span>
+                </div>
+
+                <div class="history-item">
+                  <span class="status-tag status-Repaired">Repaired</span>
+                  <span class="date">09/18/2023</span>
+                  <span class="view-details"><i class='bx bx-info-circle'></i> View Details</span>
+                </div>
+
+                <!-- Additional history items - Would be loaded dynamically in production -->
+                <div class="history-item">
+                  <span class="status-tag status-Repaired">Repaired</span>
+                  <span class="date">09/18/2023</span>
+                  <span class="view-details"><i class='bx bx-info-circle'></i> View Details</span>
+                </div>
+
+                <div class="history-item">
+                  <span class="status-tag status-Repaired">Repaired</span>
+                  <span class="date">09/18/2023</span>
+                  <span class="view-details"><i class='bx bx-info-circle'></i> View Details</span>
+                </div>
+
+                <div class="history-item">
+                  <span class="status-tag status-Repaired">Repaired</span>
+                  <span class="date">09/18/2023</span>
+                  <span class="view-details"><i class='bx bx-info-circle'></i> View Details</span>
+                </div>
+
+                <div class="history-item">
+                  <span class="status-tag status-Repaired">Repaired</span>
+                  <span class="date">09/18/2023</span>
+                  <span class="view-details"><i class='bx bx-info-circle'></i> View Details</span>
+                </div>
+
+                <div class="history-item">
+                  <span class="status-tag status-Repaired">Repaired</span>
+                  <span class="date">09/18/2023</span>
+                  <span class="view-details"><i class='bx bx-info-circle'></i> View Details</span>
+                </div>
+                
+                <!-- More history items (these would be loaded via pagination in production) -->
+                <div class="history-item">
+                  <span class="status-tag status-Repaired">Repaired</span>
+                  <span class="date">09/18/2023</span>
+                  <span class="view-details"><i class='bx bx-info-circle'></i> View Details</span>
+                </div>
+
+                <div class="history-item">
+                  <span class="status-tag status-Repaired">Repaired</span>
+                  <span class="date">09/18/2023</span>
+                  <span class="view-details"><i class='bx bx-info-circle'></i> View Details</span>
+                </div>
+
+                <div class="history-item">
+                  <span class="status-tag status-Repaired">Repaired</span>
+                  <span class="date">09/18/2023</span>
+                  <span class="view-details"><i class='bx bx-info-circle'></i> View Details</span>
+                </div>
+
+                <div class="history-item">
+                  <span class="status-tag status-Repaired">Repaired</span>
+                  <span class="date">09/18/2023</span>
+                  <span class="view-details"><i class='bx bx-info-circle'></i> View Details</span>
+                </div>
+
+                <div class="history-item">
+                  <span class="status-tag status-Repaired">Repaired</span>
+                  <span class="date">09/18/2023</span>
+                  <span class="view-details"><i class='bx bx-info-circle'></i> View Details</span>
+                </div>
+                
+                <!-- These repeated entries are just for demo purposes -->
+                <div class="history-item">
+                  <span class="status-tag status-Repaired">Repaired</span>
+                  <span class="date">09/18/2023</span>
+                  <span class="view-details"><i class='bx bx-info-circle'></i> View Details</span>
+                </div>
+
+                <div class="history-item">
+                  <span class="status-tag status-Repaired">Repaired</span>
+                  <span class="date">09/18/2023</span>
+                  <span class="view-details"><i class='bx bx-info-circle'></i> View Details</span>
+                </div>
+
+                <div class="history-item">
+                  <span class="status-tag status-Repaired">Repaired</span>
+                  <span class="date">09/18/2023</span>
+                  <span class="view-details"><i class='bx bx-info-circle'></i> View Details</span>
+                </div>
+
+                <div class="history-item">
+                  <span class="status-tag status-Repaired">Repaired</span>
+                  <span class="date">09/18/2023</span>
+                  <span class="view-details"><i class='bx bx-info-circle'></i> View Details</span>
+                </div>
+
+                <div class="history-item">
+                  <span class="status-tag status-Repaired">Repaired</span>
+                  <span class="date">09/18/2023</span>
+                  <span class="view-details"><i class='bx bx-info-circle'></i> View Details</span>
+                </div>
+              </div><!-- End of History Items Grid -->
+            </div><!-- End of Repair History Content -->
+          </div><!-- End of Repair History Section -->        
+        </div><!-- End of Panel Content -->  
+      </div><!-- End of PC Specifications Panel -->
+      
+      <!-- Rooms Panel - Right Column -->
+      <div class="rooms-panel">
+        <!-- Panel Title -->
+        <h2>ROOMS</h2>
+        
+        <!-- Room Selection Grid -->
+        <div class="room-grid">
+          <!-- Each div.room-btn represents a clickable room button -->
+          <!-- When clicked, it will show the PC data for that room -->
+          <div class="room-btn">501</div>
+          <div class="room-btn">502</div>
+          <div class="room-btn">503</div>
+          <div class="room-btn">504</div>
+          <div class="room-btn">505</div>
+          <div class="room-btn">506</div>
+          <div class="room-btn">507</div>
+          <div class="room-btn">508</div>
+          <div class="room-btn">509</div>
+          <div class="room-btn">510</div>
+          <div class="room-btn">511</div>
+          <div class="room-btn">512</div>
+          <div class="room-btn">513</div>
+          <div class="room-btn">514</div>          <div class="room-btn">515</div>
+          <div class="room-btn">516</div>
+        </div><!-- End of Room Grid -->
+      </div><!-- End of Rooms Panel -->
+    </div><!-- End of Main Content Area -->
+  </div><!-- End of Content Wrapper -->
+</div><!-- End of Body -->
+
+</main>
+<!-- End of MAIN CONTENT AREA -->
+
+<!-- JavaScript - Core Functionality -->
+<script src="../backend/backend-admin-iverson.js"></script><!-- Core functionality -->
+<script src="../backend/logout-admin-iverson.js"></script><!-- Logout handling -->
+<script src="repair-progress.js"></script><!-- Page-specific script -->
+<script src="view-details.js"></script><!-- View details functionality -->
+<script type="module" src="../backend/firebase-config-admin-iverson.js"></script><!-- Firebase integration -->
+
+</body>
+</html>
