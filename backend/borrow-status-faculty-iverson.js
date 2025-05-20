@@ -10,9 +10,17 @@ import {
 } from "./firebase-config.js";
 
 // Global filters
-let currentStatusFilter = "All";
+let currentStatusFilter = "all";
 let currentStartDate = null;
 let currentEndDate = null;
+
+// Normalize status values to consistent format
+function normalizeStatus(rawStatus) {
+  const lower = (rawStatus || 'pending').trim().toLowerCase();
+  if (lower === "approve") return "approved";
+  if (lower === "decline") return "declined";
+  return lower; // default is 'pending' or other values
+}
 
 // Renders the reports table using real-time updates
 function renderRequestStatus() {
@@ -35,9 +43,11 @@ function renderRequestStatus() {
       if (currentStartDate && jsDate < currentStartDate) return;
       if (currentEndDate && jsDate > currentEndDate) return;
 
-      const status = data.statusReport || 'Pending';
+      const status = normalizeStatus(data.statusReport);
+      console.log(`Status: ${status} Filter: ${currentStatusFilter}`);
+
       // Apply status filter
-      if (currentStatusFilter !== "All" && status.toLowerCase() !== currentStatusFilter.toLowerCase()) return;
+      if (currentStatusFilter !== "all" && status !== currentStatusFilter) return;
 
       const formattedDate = jsDate.toLocaleDateString('en-US', {
         year: 'numeric',
@@ -52,15 +62,16 @@ function renderRequestStatus() {
             data-product="${data.equipment}"
             data-img="${data.imageUrl || ''}"
             data-issue="${data.purpose || 'No details provided'}"
-            data-faculty="${data.Name || 'Unknown'}">
+            data-faculty="${data.Name || 'Unknown'}"
+            data-position="${data.Position || 'Unknown'}"
+            data-location="${data.roomAndPc || 'Unknown'}">
           <td>${data.Name || 'Unknown'}</td>
           <td>${data.borrowDate}</td>
-          <td>${data.returnDate} </td>
+          <td>${data.returnDate}</td>
           <td>${data.equipment}</td>
-          <td><span class="status status--${status.toLowerCase()}">${status}</span></td>
+          <td><span class="status status--${status}">${status}</span></td>
         </tr>
       `;
-      console.log('gumana')
     });
 
     reportListEl.innerHTML = reportSummary;
@@ -127,10 +138,10 @@ function setupFilters() {
 
   filterSelect.addEventListener('change', () => {
     const selected = filterSelect.value;
-    if (selected === "pending-sort") currentStatusFilter = "Pending";
-    else if (selected === "approve-sort") currentStatusFilter = "Approved";
-    else if (selected === "decline-sort") currentStatusFilter = "Declined";
-    else currentStatusFilter = "All";
+    if (selected === "pending-sort") currentStatusFilter = "pending";
+    else if (selected === "approve-sort") currentStatusFilter = "approved";
+    else if (selected === "decline-sort") currentStatusFilter = "declined";
+    else currentStatusFilter = "all";
 
     renderRequestStatus();
   });
@@ -141,8 +152,7 @@ function setupFilters() {
       currentEndDate = endDateInput.value ? new Date(endDateInput.value) : null;
 
       if (currentEndDate) {
-        // Set to end of the day //
-        currentEndDate.setHours(23, 59, 59, 999);
+        currentEndDate.setHours(23, 59, 59, 999); // Include full day
       }
 
       renderRequestStatus();
