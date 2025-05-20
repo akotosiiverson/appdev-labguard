@@ -159,20 +159,7 @@
     border-color: #FFC107; /* Yellow/amber for maintenance */
 }
 
-/* Dark mode support for PC grid */
-body.dark .pc-circle {
-    background: linear-gradient(145deg, #2a2a2a, #333333);
-    border-color: #ff8000;
-}
-
-body.dark .pc-label {
-    color: #ff8000;
-}
-
-body.dark .pc-circle:hover {
-    background: linear-gradient(145deg, #333333, #3a3a3a);
-    border-color: #e67300;
-}
+/* Additional PC styles can be added here if needed */
 
 /* Responsive adjustments for smaller screens */
 @media screen and (max-width: 1400px) {

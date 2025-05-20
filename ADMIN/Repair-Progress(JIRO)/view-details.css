@@ -118,43 +118,8 @@
 }
 
 /* =============================================
-   DARK MODE STYLES
+   ADDITIONAL STYLING FOR RESPONSIVENESS
    ============================================= */
-/* View details link */
-body.dark .view-details {
-    color: #ffa64d;
-}
-
-body.dark .view-details:hover {
-    color: #ff8000;
-}
-
-/* Modal */
-body.dark .details-modal-content {
-    background-color: #1e1e1e;
-    color: #e0e0e0;
-}
-
-body.dark .details-modal-header {
-    border-bottom: 1px solid #333;
-}
-
-body.dark .details-modal-close {
-    color: #aaa;
-}
-
-body.dark .details-modal-close:hover {
-    color: #ff8000;
-}
-
-/* Detail rows */
-body.dark .detail-label {
-    color: #ddd;
-}
-
-body.dark .detail-value {
-    color: #aaa;
-}
 
 /* =============================================
    RESPONSIVE STYLES

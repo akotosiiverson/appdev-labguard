@@ -50,219 +50,11 @@ h1, h2, h3, h4, h5, h6 {
     margin-top: 0;
 }
 
-/* =============================================
-   SIDEBAR NAVIGATION STYLES
-   ============================================= */
-
-/* Sidebar container with shadow for depth */
-.sidebar {
-    box-shadow: var(--shadow-md);
-}
-
-/* Brand section (logo + college name) */
-.sidebar__brand {
-    padding: 0 20px;
-    margin-bottom: 10px;
-}
-
-/* College logo styling */
-.sidebar__logo {
-    width: 36px;
-    height: 36px;
-    object-fit: contain; /* Maintains aspect ratio */
-}
-
-/* College name text */
-.sidebar__title {
-    font-weight: var(--font-weight-bold);
-    font-size: var(--font-size-lg);
-    margin-left: 5px;
-    font-family: var(--font-secondary);
-    letter-spacing: 0.5px;
-}
-
-/* Menu container spacing */
-.sidebar__menu {
-    padding: 0 10px;
-}
-
-/* Individual menu items */
-.sidebar__item {
-    margin-bottom: 8px;
-    transition: background-color 0.2s ease; /* Smooth hover effect */
-}
-
-/* Highlighted active menu item */
-.sidebar__item--active {
-    background-color: var(--color-gray-light);
-}
-
-/* Menu link appearance */
-.sidebar__link {
-    padding: 0 15px;
-}
-
-/* Icon in menu links */
-.sidebar__link i {
-    font-size: 20px;
-    margin-right: 10px;
-}
-
-/* Text in menu links */
-.sidebar__text {
-    font-size: var(--font-size-sm);
-    font-weight: var(--font-weight-medium);
-    letter-spacing: 0.2px;
-}
-
-/* Special styling for logout button */
-.sidebar__link--logout {
-    color: var(--color-danger); /* Red color for logout */
-}
-
-.sidebar__link--logout:hover {
-    background-color: rgba(219, 80, 74, 0.1); /* Light red background on hover */
-}
-
-/* Responsive sidebar for smaller screens */
-@media screen and (max-width: 768px) {
-    /* Collapse sidebar width */
-    .sidebar {
-        width: 60px; 
-    }
-
-    /* Hide text elements */
-    .sidebar__title,
-    .sidebar__text {
-        display: none;
-    }
-
-    /* Adjust main content area */
-    .main {
-        width: calc(100% - 60px);
-        left: 60px;
-    }
-
-    /* Center icons */
-    .sidebar__link {
-        justify-content: center;
-    }
-
-    .sidebar__link i {
-        margin-right: 0;
-    }
-}
 
 
-/* =============================================
-   THEME & COLOR SYSTEM
-   ============================================= */
 
-/* Active room button styling */
-.room-btn.active {
-    background-color: #ff8000; /* Orange background */
-    color: white;             /* White text */
-    border-color: #ff8000;    /* Orange border */
-}
 
-/* Main content area layout */
-.main {
-    overflow: hidden; /* Prevents scrolling in the main container */
-}
 
-/* Dark theme adjustments */
-body.dark .body {
-    background-color: #121212; /* Dark background */
-}
-
-body.dark .page-title {
-    color: #e0e0e0; /* Light text for dark theme */
-}
-
-/* Panel colors for dark theme */
-body.dark .pc-details-panel,
-body.dark .rooms-panel {
-    background-color: #1e1e1e; /* Dark panels */
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3); /* Darker shadows */
-}
-
-body.dark .panel-header {
-    border-bottom: 1px solid #333; /* Darker border */
-}
-
-body.dark .panel-header h2,
-body.dark .rooms-panel h2 {
-    color: #e0e0e0; /* Light headers */
-}
-
-body.dark .section-title {
-    border-bottom: 1px solid #333; /* Darker border */
-}
-
-/* Component card dark theme */
-body.dark .component {
-    border: 1px solid #333; /* Darker borders */
-}
-
-body.dark .component-description {
-    color: #e0e0e0; /* Light text */
-}
-
-body.dark .component-status {
-    color: #aaa; /* Slightly dimmed text */
-}
-
-/* Room button dark theme */
-body.dark .room-btn {
-    background-color: #1e1e1e; /* Dark button */
-    border-color: #333;        /* Dark border */
-    color: #e0e0e0;           /* Light text */
-}
-
-body.dark .room-btn:hover {
-    border-color: #ff8000; /* Orange border on hover */
-    color: #ff8000;       /* Orange text on hover */
-}
-
-/* Theme switch appearance and animation */
-.theme-switch {
-    cursor: pointer;
-    width: 60px;
-    height: 30px;
-    background-color: var(--color-gray);
-    display: inline-block;
-    border-radius: 30px;
-    position: relative;
-    transition: var(--transition-speed) ease;
-}
-
-/* Switch handle with moon icon */
-.theme-switch::before {
-    content: '🌙'; /* Moon emoji for dark mode */
-    width: 24px;
-    height: 24px;
-    position: absolute;
-    top: 3px;
-    left: 3px;
-    background-color: var(--color-white);
-    border-radius: 50%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-size: 14px;
-    transition: var(--transition-speed) ease;
-}
-
-/* Active state (dark mode) */
-#theme-switch:checked + .theme-switch {
-    background-color: var(--color-primary);
-}
-
-/* Move handle and change to sun icon */
-#theme-switch:checked + .theme-switch::before {
-    content: '☀️'; /* Sun emoji for light mode */
-    left: 33px;
-}
 
 /* =============================================
    MAIN CONTENT STYLES
@@ -277,7 +69,7 @@ html, body {
 /* Main content container */
 .body {
     padding: 24px;
-    background-color: #f5f5f5;
+    background-color: #EEEEEE;
     height: calc(100vh - 60px); /* Viewport height minus navbar */
     overflow: hidden;          /* Prevents scrolling at container level */
 }
@@ -675,14 +467,7 @@ html, body {
     border: 1px solid rgba(76, 175, 80, 0.3); /* Green border */
 }
 
-/* Dark mode support for history items */
-body.dark .history-item .date {
-    color: #aaa; /* Lighter gray in dark mode */
-}
-
-body.dark .add-history:hover {
-    color: #ff8000; /* Orange hover in dark mode */
-}
+/* Support for history items with consistent colors */
 
 /* =============================================
    ROOMS PANEL STYLES
@@ -879,23 +664,45 @@ body.dark .add-history:hover {
     font-weight: var(--font-weight-bold);
 }
 
-/* Dark mode adjustments for history items */
-body.dark .history-item {
-    background-color: #1e1e1e;
-    border-color: #333;
+/* Status-specific styling */
+.status-Repaired {
+    background-color: rgba(76, 175, 80, 0.15); /* Light green background */
+    color: #4CAF50;                           /* Green text */
+    border-color: rgba(76, 175, 80, 0.3);     /* Green border */
 }
 
-body.dark .history-item:hover {
-    background-color: #252525;
-    border-color: #444;
+/* =============================================
+   OVERRIDE DARK MODE STYLES
+   ============================================= */
+
+/* Hide theme switch completely */
+.theme-switch, 
+#theme-switch {
+    display: none !important;
 }
 
-body.dark .history-item .date {
-    color: #aaa;
+/* Override dark mode by ensuring light mode styles always apply */
+body {
+    background-color: var(--color-gray-light) !important;
+    color: var(--color-dark) !important;
 }
 
-body.dark .status-Repaired {
-    background-color: rgba(76, 175, 80, 0.1); /* Darker green background */
-    color: #81c784; /* Lighter green text */
-    border-color: rgba(76, 175, 80, 0.2); /* Darker green border */
+/* Force light mode colors for all elements that might be affected by dark mode */
+.sidebar,
+.navbar,
+.pc-details-panel,
+.rooms-panel,
+.history-item,
+.component,
+.detail-row,
+.details-modal-content {
+    background-color: var(--color-white) !important;
+}
+
+/* Additional color overrides for specific elements */
+.page-title,
+.panel-header h2,
+.component-description,
+.detail-label {
+    color: var(--color-dark) !important;
 }
