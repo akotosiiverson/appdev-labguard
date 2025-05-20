@@ -274,13 +274,6 @@ body.dark {
     gap: 24px;
 }
 
-/* Right side of navbar */
-.navbar__right {
-    display: flex;
-    align-items: center;
-    gap: 24px;
-}
-
 /* Navbar links */
 .navbar__link {
     color: var(--color-dark);
@@ -323,35 +316,6 @@ body.dark {
     justify-content: center;
     align-items: center;
     
-}
-
-/* Theme switch container */
-.theme-switch {
-    display: block;
-    min-width: 50px;
-    height: 25px;
-    border-radius: 25px;
-    background: var(--color-gray-light);
-    cursor: pointer;
-    position: relative;
-}
-
-/* Theme switch toggle button */
-.theme-switch::before {
-    content: '';
-    position: absolute;
-    top: 2px;
-    left: 2px;
-    bottom: 2px;
-    width: calc(25px - 4px);
-    background: var(--color-primary);
-    border-radius: var(--border-radius-round);
-    transition: all var(--transition-speed) ease;
-}
-
-/* Theme switch checked state */
-#theme-switch:checked + .theme-switch::before {
-    left: calc(100% - (25px - 4px) - 2px);
 }
 
 /* =============================================
@@ -767,19 +731,6 @@ input:checked + .slider:before {
         width: 16px;
         height: 16px;
         font-size: 10px;
-    }
-    
-    .theme-switch {
-        min-width: 40px;
-        height: 20px;
-    }
-    
-    .theme-switch::before {
-        width: calc(20px - 4px);
-    }
-    
-    #theme-switch:checked + .theme-switch::before {
-        left: calc(100% - (20px - 4px) - 2px);
     }
     
     .dashboard {
