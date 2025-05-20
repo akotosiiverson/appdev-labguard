@@ -6,11 +6,11 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <!-- External CSS Stylesheet -->
   <link rel="stylesheet" href="/CSS/design.css">
-  <!-- Boxicons Icon Library -->
+  <!-- Boxicons Icon Library borrow-dashboard-admin-iverson.css -->
   <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
   <link rel="stylesheet" href="/CSS/borrow-dashboard.css">
   <link href='/CSS/logout.css' rel='stylesheet'>
-  <link href='/CSS/reportForm.css' rel='stylesheet'>
+  <link href='/CSS/borrowForm.css' rel='stylesheet'>
   <title>Gordon College - Dashboard</title>
 </head>
 
@@ -19,7 +19,7 @@
 
 <!-- ===================================
      SIDEBAR NAVIGATION
-     =================================== -->
+     ===================================-->
   <aside class="sidebar" id="sidebar">
 	
     <!-- College Logo and Title -->
@@ -33,41 +33,42 @@
 
       <!-- User Profile -->
       <li class="sidebar__item ">
-        <a href="/structure.html" class="sidebar__link">
+        <a href="structure-admin-iverson.html" class="sidebar__link">
           <i class='bx bxs-user-rectangle'></i>
           <span class="sidebar__text">JIRO DICHOS</span>
         </a>
       </li>
       <!-- Borrower Management -->
       <li class="sidebar__item ">
-        <a href="/borrow-dashboard.html" class="sidebar__link">
+        <a href="borrow-dashboard-admin-iverson.html" class="sidebar__link">
           <i class='bx bxs-receipt '></i>
           <span class="sidebar__text">BORROWER</span>
         </a>
       </li>
       <!-- Report and Request System -->
       <li class="sidebar__item ">
-        <a href="/report-dashboard-faculty.html" class="sidebar__link">
+        <a href="report-dashboard-faculty-admin-iverson.html" class="sidebar__link">
           <i class='bx bxs-copy-alt'></i>
           <span class="sidebar__text">REPORT / REQUEST</span>
         </a>
       </li>
       <!-- Repair Progress Tracker -->
       <li class="sidebar__item">
-        <a href="#" class="sidebar__link">
+        <a href="repair-progress-updated.html" class="sidebar__link">
           <i class='bx bxs-doughnut-chart'></i>
           <span class="sidebar__text">REPAIR PROGRESS</span>
         </a>
       </li>
       <!-- Request Status Monitor -->
-      <li class="sidebar__item sidebar__item--active">
-        <a href="#" class="sidebar__link">
+      <li class="sidebar__item ">
+        <a href="request-status-dashboard-faculty-admin-iverson.html" class="sidebar__link">
           <i class='bx bxs-group'></i>
           <span class="sidebar__text">REQUEST STATUS</span>
         </a>
       </li>
-      <li class="sidebar__item ">
-        <a href="borrow-status-faculty-iverson.html" class="sidebar__link">
+      <!-- Request Status Monitor -->
+      <li class="sidebar__item sidebar__item--active">
+        <a href="#" class="sidebar__link">
           <i class='bx bxs-group'></i>
           <span class="sidebar__text">BORROW STATUS</span>
         </a>
@@ -129,10 +130,10 @@
     <div class="activity">
       <div class="activity__header">
         <h2 class="activity__title">Recent Activity</h2>
-        <div class="filters">
+       <div class="filters">
   <select id="sortingReequest">
     <option value="all-sort">All</option>
-    <option value="approve-sort">Approved</option>
+    <option value="approve-sort ">Approved</option>
     <option value="pending-sort">Pending</option>
     <option value="process-sort">Processing</option>
     <option value="decline-sort">Declined</option>
@@ -150,7 +151,7 @@
               <th>Date</th>
               <th>Room & PC No.</th>
               <th>Unit</th>
-              <th>Status</th>
+              <th>Action</th>
             </tr>
           </thead>
           <tbody class="report-list">
@@ -161,15 +162,17 @@
     </div>
   </div>
 </main>
-<!-- End of MAIN CONTENT AREA -->
+<!-- End of MAIN CONTENT AREA backend.js -->
 
 <!-- JavaScript - Core Functionality -->
-<script type="module" src="/backend/request-status-dashboard-faculty.js"></script>
-<script type="module" src="/backend/reportForm.js"></script>
-<script type="module" src="/backend/data/apiReportItem.js"></script>
-<script src="/backend/backend.js"></script>
-<script src="/backend/logout.js"></script>
-<script type="module" src="/backend/data/reportItem.js"></script>
+<script type="module" src="backend/borrow-status-admin-iverson.js"></script>
+<script type="module" src="backend/borrowForm-admin-iverson.js"></script> 
+<script src="/ADMIN/backend/backend-admin-iverson.js"></script>
+<script src="/ADMIN/backend/logout-admin-iverson.js"></script>
+<script type="module" src="/ADMIN/backend/data/reportItem-admin-iverson.js"></script> 
+
+
+
 </body>
 
 </html>

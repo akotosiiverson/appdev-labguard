@@ -70,7 +70,7 @@ document.querySelectorAll('.rqst-btn').forEach((button) => {
           <input id="return-date" class="return-date" type="date" required />
           
           <textarea class="purpose" placeholder="Remark/Purpose:" required></textarea>
-          <button class="submit-button-request" type="submit">BORROW</button>
+          <button class="submit-button-request" type="submit" data-product-name="${getProduct(+button.dataset.itemId).name}">BORROW</button>
         </form>
       </div>
 

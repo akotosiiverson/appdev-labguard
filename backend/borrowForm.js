@@ -1,12 +1,12 @@
 import dayjs from 'https://unpkg.com/supersimpledev@8.5.0/dayjs/esm/index.js';
+import { addBorrow } from '../backend/firebase-config.js';
 export function printYourrequestInfo() {
   // ⬇️ Freshly select fields again when called
   const requestButton = document.querySelector('.submit-button-request');
-  const fullName = document.querySelector('.full-name');
   const borrowedDate = document.querySelector('.borrowed-date');
   const returnDate = document.querySelector('.return-date');
-  const facultyPosition = document.querySelector('.faculty-position');
   const purpose = document.querySelector('.purpose');
+  const statusReport = 'Pending';
 
   if (requestButton) {
     requestButton.addEventListener('click', (e) => {
@@ -23,17 +23,23 @@ export function printYourrequestInfo() {
         console.log('Borrowed date cannot be in the past!');
         return;
       }
-
-      console.log('Full Name:', fullName.value);
+      const productName = requestButton.dataset.productName;
       console.log('Borrowed Date:', borrowedDate.value);
       console.log('Return Date:', returnDate.value);
-      console.log('Faculty Position:', facultyPosition.value);
       console.log('Purpose:', purpose.value);
+      console.log('Product Name:', productName);
+      addBorrow(productName, borrowedDate.value, returnDate.value, purpose.value,statusReport);
+
+      // Close the popup form after submission
+      const popupContainer = requestButton.closest('.container');
+      if (popupContainer) {
+        popupContainer.remove();
+        // Optionally re-enable buttons or remove no-scroll class if needed:
+        document.querySelector('.available-item')?.classList.remove('no-scroll');
+        document.querySelectorAll('.rqst-btn').forEach(btn => btn.disabled = false);
+      }
     });
+    
+    
   }
 }
-  if (document.querySelector('.close-button') && document.querySelector('.container')) {
-    closeButton.addEventListener('click', () => {
-      container.style.display = 'none'; // hides the modal
-    });
-  }

@@ -37,6 +37,7 @@ export async function addReport( equipment, issue, pc, room, date) {
       timestamp: serverTimestamp()
     });
 
+
     const docId = docRef.id;
     console.log("Report added successfully with ID:", docId);
 
@@ -45,6 +46,28 @@ export async function addReport( equipment, issue, pc, room, date) {
     console.error("Error adding document: ", e);
   }
 }
+export async function addBorrow( equipment,borrowDate, returnDate, purpose) {
+  try {
+    const docRef = await addDoc(collection(db, "borrowList"), {
+   
+      equipment,
+      borrowDate,
+      returnDate,
+       purpose,
+      timestamp: serverTimestamp()
+    });
+
+
+    const docId = docRef.id;
+    console.log("Report added successfully with ID:", docId);
+
+    return docId; // You can use this ID to set as a data-set attribute
+  } catch (e) {
+    console.error("Error adding document: ", e);
+  }
+}
+
+
 
 export async function addRoom(roomNumber) {
   try {
