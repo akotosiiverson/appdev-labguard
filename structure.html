@@ -9,8 +9,7 @@
   <!-- Boxicons Icon Library -->
   <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
   <link href='/CSS/logout.css' rel='stylesheet'>
-  <link href='/CSS/borrow-dashboard.css' rel='stylesheet'>
-  <link href='/CSS/borrowForm.css' rel='stylesheet'>
+
 
   <title>Gordon College - Dashboard</title>
 </head>
@@ -36,7 +35,7 @@
       <li class="sidebar__item sidebar__item--active account">
         <a href="#" class="sidebar__link">
           <i class='bx bxs-user-rectangle'></i>
-          <span class="sidebar__text">JIRO DICHOS</span>
+          <span class="sidebar__text">PROFILE</span>
         </a>
       </li>
       <!-- Borrower Management -->
@@ -85,7 +84,7 @@
 
 
 <!-- ===================================
-     MAIN CONTENT AREA
+     UPPER BAR NAVIGATION
      =================================== -->
 <main class="main" id="content">
   <!-- Top Navigation Bar -->
@@ -97,126 +96,43 @@
       <!-- Dashboard Link -->
       <a href="#" class="navbar__link">Dashboard</a>
     </div>
-
-    <!-- Right Side of Navigation -->
-    <div class="navbar__right">
-      <!-- Dark/Light Mode Toggle -->
-      <input type="checkbox" id="theme-switch" hidden>
-      <label for="theme-switch" class="theme-switch"></label>
-      
-      <!-- Notification Icon -->
-      <div href="#" class="navbar__notification">
-        <i class='bx bxs-bell'></i>
-        <span class="navbar__notification-badge">99</span>
-      </div>
-    </div>
   </nav>
   <!-- End of Top Navigation Bar -->
 
-  <!-- Main Content Container -->
-  <div class="dashboard">
-    
-    <!-- Dashboard Stats Cards -->
-    <div class="dashboard__stats">
-      <div class="stat-card">
-        <div class="stat-card__icon stat-card__icon--user">
-          <i class='bx bxs-user'></i>
-        </div>
-        <div class="stat-card__details">
-          <h3 class="stat-card__title">Active Borrowers</h3>
-          <p class="stat-card__value">24</p>
-        </div>
+
+    <!-- ===================================
+      Main Content Container
+     =================================== -->
+  <section class="profile-section">
+    <div class="profile-header">
+      <div class="profile-avatar orange-avatar">
+        <i class='bx bxs-user-rectangle'></i>
       </div>
-      
-      <div class="stat-card">
-        <div class="stat-card__icon stat-card__icon--equipment">
-          <i class='bx bxs-devices'></i>
-        </div>
-        <div class="stat-card__details">
-          <h3 class="stat-card__title">Equipment Borrowed</h3>
-          <p class="stat-card__value">48</p>
-        </div>
-      </div>
-      
-      <div class="stat-card">
-        <div class="stat-card__icon stat-card__icon--repair">
-          <i class='bx bxs-wrench'></i>
-        </div>
-        <div class="stat-card__details">
-          <h3 class="stat-card__title">Items In Repair</h3>
-          <p class="stat-card__value">16</p>
-        </div>
-      </div>
-      
-      <div class="stat-card">
-        <div class="stat-card__icon stat-card__icon--pending">
-          <i class='bx bxs-bell'></i>
-        </div>
-        <div class="stat-card__details">
-          <h3 class="stat-card__title">Pending Requests</h3>
-          <p class="stat-card__value">8</p>
-        </div>
+      <div class="profile-info">
+        <div class="profile-name">{JIRO DICHOS}</div>
+        <div class="profile-role">FACULTY</div>
       </div>
     </div>
-    
-    <!-- Recent Activity Section -->
-    <div class="activity">
-      <div class="activity__header">
-        <h2 class="activity__title">Recent Activity</h2>
-        <a href="#" class="activity__link">View All</a>
-      </div>
-      <div class="activity__table-container">
-        <table class="activity__table">
-          <thead>
-            <tr>
-              <th>User</th>
-              <th>Item</th>
-              <th>Action</th>
-              <th>Date</th>
-              <th>Status</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>John Doe</td>
-              <td>Laptop</td>
-              <td>Borrowed</td>
-              <td>Apr 20, 2025</td>
-              <td><span class="status status--approved">Approved</span></td>
-            </tr>
-            <tr>
-              <td>Jane Smith</td>
-              <td>Projector</td>
-              <td>Returned</td>
-              <td>Apr 19, 2025</td>
-              <td><span class="status status--completed">Completed</span></td>
-            </tr>
-            <tr>
-              <td>Mike Johnson</td>
-              <td>Microphone</td>
-              <td>Requested</td>
-              <td>Apr 18, 2025</td>
-              <td><span class="status status--pending">Pending</span></td>
-            </tr>
-            <tr>
-              <td>Sarah Williams</td>
-              <td>Tablet</td>
-              <td>Repair</td>
-              <td>Apr 17, 2025</td>
-              <td><span class="status status--processing">Processing</span></td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
+    <div class="dark-mode-container">
+      <span class="dark-mode-label"><i class='bx bx-moon'></i>Dark Mode</span>
+      <label class="switch">
+        <input type="checkbox" id="theme-switch">
+        <span class="slider round"></span>
+      </label>
     </div>
-  </div>
+  </section>
+</main>
+
+
+
+
+
 </main>
 <!-- End of MAIN CONTENT AREA -->
 
 <!-- JavaScript - Core Functionality -->
 <script src="/backend/backend.js"></script>
 <script type="module" src="/backend/logout2.js"></script>
-<script type="module" src="/backend/auth-protection.js"></script>
 
 <!-- Firebase JS -->
 <script type="module" src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js"></script>
