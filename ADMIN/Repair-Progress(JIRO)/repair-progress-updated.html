@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <!-- External CSS Stylesheets -->
+  <link rel="stylesheet" href="../CSS/design-admin-iverson.css"><!-- Base design system -->
+  <link rel="stylesheet" href="repair-progress.css"><!-- Page-specific styles -->
+  <link rel="stylesheet" href="pc.css"><!-- Page-specific pc -->
+  
+  <link href='../CSS/logout-admin-iverson.css' rel='stylesheet'><!-- Logout functionality styles -->
+  
+  <!-- Boxicons Icon Library - For all icons used throughout the page -->
+  <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+  
+  <title>Gordon College - Dashboard</title>
+</head>
+
+
+<body>
+
+<!-- ===================================
+     SIDEBAR NAVIGATION
+     This section contains the sidebar with navigation links
+     =================================== -->
+  <aside class="sidebar" id="sidebar">
+	
+    <!-- College Logo and Title -->
+    <a href="#" class="sidebar__brand">
+        <img src="/asset/image/CCS-GCLOGO.png" alt="Gordon College Logo" class="sidebar__logo">
+        <span class="sidebar__title">GORDON COLLEGE</span>
+    </a>
+    
+    <!-- Main Navigation Menu -->
+    <ul class="sidebar__menu sidebar__menu--main">
+
+      <!-- User Profile -->
+      <li class="sidebar__item ">
+        <a href="structure-admin-iverson.html" class="sidebar__link">
+          <i class='bx bxs-user-rectangle'></i>
+          <span class="sidebar__text">JIRO DICHOS</span>
+        </a>
+      </li>
+      
+      <!-- Borrower Management -->
+      <li class="sidebar__item ">
+        <a href="borrow-dashboard-admin-iverson.html" class="sidebar__link">
+          <i class='bx bxs-receipt '></i>
+          <span class="sidebar__text">BORROWER</span>
+        </a>
+      </li>
+      
+      <!-- Report and Request System -->
+      <li class="sidebar__item">
+        <a href="../report-dashboard-faculty-admin-iverson.html" class="sidebar__link">
+          <i class='bx bxs-copy-alt'></i>
+          <span class="sidebar__text">REPORT / REQUEST</span>
+        </a>
+      </li>
+      
+      <!-- Repair Progress Tracker - Currently Active Page -->
+      <li class="sidebar__item sidebar__item--active">
+        <a href="repair-progress.html" class="sidebar__link">
+          <i class='bx bxs-doughnut-chart'></i>
+          <span class="sidebar__text">REPAIR PROGRESS</span>
+        </a>
+      </li>
+      
+      <!-- Request Status Monitor -->
+      <li class="sidebar__item">
+        <a href="request-status-dashboard-faculty-admin-iverson.html" class="sidebar__link">
+          <i class='bx bxs-group'></i>
+          <span class="sidebar__text">REQUEST STATUS</span>
+        </a>
+      </li>
+
+    </ul>
+    
+    <!-- Logout Option - Fixed at bottom of sidebar -->
+    <ul class="sidebar__menu sidebar__menu--bottom">
+      <li class="sidebar__item logout-button">
+        <a href="#" class="sidebar__link sidebar__link--logout">
+          <i class='bx bxs-log-out-circle'></i>
+          <span class="sidebar__text">Logout</span>
+        </a>
+      </li>
+    </ul>
+
+  </aside>
+<!-- End of SIDEBAR NAVIGATION -->
+
+
+<!-- ===================================
+     TOP NAVIGATION BAR
+     Contains hamburger menu toggle and theme switch
+     =================================== -->
+<main class="main" id="content">
+  <!-- Top Navigation Bar -->
+  <nav class="navbar">
+    <!-- Left Side of Navigation -->
+    <div class="navbar__left">
+      <!-- Menu Toggle Button (Hamburger icon) - Controls sidebar visibility -->
+      <i class='bx bx-menu navbar__toggle'></i>
+      
+      <!-- Dashboard Link -->
+      <a href="#" class="navbar__link">Dashboard</a>
+    </div>
+
+    <!-- Right Side of Navigation -->
+    <div class="navbar__right">
+      <!-- Dark/Light Mode Toggle Switch -->
+      <input type="checkbox" id="theme-switch" hidden>
+      <label for="theme-switch" class="theme-switch"></label>
+    </div>
+  </nav>
+  <!-- End of Top Navigation Bar -->
+
+
+
+<!-- ===================================
+     MAIN CONTENT AREA
+     Contains all repair progress information and room selection
+     =================================== -->
+<div class="body">
+  <!-- Main content wrapper -->
+  <div class="content-wrapper">
+    
+    <!-- Summary Cards Section - Shows key metrics -->
+    <div class="summary-cards">
+      <!-- Total Rooms Card -->
+      <div class="summary-card">
+        <h3>Total Rooms</h3>
+        <span class="count">value</span>
+      </div>
+      
+      <!-- Total PC Card -->
+      <div class="summary-card">
+        <h3>Total PC</h3>
+        <span class="count">value</span>
+      </div>
+      
+      <!-- Total Available PC Card -->
+      <div class="summary-card">
+        <h3>Total Available PC</h3>
+        <span class="count">value</span>
+      </div>
+    </div>
+      
+    <!-- Main Content Area - Two Column Layout -->
+    <div class="main-content">
+
+      <!-- PC Specifications Panel - Left Column -->
+      <div class="pc-details-panel">
+        <!-- Panel Header with PC Identifier -->
+        <div class="panel-header">
+          <h2>VALUE</h2>
+        </div>    
+
+
+
+<!-- ===================================
+        ---------"MAIN BODY"---------"
+     =================================== -->    
+    <div class="panel-content">
+        <!-- PC Grid Container - Displays PCs as circular elements -->
+        <h3 class="section-title">COMPUTERS</h3>
+        
+        <!-- PC Grid Container -->
+        <div class="pc-grid">
+            <!-- Row 1 -->
+            <!-- PC-1 -->
+            <div class="pc-item">
+                <div class="pc-circle">
+                    <span class="pc-label">PC-1</span>
+                </div>
+            </div>
+            
+            <!-- PC-2 -->
+            <div class="pc-item">
+                <div class="pc-circle">
+                    <span class="pc-label">PC-2</span>
+                </div>
+            </div>
+            
+            <!-- PC-3 -->
+            <div class="pc-item">
+                <div class="pc-circle">
+                    <span class="pc-label">PC-3</span>
+                </div>
+            </div>
+            
+            <!-- PC-4 -->
+            <div class="pc-item">
+                <div class="pc-circle">
+                    <span class="pc-label">PC-4</span>
+                </div>
+            </div>
+            
+            <!-- PC-5 -->
+            <div class="pc-item">
+                <div class="pc-circle">
+                    <span class="pc-label">PC-5</span>
+                </div>
+            </div>
+            
+            <!-- PC-6 -->
+            <div class="pc-item">
+                <div class="pc-circle">
+                    <span class="pc-label">PC-6</span>
+                </div>
+            </div>
+            
+            <!-- PC-7 -->
+            <div class="pc-item">
+                <div class="pc-circle">
+                    <span class="pc-label">PC-7</span>
+                </div>
+            </div>
+            
+            <!-- PC-8 -->
+            <div class="pc-item">
+                <div class="pc-circle">
+                    <span class="pc-label">PC-8</span>
+                </div>
+            </div>
+            
+            <!-- PC-9 -->
+            <div class="pc-item">
+                <div class="pc-circle">
+                    <span class="pc-label">PC-9</span>
+                </div>
+            </div>
+            
+            <!-- PC-10 -->
+            <div class="pc-item">
+                <div class="pc-circle">
+                    <span class="pc-label">PC-10</span>
+                </div>
+            </div>
+
+            <!-- PC-11 -->
+            <div class="pc-item">
+                <div class="pc-circle">
+                    <span class="pc-label">PC-11</span>
+                </div>
+            </div>
+            
+            <!-- PC-12 -->
+            <div class="pc-item">
+                <div class="pc-circle">
+                    <span class="pc-label">PC-12</span>
+                </div>
+            </div>
+            
+            <!-- PC-13 -->
+            <div class="pc-item">
+                <div class="pc-circle">
+                    <span class="pc-label">PC-13</span>
+                </div>
+            </div>
+            
+            <!-- PC-14 -->
+            <div class="pc-item">
+                <div class="pc-circle">
+                    <span class="pc-label">PC-14</span>
+                </div>
+            </div>
+            
+            <!-- PC-15 -->
+            <div class="pc-item">
+                <div class="pc-circle">
+                    <span class="pc-label">PC-15</span>
+                </div>
+            </div>
+            
+            <!-- PC-16 -->
+            <div class="pc-item">
+                <div class="pc-circle">
+                    <span class="pc-label">PC-16</span>
+                </div>
+            </div>
+            
+            <!-- PC-17 -->
+            <div class="pc-item">
+                <div class="pc-circle">
+                    <span class="pc-label">PC-17</span>
+                </div>
+            </div>
+            
+            <!-- PC-18 -->
+            <div class="pc-item">
+                <div class="pc-circle">
+                    <span class="pc-label">PC-18</span>
+                </div>
+            </div>
+            
+            <!-- PC-19 -->
+            <div class="pc-item">
+                <div class="pc-circle">
+                    <span class="pc-label">PC-19</span>
+                </div>
+            </div>
+            
+            <!-- PC-20 -->
+            <div class="pc-item">
+                <div class="pc-circle">
+                    <span class="pc-label">PC-20</span>
+                </div>
+            </div>
+            
+            <!-- PC-21 -->
+            <div class="pc-item">
+                <div class="pc-circle">
+                    <span class="pc-label">PC-21</span>
+                </div>
+            </div>
+            
+            <!-- PC-22 -->
+            <div class="pc-item">
+                <div class="pc-circle">
+                    <span class="pc-label">PC-22</span>
+                </div>
+            </div>
+            
+            <!-- PC-23 -->
+            <div class="pc-item">
+                <div class="pc-circle">
+                    <span class="pc-label">PC-23</span>
+                </div>
+            </div>
+            
+            <!-- PC-24 -->
+            <div class="pc-item">
+                <div class="pc-circle">
+                    <span class="pc-label">PC-24</span>
+                </div>
+            </div>
+            
+            <!-- PC-25 -->
+            <div class="pc-item">
+                <div class="pc-circle">
+                    <span class="pc-label">PC-25</span>
+                </div>
+            </div>
+            
+            <!-- PC-26 -->
+            <div class="pc-item">
+                <div class="pc-circle">
+                    <span class="pc-label">PC-26</span>
+                </div>
+            </div>
+            
+            <!-- PC-27 -->
+            <div class="pc-item">
+                <div class="pc-circle">
+                    <span class="pc-label">PC-27</span>
+                </div>
+            </div>
+            
+            <!-- PC-28 -->
+            <div class="pc-item">
+                <div class="pc-circle">
+                    <span class="pc-label">PC-28</span>
+                </div>
+            </div>
+            
+            <!-- PC-29 -->
+            <div class="pc-item">
+                <div class="pc-circle">
+                    <span class="pc-label">PC-29</span>
+                </div>
+            </div>
+            
+            <!-- PC-30 -->
+            <div class="pc-item">
+                <div class="pc-circle">
+                    <span class="pc-label">PC-30</span>
+                </div>
+            </div>
+            
+            <!-- PC-31 -->
+            <div class="pc-item">
+                <div class="pc-circle">
+                    <span class="pc-label">PC-31</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+
+
+      </div><!-- End of PC Specifications Panel -->
+      
+      <!-- Rooms Panel - Right Column -->
+      <div class="rooms-panel">
+        <!-- Panel Title -->
+        <h2>ROOMS</h2>
+
+        <!-- Room Selection Grid -->
+        <div class="room-grid">
+          <!-- Each div.room-btn represents a clickable room button -->
+          <!-- When clicked, it will show the PC data for that room -->
+          <div class="room-btn">501</div>
+          <div class="room-btn">502</div>
+          <div class="room-btn">503</div>
+          <div class="room-btn">504</div>
+          <div class="room-btn">505</div>
+          <div class="room-btn">506</div>
+          <div class="room-btn">507</div>
+          <div class="room-btn">508</div>
+          <div class="room-btn">509</div>
+          <div class="room-btn">510</div>
+          <div class="room-btn">511</div>
+          <div class="room-btn">512</div>
+          <div class="room-btn">513</div>
+          <div class="room-btn">514</div>          <div class="room-btn">515</div>
+          <div class="room-btn">516</div>
+        </div><!-- End of Room Grid -->
+      </div><!-- End of Rooms Panel -->
+    </div><!-- End of Main Content Area -->
+  </div><!-- End of Content Wrapper -->
+</div><!-- End of Body -->
+
+</main>
+<!-- End of MAIN CONTENT AREA -->
+
+<!-- JavaScript - Core Functionality -->
+<script src="../backend/backend-admin-iverson.js"></script><!-- Core functionality -->
+<script src="../backend/logout-admin-iverson.js"></script><!-- Logout handling -->
+<script src="repair-progress.js"></script><!-- Page-specific script -->
+<script type="module" src="../backend/firebase-config-admin-iverson.js"></script><!-- Firebase integration -->
+
+</body>
+</html>
