@@ -4,7 +4,6 @@ import {
   query, where, getDocs
 } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 import { db } from "../../backend/firebase-config.js";
-
 let currentStatusFilter = "All";
 let currentStartDate = null;
 let currentEndDate = null;
@@ -152,15 +151,14 @@ const updateStatus = async (id, status, button) => {
 
       console.log(`✅ New report added to /comlabrooms/${room}/pc${pc}/`);
 
-      // DEBUG: Log pc and room and their types
       console.log("PC (from report):", pc, "type:", typeof pc);
       console.log("Room (from report):", room, "type:", typeof room);
 
-      // Query all reports for this PC and room with type casting to string
+      // Query all reports for this PC and room using number types (no String)
       const reportsQuery = query(
         collection(db, "reportList"),
-        where("pc", "==", String(pc)),
-        where("room", "==", String(room))
+        where("pc", "==", pc),
+        where("room", "==", room)
       );
       const reportsSnapshot = await getDocs(reportsQuery);
 
@@ -192,8 +190,8 @@ const updateStatus = async (id, status, button) => {
         await updateDoc(pcRef, { status: "not available" });
       }
 
-    } else {
-      // For other statuses (Processing, Declined), set PC status to not available
+    } else if (status === "Processing") {
+      // Only set PC to not available when status is Processing
       const reportSnap = await getDoc(reportRef);
       if (!reportSnap.exists()) {
         console.error(`❌ Report with ID ${id} not found`);
@@ -230,6 +228,8 @@ const attachEventListeners = () => {
     button.addEventListener('click', () => updateStatus(button.dataset.id, "Declined", button));
   });
 };
+
+
 
 // Event Listeners on DOM Load
 document.addEventListener("DOMContentLoaded", () => {

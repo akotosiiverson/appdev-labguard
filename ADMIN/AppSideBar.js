@@ -1,7 +1,7 @@
 const user = JSON.parse(localStorage.getItem('user'));
 const userName = user.fullName || 'Jiro Dichos';
 const userRole = user.role || 'Borrower';
-
+//
 class AppSidebar extends HTMLElement {
     connectedCallback() {
         const style = document.createElement('style');
