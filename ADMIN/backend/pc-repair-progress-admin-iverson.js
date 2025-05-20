@@ -1,3 +1,8 @@
+
+
+
+//jiro code
+
 // Repair history data (for demo purposes)
 const repairData = {
     "1": {
@@ -8,6 +13,20 @@ const repairData = {
         notes: "System was overheating due to dust buildup and worn out CPU fan. Cleaned interior thoroughly and replaced fan with new model. Applied fresh thermal paste to CPU."
     },
     "2": {
+        date: "09/13/2023",
+        status: "Repaired",
+        technician: "Sarah Johnson",
+        partsReplaced: "RAM (8GB DDR4)",
+        notes: "Frequent system crashes reported. Diagnostic found faulty RAM module. Replaced with new compatible memory module and ran stability tests. System functioning properly now."
+    },
+    "3": {
+        date: "07/17/2023",
+        status: "Repaired",
+        technician: "James Wilson",
+        partsReplaced: "CPU Fan, Thermal Paste",
+        notes: "System was overheating due to dust buildup and worn out CPU fan. Cleaned interior thoroughly and replaced fan with new model. Applied fresh thermal paste to CPU."
+    },
+    "4": {
         date: "09/13/2023",
         status: "Repaired",
         technician: "Sarah Johnson",
@@ -624,3 +643,26 @@ function deleteComponent(componentId) {
         }, 500);
     }, 3000);
 }
+
+
+
+
+// iverson code
+
+let repairListDiv = document.querySelector('.repair-list');
+
+
+       let repairViewHTML=``;
+
+       
+       
+     repairViewHTML  +=`
+        <div class="repair-item clickable" data-repair-id="1">
+                            <div class="current-status"><i class="bx bx-check-circle status-icon"></i> Repaired</div>
+                            <div class="repair-date"><i class="bx bx-calendar date-icon"></i> 07/17/2023</div>                
+                    </div>
+        
+       
+        `;
+
+        repairListDiv.innerHTML=repairViewHTML;
