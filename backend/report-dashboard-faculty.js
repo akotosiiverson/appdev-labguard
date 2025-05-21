@@ -130,6 +130,33 @@ document.querySelectorAll('.rqst-btn').forEach((button) => {
         updateRequestButtonStates();
       });
     });
+
+    // Add image preview functionality
+    const imageUpload = container.querySelector('#upload-report-image');
+
+    // Create or select the preview image element (place it after the upload input)
+    let previewImg = container.querySelector('#report-image-preview');
+    if (!previewImg) {
+      previewImg = document.createElement('img');
+      previewImg.id = 'report-image-preview';
+      previewImg.classList.add('report-image-preview'); // Add the CSS class
+      // Insert after the file input
+      imageUpload.parentNode.insertBefore(previewImg, imageUpload.nextSibling);
+    }
+
+    imageUpload.addEventListener('change', function (e) {
+      const file = e.target.files[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = function (e) {
+          previewImg.src = e.target.result;
+          previewImg.style.display = 'block'; // Ensure the image is visible
+        };
+        reader.readAsDataURL(file);
+      } else {
+        previewImg.style.display = 'none'; // Hide the image if no file is selected
+      }
+    });
   });
 });
 

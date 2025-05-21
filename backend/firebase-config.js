@@ -46,7 +46,7 @@ export async function addReport( equipment, issue, pc, room,statusReport) {
   }
 }
 
-export async function addBorrow( equipment,borrowDate, returnDate, purpose,statusReport) {
+export async function addBorrow( equipment,borrowDate, returnDate, purpose,statusReport,downloadURL) {
   try {
     const docRef = await addDoc(collection(db, "borrowList"), {
    
@@ -55,6 +55,7 @@ export async function addBorrow( equipment,borrowDate, returnDate, purpose,statu
       returnDate,
        purpose,
        statusReport,
+      downloadURL,
       timestamp: serverTimestamp()
     });
 
