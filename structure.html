@@ -109,7 +109,19 @@
         <i class='bx bxs-user-rectangle'></i>
       </div>
       <div class="profile-info">
-        <div class="profile-name">{JIRO DICHOS}</div>
+        <div class="profile-name" id="displayName"></div>
+        <h2 id="userName"></h2>
+<h2 id="userEmail"></h2>
+<img id="userProfilePicture" style="max-width:120px; border-radius:50%;"><br>
+<p><strong>User ID:</strong> <span id="userUid"></span></p>
+<p><strong>Email Verified:</strong> <span id="userEmailVerified"></span></p>
+<p><strong>Provider:</strong> <span id="userProviderId"></span></p>
+<p><strong>Account Created:</strong> <span id="userCreationTime"></span></p>
+<p><strong>Last Sign-in:</strong> <span id="userLastSignInTime"></span></p>
+<p><strong>Phone Number:</strong> <span id="userPhoneNumber"></span></p>
+<p><strong>Is Anonymous:</strong> <span id="userIsAnonymous"></span></p>
+<p><strong>Refresh Token:</strong> <span id="userRefreshToken"></span></p>
+<p><strong>Provider Data:</strong> <pre id="userProviderData" style="background:#f4f4f4; padding:8px; border-radius:6px;"></pre></p>
         <div class="profile-role">FACULTY</div>
       </div>
     </div>
@@ -123,20 +135,18 @@
   </section>
 </main>
 
-
-
-
-
-</main>
 <!-- End of MAIN CONTENT AREA -->
 
 <!-- JavaScript - Core Functionality -->
 <script src="/backend/backend.js"></script>
 <script src="/backend/logout.js"></script>
 
+<!-- Firebase google fetching -->
+<script type="module" src="/backend/update.js"></script>
+
 <!-- Firebase JS -->
-<script type="module" src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js"></script>
-<script type="module" src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js"></script>
+<!-- <script type="module" src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js"></script> -->
+<!-- <script type="module" src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js"></script> -->
 </body>
 
 </html>

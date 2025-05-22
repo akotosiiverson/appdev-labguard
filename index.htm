@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<!-- 
+    LABGUARD - Gordon College Login Page
+    Created: May 2025
+    Description: Authentication interface for the LABGUARD system
+-->
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LABGUARD - Gordon College</title>
+    <link rel="stylesheet" href="CSS/login.css">
+       
+    <!-- Boxicons for modern, clean icons -->
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+</head>
+<body>
+    <!-- Main Container -->
+    <div class="container">
+        <!-- Left Panel - Branding Section -->
+        <div class="left-panel">
+            <!-- Decorative circles for visual enhancement -->
+            <div class="circle circle-1"></div>
+            <div class="circle circle-2"></div>
+            <div class="circle circle-3"></div>
+            <div class="circle circle-4"></div>
+            
+            <!-- Logo Section -->
+            <div class="logo-container">
+                <img src="asset/image/CCS-CCSLOGO.png" alt="Gordon College Logo" class="logo">
+            </div>
+
+            <!-- Institution Information -->
+            <div class="college-name">
+                <h1>GORDON COLLEGE</h1>
+                <p>Management Information Unit - MIS Unit</p>
+            </div>
+
+            <!-- Application Name -->
+            <div class="app-name">
+                <h2>LABGUARD</h2>
+            </div>
+        </div>        <!-- Right Panel - Login Form Section -->
+        <div class="right-panel">
+            <!-- Login Form Container -->
+            <div class="login-form">
+                <h2>Welcome Back</h2>
+                <p>Please sign in to continue</p>
+                
+                <!-- Authentication Form -->
+                <form id="loginForm">
+                    <!-- Email Field -->
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <div class="input-with-icon">
+                            <i class='bx bx-envelope'></i>
+                            <input type="email" id="email" name="email" placeholder="example@gmail.com" required>
+                        </div>
+                    </div>
+                    
+                    <!-- Password Field with Toggle Visibility -->
+                    <div class="form-group">
+                        <label for="password">Password</label>
+                        <div class="input-with-icon">
+                            <i class='bx bx-lock-alt'></i>
+                            <input type="password" id="password" name="password" placeholder="••••" required>
+                            <i class='bx bx-hide toggle-password' id="togglePassword"></i>
+                        </div>
+                    </div>
+
+                    <!-- Error Message Container (hidden by default) -->
+                    <div id="error-message" class="error-message">
+                        <i class='bx bx-error-circle'></i>
+                        <span>Invalid email or password. Please try again.</span>
+                    </div>
+                    
+                    <!-- Submit Button -->
+                    <button type="submit" class="sign-in-btn">SIGN IN</button>
+                </form>
+
+                 <!-- google -->
+                <div class="input">
+                <button id="google-login-btn" class="google-button">
+                <i class="fab fa-google"></i> Login with Google
+                </button>
+                </div>
+                
+                <!-- Help Text -->
+                <div class="account-help">
+                    <p>Need an account? Please contact the lab administrator.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <script src="backend/main.js" defer type="module"></script>
+
+    
+</body> 
+</html>
