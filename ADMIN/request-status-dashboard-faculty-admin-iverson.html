@@ -5,13 +5,12 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <!-- External CSS Stylesheet -->
-  <link rel="stylesheet" href="CSS/design-admin-iverson.css">
-    <link rel="stylesheet" href="/CSS/design.css">
+  <link rel="stylesheet" href="/CSS/design.css">
   <!-- Boxicons Icon Library -->
   <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
-  <link rel="stylesheet" href="CSS/borrow-dashboard-admin-iverson.css">
-  <link href='CSS/logout-admin-iverson.css' rel='stylesheet'>
-  <link href='CSS/reportForm-admin-iverson.css' rel='stylesheet'>
+  <link rel="stylesheet" href="/CSS/borrow-dashboard.css">
+  <link href='/CSS/logout.css' rel='stylesheet'>
+  <link href='/CSS/reportForm.css' rel='stylesheet'>
   <title>Gordon College - Dashboard</title>
 </head>
 
@@ -25,8 +24,8 @@
 	
     <!-- College Logo and Title -->
     <a href="#" class="sidebar__brand">
-        <img src="/asset/image/CCS-CCSLOGO.png" alt="Gordon College Logo" class="sidebar__logo">
-        <span class="sidebar__title">L A B G U A R D</span>
+        <img src="/asset/image/CCS-GCLOGO.png" alt="Gordon College Logo" class="sidebar__logo">
+        <span class="sidebar__title">GORDON COLLEGE</span>
     </a>
     
     <!-- Main Navigation Menu -->
@@ -34,28 +33,28 @@
 
       <!-- User Profile -->
       <li class="sidebar__item ">
-        <a href="structure-admin-iverson.html" class="sidebar__link">
+        <a href="/structure.html" class="sidebar__link">
           <i class='bx bxs-user-rectangle'></i>
-          <span class="sidebar__text">PROFILE</span>
+          <span class="sidebar__text">JIRO DICHOS</span>
         </a>
       </li>
       <!-- Borrower Management -->
       <li class="sidebar__item ">
-        <a href="borrow-dashboard-admin-iverson.html" class="sidebar__link">
+        <a href="/borrow-dashboard.html" class="sidebar__link">
           <i class='bx bxs-receipt '></i>
           <span class="sidebar__text">BORROWER</span>
         </a>
       </li>
       <!-- Report and Request System -->
       <li class="sidebar__item ">
-        <a href="report-dashboard-faculty-admin-iverson.html" class="sidebar__link">
+        <a href="/report-dashboard-faculty.html" class="sidebar__link">
           <i class='bx bxs-copy-alt'></i>
           <span class="sidebar__text">REPORT / REQUEST</span>
         </a>
       </li>
       <!-- Repair Progress Tracker -->
       <li class="sidebar__item">
-        <a href="repair-progress-updated.html" class="sidebar__link">
+        <a href="#" class="sidebar__link">
           <i class='bx bxs-doughnut-chart'></i>
           <span class="sidebar__text">REPAIR PROGRESS</span>
         </a>
@@ -67,8 +66,8 @@
           <span class="sidebar__text">REQUEST STATUS</span>
         </a>
       </li>
-      <li class="sidebar__item ">
-        <a href="borrow-status-admin-iverson.html" class="sidebar__link">
+         <li class="sidebar__item ">
+        <a href="#" class="sidebar__link">
           <i class='bx bxs-group'></i>
           <span class="sidebar__text">BORROW STATUS</span>
         </a>
@@ -102,8 +101,19 @@
       <!-- Dashboard Link -->
       <a href="#" class="navbar__link">Dashboard</a>
     </div>
-          <!-- Dark/Light Mode Toggle -->
-      <input id="theme-switch" hidden>
+
+    <!-- Right Side of Navigation -->
+    <div class="navbar__right">
+      <!-- Dark/Light Mode Toggle -->
+      <input type="checkbox" id="theme-switch" hidden>
+      <label for="theme-switch" class="theme-switch"></label>
+      
+      <!-- Notification Icon -->
+      <a href="#" class="navbar__notification">
+        <i class='bx bxs-bell'></i>
+        <span class="navbar__notification-badge">99</span>
+      </a>
+    </div>
   </nav>
   <!-- End of Top Navigation Bar -->
 
@@ -119,10 +129,10 @@
     <div class="activity">
       <div class="activity__header">
         <h2 class="activity__title">Recent Activity</h2>
-       <div class="filters">
-   <select id="sortingReequest">
+        <div class="filters">
+  <select id="sortingReequest">
     <option value="all-sort">All</option>
-    <option value="approve-sort ">Approved</option>
+    <option value="approve-sort">Approved</option>
     <option value="pending-sort">Pending</option>
     <option value="process-sort">Processing</option>
     <option value="decline-sort">Declined</option>
@@ -140,7 +150,7 @@
               <th>Date</th>
               <th>Room & PC No.</th>
               <th>Unit</th>
-              <th>Action</th>
+              <th>Status</th>
             </tr>
           </thead>
           <tbody class="report-list">
@@ -154,18 +164,12 @@
 <!-- End of MAIN CONTENT AREA -->
 
 <!-- JavaScript - Core Functionality -->
-<script type="module" src="backend/request-status-dashboard-faculty-admin-iverson.js"></script>
-<script type="module" src="backend/reportForm-admin-iverson.js"></script> 
-
-<!-- JavaScript - Core Functionality -->
-<script src="/backend/backend.js"></script>
-<script src="/backend/logout.js"></script>
-
-<script src="backend/backend-admin-iverson.js"></script>
-
-
+<script type="module" src="/ADMIN/backend/request-status-dashboard-faculty-admin-iverson.js"></script>
+<script type="module" src="/ADMIN/backend/reportForm-admin-iverson.js"></script>
+<script type="module" src="/backend/data/apiReportItem.js"></script>
+<script src="backend/backend-admin-iverson(DELETE).js"></script>
 <script src="backend/logout-admin-iverson.js"></script>
-<script type="module" src="/backend/data/reportItem.js"></script> 
+<script type="module" src="backend/data/reportItem.js"></script>
 </body>
 
 </html>
