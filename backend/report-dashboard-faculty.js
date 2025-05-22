@@ -19,7 +19,7 @@ export const mainDashboard = document.querySelector('.dashboard');
 function getProduct(itemId) {
   return items.find((item) => item.id === itemId);
 }
-
+// comment
 let itemHTML = '';
 items.forEach((item) => {
   itemHTML += `
