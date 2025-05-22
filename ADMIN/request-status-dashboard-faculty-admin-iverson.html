@@ -5,7 +5,8 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <!-- External CSS Stylesheet -->
-  <link rel="stylesheet" href="/CSS/design.css">
+  <link rel="stylesheet" href="CSS/design-admin-iverson.css">
+    <link rel="stylesheet" href="/CSS/design.css">
   <!-- Boxicons Icon Library -->
   <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
   <link rel="stylesheet" href="/CSS/borrow-dashboard.css">
@@ -66,8 +67,8 @@
           <span class="sidebar__text">REQUEST STATUS</span>
         </a>
       </li>
-         <li class="sidebar__item ">
-        <a href="#" class="sidebar__link">
+      <li class="sidebar__item ">
+        <a href="borrow-status-admin-iverson.html" class="sidebar__link">
           <i class='bx bxs-group'></i>
           <span class="sidebar__text">BORROW STATUS</span>
         </a>
@@ -129,8 +130,8 @@
     <div class="activity">
       <div class="activity__header">
         <h2 class="activity__title">Recent Activity</h2>
-        <div class="filters">
-  <select id="sortingReequest">
+       <div class="filters">
+   <select id="sortingReequest">
     <option value="all-sort">All</option>
     <option value="approve-sort">Approved</option>
     <option value="pending-sort">Pending</option>
@@ -164,10 +165,16 @@
 <!-- End of MAIN CONTENT AREA -->
 
 <!-- JavaScript - Core Functionality -->
-<script type="module" src="/ADMIN/backend/request-status-dashboard-faculty-admin-iverson.js"></script>
-<script type="module" src="/ADMIN/backend/reportForm-admin-iverson.js"></script>
-<script type="module" src="/backend/data/apiReportItem.js"></script>
-<script src="backend/backend-admin-iverson(DELETE).js"></script>
+<script type="module" src="backend/request-status-dashboard-faculty-admin-iverson.js"></script>
+<script type="module" src="backend/reportForm-admin-iverson.js"></script> 
+
+<!-- JavaScript - Core Functionality -->
+<script src="/backend/backend.js"></script>
+<script src="/backend/logout.js"></script>
+
+<script src="backend/backend-admin-iverson.js"></script>
+
+
 <script src="backend/logout-admin-iverson.js"></script>
 <script type="module" src="backend/data/reportItem.js"></script>
 </body>
