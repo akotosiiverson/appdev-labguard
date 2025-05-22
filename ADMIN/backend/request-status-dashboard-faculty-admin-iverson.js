@@ -1,7 +1,16 @@
-import { 
-  orderBy,onSnapshot,
-  doc, updateDoc, getDoc, collection, addDoc, serverTimestamp,
-  query, where, getDocs
+import {
+  collection,
+  query,
+  orderBy,
+  onSnapshot,
+  doc,
+  updateDoc,
+  getDoc,
+  setDoc,
+  serverTimestamp,
+  addDoc,
+  where,
+  getDocs
 } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 import { db } from "../../backend/firebase-config.js";
 let currentStatusFilter = "All";
@@ -35,6 +44,12 @@ function setupRealtimeListener() {
 
       let actionButtons = '';
       if (status === "Pending") {
+        actionButtons = `
+          <button class="approve-btn-js" data-id="${docSnap.id}">Approve</button>
+          <button class="processing-btn-js" data-id="${docSnap.id}">Processing</button>
+          <button class="decline-btn-js" data-id="${docSnap.id}">Decline</button>
+        `;
+      } else if (status === "Processing") {
         actionButtons = `
           <button class="approve-btn-js" data-id="${docSnap.id}">Approve</button>
           <button class="decline-btn-js" data-id="${docSnap.id}">Decline</button>
