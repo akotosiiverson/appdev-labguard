@@ -30,7 +30,11 @@
 body{
     background-color: var(--color-gray-light);
 }
-
+.return-btn-js {
+  display: inline-block;
+  visibility: visible;
+  opacity: 1;
+}
 /* Title Text */
 .avlbl-item-text {
     font-size: 50px;

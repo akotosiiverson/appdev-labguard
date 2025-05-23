@@ -24,11 +24,13 @@ export function printYourrequestInfo() {
         return;
       }
       const productName = requestButton.dataset.productName;
+      const productImage = requestButton.dataset.img;
       console.log('Borrowed Date:', borrowedDate.value);
       console.log('Return Date:', returnDate.value);
       console.log('Purpose:', purpose.value);
       console.log('Product Name:', productName);
-      addBorrow(productName, borrowedDate.value, returnDate.value, purpose.value,statusReport);
+      console.log('Product Image:', productImage);
+      addBorrow(productName, borrowedDate.value, returnDate.value, purpose.value,statusReport,productImage);
 
       // Close the popup form after submission
       const popupContainer = requestButton.closest('.container');

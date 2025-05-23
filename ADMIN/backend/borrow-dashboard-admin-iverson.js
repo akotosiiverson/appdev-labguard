@@ -1,4 +1,8 @@
-
+import {
+  collection,
+  getDocs
+} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+import { db } from "./firebase-config-admin-iverson.js";
 import { items } from '../backend/data/borrowItem-admin-iverson.js'//borrowItem 
 import { printYourrequestInfo } from '../backend/borrowForm-admin-iverson.js';
 export const  mainDashboard = document.querySelector('.dashboard');
@@ -14,23 +18,35 @@ function getProduct(itemId){
 }
 
 
-let itemHTML='';
-items.forEach((item) => {
+async function displayItems() {
+  const querySnapshot = await getDocs(collection(db, "borrowItem"));
+  const items = [];
+
+  // Step 1: Push Firestore data to items array
+  querySnapshot.forEach((doc) => {
+    items.push({ id: doc.id, ...doc.data() });
+  });
+
+  // Step 2: Build HTML
+  let itemHTML = '';
+  items.forEach((item) => {
 
 
-  itemHTML += `
-    <div class="item-container">
-      <div class="img-container">
-        <div class="quantity-div">
-          <p class="quantity">${item.quantity}</p>
+    itemHTML += `
+      <div class="item-container">
+        <div class="img-container">
+          <div class="quantity-div">
+            <p class="quantity">${item.quantity}</p>
+          </div>
+          <img src="${item.image}" alt="${item.name}">
         </div>
-        <img src="${item.image}" alt="Computer Icon">
+        <p class="item-name">${item.name}</p>
+        <button class="rqst-btn" data-img="${item.image}" data-item-id="${item.id}" >
+          EDIT
+        </button>
       </div>
-      <p class="item-name">${item.name}</p>
-      <button class="rqst-btn" data-item-id="${item.id}" >EDIT</button>
-    </div>
-  `;
-});
+    `;
+  });
 const addItemHTML =`
     <div class="item-container">
       <div class="img-container">
@@ -41,8 +57,13 @@ const addItemHTML =`
       <button class="rqst-btn"  >ADD ITEM</button>
     </div>
   `;
-  itemHTML+= addItemHTML;
-document.querySelector('.available-item').innerHTML = itemHTML ;
+  // Step 3: Display in HTML
+  itemHTML += addItemHTML;
+  document.querySelector('.available-item').innerHTML = itemHTML;
+}
+
+document.addEventListener("DOMContentLoaded", displayItems);
+
 
 
 document.querySelectorAll('.rqst-btn').forEach((button) => {

@@ -34,13 +34,15 @@ export function printYourrequestInfo() {
         console.log('img:',image.dataset.reportImage);
 
         //addReport(statusReport,productName,issue.value,+pcNumber.value,+roomNumber.value,dayjs().format('MMM D, YYYY'));
-        addReport(
-                 // 'Pending'
-  productName,                 // correct product name
-  issue.value,                 // user-entered issue
-  +pcNumber.value,             // parsed PC number
-  +roomNumber.value,           // parsed room number
-  statusReport
+const imageFile = document.querySelector('#upload-report-image').files[0];
+
+addReport(
+  productName,              // product name
+  issue.value,              // issue from textarea
+  +pcNumber.value,          // PC number
+  +roomNumber.value,        // Room number
+  statusReport,             // e.g. "Pending"
+  imageFile                 // the image file
 );
 
 
