@@ -50,8 +50,10 @@ function renderFilteredReports() {
     let actionButtons = '';
     if (status === "Pending") {
       actionButtons = `
-        <button class="approve-btn-js" data-id="${data.id}">Approve</button>
-        <button class="decline-btn-js" data-id="${data.id}">Decline</button>
+        <div class="action-buttons">
+          <button class="approve-btn-js" data-id="${data.id}">Approve</button>
+          <button class="decline-btn-js" data-id="${data.id}">Decline</button>
+        </div>
       `;
     } else {
       actionButtons = `<strong>${status}</strong>`;
@@ -129,48 +131,102 @@ const updateStatus = async (id, status, button) => {
       if (!reportSnap.exists()) return;
 
       const reportData = reportSnap.data();
-      const { pc, room, equipment, issue, date } = reportData;
+      const { equipment } = reportData;
 
-      const formattedDate = typeof date === "object" && date.toDate
-        ? `${date.toDate().toLocaleString('en-US', {
-            timeZone: 'Asia/Manila',
-            dateStyle: 'long',
-            timeStyle: 'medium'
-          })} UTC+8`
-        : date;
+      // Query the borrowItem collection by the name field
+      const itemQuery = query(collection(db, "borrowItem"), where("name", "==", equipment));
+      const itemSnapshot = await getDocs(itemQuery);
 
-      const pcCollectionRef = collection(db, "comlabrooms", room.toString(), `pc${pc}`);
-      await addDoc(pcCollectionRef, {
-        equipment,
-        issue,
-        reportDate: formattedDate,
-        statusReport: status,
-        approvedDate: serverTimestamp()
-      });
+      if (!itemSnapshot.empty) {
+        const itemDoc = itemSnapshot.docs[0]; // Get the first matching document
+        const itemRef = itemDoc.ref;
+        const currentQuantity = itemDoc.data().quantity || 0;
 
-      const reportsQuery = query(
-        collection(db, "borrowList"),
-        where("pc", "==", pc),
-        where("room", "==", room)
-      );
-      const reportsSnapshot = await getDocs(reportsQuery);
-
-      let allResolved = true;
-      reportsSnapshot.forEach(doc => {
-        const data = doc.data();
-        const rStatus = data.statusReport;
-        if (rStatus !== "Approved" && rStatus !== "Declined") {
-          allResolved = false;
+        if (currentQuantity > 0) {
+          // Decrease the quantity by 1
+          await updateDoc(itemRef, { quantity: currentQuantity - 1 });
+          console.log(`✅ Quantity of ${equipment} decreased by 1.`);
+        } else {
+          console.warn(`⚠️ Quantity of ${equipment} is already 0.`);
+          return;
         }
+      } else {
+        console.warn(`⚠️ Equipment "${equipment}" not found in borrowItem.`);
+        alert(`The equipment "${equipment}" is not available in the inventory.`);
+        return;
+      }
+
+      // Add a "Return" button after approval
+      const returnButton = document.createElement("button");
+      returnButton.textContent = "Return";
+      returnButton.classList.add("return-btn-js");
+      returnButton.dataset.id = id;
+
+      console.log("Creating Return button:", returnButton);
+
+      // Replace the parent element's content with the "Return" button
+      const actionContainer = button.closest('.action-buttons');
+      if (actionContainer) {
+        console.log("Action container found:", actionContainer);
+        actionContainer.innerHTML = ""; // Clear the container
+        actionContainer.appendChild(returnButton); // Append the "Return" button
+        console.log("Return button added to the DOM.");
+
+        // Ensure the container is visible
+        actionContainer.style.display = "block";
+      } else {
+        console.error("Action container not found.");
+      }
+
+      // Attach event listener to the "Return" button
+      returnButton.addEventListener("click", async () => {
+        await handleReturn(id, returnButton);
       });
-
-      const pcRef = doc(db, "comlabrooms", room.toString(), `pc${pc}`, "document1");
-      await updateDoc(pcRef, { status: allResolved ? "available" : "not available" });
     }
-
-    button.parentElement.innerHTML = `<strong>${status}</strong>`;
   } catch (err) {
     console.error(`❌ Failed to update status:`, err);
+  }
+};
+
+// Function to handle the "Returns" button click
+const handleReturn = async (id, button) => {
+  try {
+    const reportRef = doc(db, "borrowList", id);
+    const reportSnap = await getDoc(reportRef);
+
+    if (!reportSnap.exists()) {
+      console.warn(`⚠️ Report with ID ${id} not found.`);
+      return;
+    }
+
+    const reportData = reportSnap.data();
+    const { equipment } = reportData;
+
+    // Query the borrowItem collection by the name field
+    const itemQuery = query(collection(db, "borrowItem"), where("name", "==", equipment));
+    const itemSnapshot = await getDocs(itemQuery);
+
+    if (!itemSnapshot.empty) {
+      const itemDoc = itemSnapshot.docs[0]; // Get the first matching document
+      const itemRef = itemDoc.ref;
+      const currentQuantity = itemDoc.data().quantity || 0;
+
+      // Increase the quantity by 1
+      await updateDoc(itemRef, { quantity: currentQuantity + 1 });
+      console.log(`✅ Quantity of ${equipment} increased by 1.`);
+    } else {
+      console.warn(`⚠️ Equipment "${equipment}" not found in borrowItem.`);
+      return;
+    }
+
+    // Update the status of the report to "Returned"
+    await updateDoc(reportRef, { statusReport: "Returned" });
+    console.log(`✅ Report ${id} marked as "Returned".`);
+
+    // Update the UI
+    button.parentElement.innerHTML = `<strong>Returned</strong>`;
+  } catch (err) {
+    console.error(`❌ Failed to handle return:`, err);
   }
 };
 
@@ -181,6 +237,10 @@ const attachEventListeners = () => {
 
   document.querySelectorAll('.decline-btn-js').forEach(button => {
     button.addEventListener('click', () => updateStatus(button.dataset.id, "Declined", button));
+  });
+
+  document.querySelectorAll('.return-btn-js').forEach(button => {
+    button.addEventListener('click', () => handleReturn(button.dataset.id, button));
   });
 };
 

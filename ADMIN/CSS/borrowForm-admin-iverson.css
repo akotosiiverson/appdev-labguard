@@ -32,7 +32,11 @@
     box-sizing: border-box;
   }
   
-
+.return-btn-js {
+  display: inline-block;
+  visibility: visible;
+  opacity: 1;
+}
   
   .container {
     position: absolute;

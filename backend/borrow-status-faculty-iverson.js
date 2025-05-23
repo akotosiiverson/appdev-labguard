@@ -8,6 +8,7 @@ import {
 import {
   db,
 } from "./firebase-config.js";
+import { items } from '../ADMIN/backend/data/borrowItem-admin-iverson.js'
 
 // Global filters
 let currentStatusFilter = "all";
@@ -36,6 +37,7 @@ function renderRequestStatus() {
 
     querySnapshot.forEach((doc) => {
       const data = doc.data();
+     // const jsDate = data.date?.toDate?.();
       const jsDate = data.timestamp?.toDate?.();
       if (!jsDate) return;
 
@@ -54,20 +56,30 @@ function renderRequestStatus() {
         month: 'long',
         day: 'numeric'
       });
+      
 
       reportSummary += `
         <tr class="report-row"
             data-id="${doc.id}"
             data-date="${formattedDate}"
             data-product="${data.equipment}"
-            data-img="${data.imageUrl || ''}"
+            data-img="${data.downloadURL || ''}"
             data-issue="${data.purpose || 'No details provided'}"
             data-faculty="${data.Name || 'Unknown'}"
             data-position="${data.Position || 'Unknown'}"
             data-location="${data.roomAndPc || 'Unknown'}">
           <td>${data.Name || 'Unknown'}</td>
-          <td>${data.borrowDate}</td>
-          <td>${data.returnDate}</td>
+          <td>${formattedDate}</td>
+         <td>${new Date(data.borrowDate).toLocaleDateString("en-US", {
+          year: "numeric",
+          month: "long",
+          day: "numeric"
+        })}</td>
+        <td>${new Date(data.returnDate).toLocaleDateString("en-US", {
+          year: "numeric",
+          month: "long",
+          day: "numeric"
+        })}</td>
           <td>${data.equipment}</td>
           <td><span class="status status--${status}">${status}</span></td>
         </tr>
