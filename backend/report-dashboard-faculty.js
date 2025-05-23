@@ -160,41 +160,6 @@ document.querySelectorAll('.rqst-btn').forEach((button) => {
   });
 });
 
-document.addEventListener('DOMContentLoaded', () => {
-  const logoutBtn = document.querySelector('.logout-button');
-  if (!logoutBtn) return;
-
-  logoutBtn.addEventListener('click', () => {
-    const overlay = document.createElement('div');
-    overlay.classList.add('modal-overlay');
-    document.body.appendChild(overlay);
-
-    const modal = document.createElement('div');
-    modal.classList.add('logout-modal');
-    modal.innerHTML = `
-      <div class="logout-icon-container">
-        <img src="/asset/icons/qmark-icon.png" alt="Question Icon">
-      </div>
-      <p class="confirm-text">CONFIRM LOGOUT</p>
-      <p class="confirmation-text">Are you sure you want to exit the application?</p>
-      <div class="confirm-button-container">
-        <button class="confirmed-btn">Yes, Log me out!</button>
-        <button class="declined-btn">Cancel</button>
-      </div>
-    `;
-    document.body.appendChild(modal);
-
-    modal.querySelector('.declined-btn').addEventListener('click', () => {
-      modal.remove();
-      overlay.remove();
-    });
-
-    modal.querySelector('.confirmed-btn').addEventListener('click', () => {
-      window.location.href = 'grid.html';
-    });
-  });
-});
-
 function updateRequestButtonStates() {
   document.querySelectorAll('.rqst-btn').forEach((btn) => {
     const itemId = +btn.dataset.itemId;

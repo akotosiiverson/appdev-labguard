@@ -27,16 +27,6 @@ document.addEventListener("DOMContentLoaded", () => {
       document.getElementById("userEmail").textContent = user.email || "No Email";
       document.getElementById("userProfilePicture").src = user.photoURL || "https://via.placeholder.com/100";
       document.getElementById("userProfilePicture").alt = user.displayName || "Profile Picture";
-      document.getElementById("userUid").textContent = user.uid;
-      document.getElementById("userEmailVerified").textContent = user.emailVerified ? "Verified" : "Not Verified";
-      document.getElementById("userProviderId").textContent = user.providerData[0]?.providerId || "N/A";
-      document.getElementById("userCreationTime").textContent = user.metadata.creationTime || "N/A";
-      document.getElementById("userLastSignInTime").textContent = user.metadata.lastSignInTime || "N/A";
-      // More Google account info
-      document.getElementById("userPhoneNumber").textContent = user.phoneNumber || "No Phone";
-      document.getElementById("userIsAnonymous").textContent = user.isAnonymous ? "Yes" : "No";
-      document.getElementById("userRefreshToken").textContent = user.refreshToken || "N/A";
-      document.getElementById("userProviderData").textContent = JSON.stringify(user.providerData, null, 2);
     } else {
       alert("Please log in with Google.");
       window.location.href = "/index.htm"; // Redirect to index.html if not logged in
@@ -46,17 +36,17 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
 // Function to get the username outside of DOMContentLoaded
-export function fetchUsername() {
-  return new Promise((resolve, reject) => {
-    onAuthStateChanged(auth, (user) => {
-      if (user) {
-        const username = user.displayName 
-        console.log(username);
-      } else {
-        reject("No user logged in");
-      }
-    });
-  });
-}
-fetchUsername();
+// export function fetchUsername() {
+//   return new Promise((resolve, reject) => {
+//     onAuthStateChanged(auth, (user) => {
+//       if (user) {
+//         const username = user.displayName || "No Name";
+//         resolve(String(username));
+//       } else {
+//         reject("No user logged in");
+//       }
+//     });
+//   });
+// }
+// console.log(fetchUsername());
 

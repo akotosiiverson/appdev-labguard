@@ -1,14 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
-<!--okay na ya????-->
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <!-- External CSS Stylesheet -->
   <link rel="stylesheet" href="/CSS/design.css">
+  <link rel="stylesheet" href="/CSS/responsive.css">
+  <link rel='stylesheet' href='/CSS/logout.css' >
   <!-- Boxicons Icon Library -->
   <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
-  <link href='/CSS/logout.css' rel='stylesheet'>
 
 
   <title>Gordon College - Dashboard</title>
@@ -105,26 +106,26 @@
      =================================== -->
   <section class="profile-section">
     <div class="profile-header">
-      <div class="profile-avatar orange-avatar">
-        <i class='bx bxs-user-rectangle'></i>
+      <div class="profile-avatar" style="display: flex; justify-content: center; align-items: center; width: 100%; background: none; box-shadow: none;">
+      <img id="userProfilePicture" style="max-width:120px; border-radius:50%; display: block; margin: 0 auto; background: none; box-shadow: none;"><br>
       </div>
       <div class="profile-info">
-        <div class="profile-name" id="displayName"></div>
-        <h2 id="userName"></h2>
-<h2 id="userEmail"></h2>
-<img id="userProfilePicture" style="max-width:120px; border-radius:50%;"><br>
-<p><strong>User ID:</strong> <span id="userUid"></span></p>
-<p><strong>Email Verified:</strong> <span id="userEmailVerified"></span></p>
-<p><strong>Provider:</strong> <span id="userProviderId"></span></p>
-<p><strong>Account Created:</strong> <span id="userCreationTime"></span></p>
-<p><strong>Last Sign-in:</strong> <span id="userLastSignInTime"></span></p>
-<p><strong>Phone Number:</strong> <span id="userPhoneNumber"></span></p>
-<p><strong>Is Anonymous:</strong> <span id="userIsAnonymous"></span></p>
-<p><strong>Refresh Token:</strong> <span id="userRefreshToken"></span></p>
-<p><strong>Provider Data:</strong> <pre id="userProviderData" style="background:#f4f4f4; padding:8px; border-radius:6px;"></pre></p>
         <div class="profile-role">FACULTY</div>
-      </div>
+        <div class="profile-name" id="userName"></div>
+        <h2 id="userEmail"></h2>
+      </div>    </div>
+
+     <!-- Mobile logout button - now functional with the same logout behavior as sidebar button -->
+  <div class="container">
+    <div class="mobile-logout logout-button" id="mobile-logout">
+      <a href="#" class="mobile-logout__link">
+        <i class='bx bxs-log-out-circle'></i>
+        <span>Logout</span>
+      </a>
     </div>
+  </div>
+
+
     <div class="dark-mode-container">
       <span class="dark-mode-label"><i class='bx bx-moon'></i>Dark Mode</span>
       <label class="switch">
@@ -132,7 +133,9 @@
         <span class="slider round"></span>
       </label>
     </div>
+
   </section>
+  
 </main>
 
 <!-- End of MAIN CONTENT AREA -->

@@ -105,50 +105,9 @@ document.querySelectorAll('.rqst-btn').forEach((button) => {
         btn.disabled = false;
         updateRequestButtonStates();
       });
-    });
-  });
+    });  });
 });
 
-
-/* borrowed form dom */
-document.addEventListener('DOMContentLoaded', () => {
-  const logoutBtn = document.querySelector('.logout-button');
-  if (!logoutBtn) return;
-
-  logoutBtn.addEventListener('click', () => {
-    // Create overlay
-    const overlay = document.createElement('div');
-    overlay.classList.add('modal-overlay');
-    document.body.appendChild(overlay);
-
-    // Create modal
-    const modal = document.createElement('div');
-    modal.classList.add('logout-modal');
-    modal.innerHTML = `
-      <div class="logout-icon-container">
-        <img src="/asset/icons/qmark-icon.png" alt="Question Icon">
-      </div>
-      <p class="confirm-text">CONFIRM LOGOUT</p>
-      <p class="confirmation-text">Are you sure you want to exit the application?</p>
-      <div class="confirm-button-container">
-        <button class="confirmed-btn">Yes, Log me out!</button>
-        <button class="declined-btn">Cancel</button>
-      </div>
-    `;
-    document.body.appendChild(modal);
-
-    // Cancel button
-    modal.querySelector('.declined-btn').addEventListener('click', () => {
-      modal.remove();
-      overlay.remove();                                                                                 
-    });
-
-    // Confirm button
-    modal.querySelector('.confirmed-btn').addEventListener('click', () => {
-      window.location.href = 'grid.html'; // Or your logout logic
-    });
-  });
-});
 
 //function check the quantity, if 0 it will return a string of NOT AVAILABLE if greater than 0 it will return "REQUEST"
 function availabilityOfQuantityOfItem(item){
