@@ -124,21 +124,18 @@ async function displayItems() {
       });
     });
   });
-});
+}
 
-
-/* borrowed form dom */
-document.addEventListener('DOMContentLoaded', () => {
+// 🔒 Logout modal
+function setupLogoutModal() {
   const logoutBtn = document.querySelector('.logout-button');
   if (!logoutBtn) return;
 
   logoutBtn.addEventListener('click', () => {
-    // Create overlay
     const overlay = document.createElement('div');
     overlay.classList.add('modal-overlay');
     document.body.appendChild(overlay);
 
-    // Create modal
     const modal = document.createElement('div');
     modal.classList.add('logout-modal');
     modal.innerHTML = `
@@ -154,43 +151,19 @@ document.addEventListener('DOMContentLoaded', () => {
     `;
     document.body.appendChild(modal);
 
-    // Cancel button
     modal.querySelector('.declined-btn').addEventListener('click', () => {
       modal.remove();
-      overlay.remove();                                                                                 
+      overlay.remove();
     });
 
-    // Confirm button
     modal.querySelector('.confirmed-btn').addEventListener('click', () => {
-      window.location.href = 'grid.html'; // Or your logout logic
+      window.location.href = 'grid.html';
     });
-  });
-});
-
-//function check the quantity, if 0 it will return a string of NOT AVAILABLE if greater than 0 it will return "REQUEST"
-function availabilityOfQuantityOfItem(item){
-
-  if(item.quantity <=0){
-    return 'NOT AVAILABLE'
-  }
-  else{
-    return 'BORROW'
-  }
-
-};
-
-function updateRequestButtonStates() {
-  document.querySelectorAll('.rqst-btn').forEach(btn => {
-    // Recalculate the button state based on the availability of the items
-    const itemId = +btn.dataset.itemId;
-    const item = getProduct(itemId);
-    if (item.quantity <= 0) {
-      btn.disabled = true;  // Disable the button for unavailable items
-      btn.textContent = 'NOT AVAILABLE';
-    } else {
-      btn.disabled = false; // Enable the button for available items
-      btn.textContent = 'BORROW';
-    }
   });
 }
 
+// 🎯 Main
+document.addEventListener("DOMContentLoaded", async () => {
+  await displayItems();
+  setupLogoutModal();
+});
