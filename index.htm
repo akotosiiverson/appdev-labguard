@@ -1,18 +1,16 @@
 <!DOCTYPE html>
 <html lang="en">
-<!-- 
-    LABGUARD - Gordon College Login Page
-    Created: May 2025
-    Description: Authentication interface for the LABGUARD system
--->
-<head>
-    <meta charset="UTF-8">
+
+<head>    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>LABGUARD - Gordon College</title>
     <link rel="stylesheet" href="CSS/login.css">
        
     <!-- Boxicons for modern, clean icons -->
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    
+    <!-- Font Awesome for additional icons (like Google) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
     <!-- Main Container -->
@@ -40,7 +38,9 @@
             <div class="app-name">
                 <h2>LABGUARD</h2>
             </div>
-        </div>        <!-- Right Panel - Login Form Section -->
+        </div>        
+        
+        <!-- Right Panel - Login Form Section -->
         <div class="right-panel">
             <!-- Login Form Container -->
             <div class="login-form">
@@ -75,14 +75,13 @@
                     </div>
                     
                     <!-- Submit Button -->
-                    <button type="submit" class="sign-in-btn">SIGN IN</button>
-                </form>
+                    <button type="submit" class="sign-in-btn">SIGN IN</button>                </form>
 
-                 <!-- google -->
+                <!-- Google Login Option -->
                 <div class="input">
-                <button id="google-login-btn" class="google-button">
-                <i class="fab fa-google"></i> Login with Google
-                </button>
+                    <button id="google-login-btn" class="google-button">
+                        <i class="fab fa-google"></i> Login with Google
+                    </button>
                 </div>
                 
                 <!-- Help Text -->
@@ -92,10 +91,26 @@
             </div>
         </div>
     </div>
-
-
     <script src="backend/main.js" defer type="module"></script>
 
-    
-</body> 
+    <!-- Password toggle functionality -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const togglePassword = document.getElementById('togglePassword');
+            const password = document.getElementById('password');
+            
+            if (togglePassword && password) {
+                togglePassword.addEventListener('click', function() {
+                    // Toggle the type attribute
+                    const type = password.getAttribute('type') === 'password' ? 'text' : 'password';
+                    password.setAttribute('type', type);
+                    
+                    // Toggle the icon
+                    this.classList.toggle('bx-hide');
+                    this.classList.toggle('bx-show');
+                });
+            }
+        });
+    </script>
+</body>
 </html>
