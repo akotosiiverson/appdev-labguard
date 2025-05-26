@@ -1,60 +1,66 @@
 import dayjs from 'https://unpkg.com/supersimpledev@8.5.0/dayjs/esm/index.js';
 import { addReport } from './firebase-config.js';
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
 
-//import {addReport} from './data/firebase.js';
+import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+
+const auth = getAuth();
 
 export function printYourrequestInfo() {
   const requestButton = document.querySelector('.js-submit-button-report');
   const roomNumber = document.querySelector('.room-number');
   const pcNumber = document.querySelector('.pc-number');
   const issue = document.querySelector('.issue');
-  const image =document.querySelector('.report-image')
-  const uploadReportImage =document.querySelector('.upload-report-image')
+  const imageInput = document.querySelector('#upload-report-image');
   const statusReport = 'Pending';
 
   if (requestButton) {
-    requestButton.addEventListener('click',async (e) => {
+    requestButton.addEventListener('click', async (e) => {
       e.preventDefault();
 
-      if (
-        roomNumber.value &&
-        pcNumber.value &&
-        issue.value
-      ) {
-          const productName = requestButton.dataset.productName;
-         
+      if (roomNumber.value && pcNumber.value && issue.value) {
+        const productName = requestButton.dataset.productName;
+        const imageFile = imageInput.files[0] || null;
 
-    
-        console.log('Room Number:', roomNumber.value);
-        console.log('PC Number:', pcNumber.value);
-        console.log('Issue:', issue.value);
-        console.log('Product Name:', productName);
-        console.log('Submitted on:', dayjs().format('MMMM D, YYYY'));
-        console.log('img:',image.dataset.reportImage);
-
-        //addReport(statusReport,productName,issue.value,+pcNumber.value,+roomNumber.value,dayjs().format('MMM D, YYYY'));
-const imageFile = document.querySelector('#upload-report-image').files[0];
-
-addReport(
-  productName,              // product name
-  issue.value,              // issue from textarea
-  +pcNumber.value,          // PC number
-  +roomNumber.value,        // Room number
-  statusReport,             // e.g. "Pending"
-  imageFile                 // the image file
-);
-
-
+        // Get current user displayName and uid asynchronously
+        const { fullName, userId } = await new Promise((resolve, reject) => {
+          const unsubscribe = onAuthStateChanged(auth, (user) => {
+            unsubscribe(); // unsubscribe immediately to avoid multiple triggers
+            if (user) {
+              resolve({
+                fullName: user.displayName || "Anonymous",
+                userId: user.uid
+              });
+            } else {
+              reject("User not logged in");
+            }
+          });
+        }).catch((error) => {
+          alert("You must be logged in to submit a report.");
+          throw new Error(error);
+        });
+        console.log(`User: ${fullName}, ID: ${userId}`);
+        // Call addReport with all info including fullName and userId
+        await addReport(
+          productName,
+          issue.value,
+          +pcNumber.value,
+          +roomNumber.value,
+          statusReport,
+          imageFile,
+          fullName ,
+          userId // <-- added userId here
+        );
 
         // Hide modal after successful submission
         document.querySelector('.container').style.display = 'none';
 
-        // ✅ Re-enable report buttons
+        // Re-enable report buttons
         document.querySelectorAll('.rqst-btn').forEach((btn) => {
           btn.disabled = false;
         });
         document.querySelector('.available-item').classList.remove('no-scroll');
+
+        console.log(`Report submitted by ${fullName} on ${dayjs().format('MMMM D, YYYY')}`);
 
       } else {
         console.warn('Please fill in all fields before submitting.');
@@ -62,16 +68,18 @@ addReport(
     });
   }
 
+  // Close button logic
   const closeButton = document.querySelector('.close-button');
   const container = document.querySelector('.container');
   if (closeButton && container) {
     closeButton.addEventListener('click', () => {
       container.style.display = 'none';
 
-      // ✅ Also re-enable report buttons on close
+      // Re-enable report buttons on close
       document.querySelectorAll('.rqst-btn').forEach((btn) => {
         btn.disabled = false;
       });
       document.querySelector('.available-item').classList.remove('no-scroll');
     });
-  }}
+  }
+}

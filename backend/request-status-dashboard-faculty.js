@@ -3,16 +3,21 @@ import {
   onSnapshot,
   query,
   orderBy,
+  where
 } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
 import {
   db,
 } from "./firebase-config.js";
 
+import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+
 // Global filters
 let currentStatusFilter = "All";
 let currentStartDate = null;
 let currentEndDate = null;
+const auth = getAuth();
+let currentUserId = null;
 
 // Renders the reports table using real-time updates
 function renderRequestStatus() {
@@ -22,7 +27,18 @@ function renderRequestStatus() {
     return;
   }
 
-  const reportsQuery = query(collection(db, "reportList"), orderBy("date", "desc"));
+  if (!currentUserId) {
+    console.warn('⚠️ No logged-in user found.');
+    return;
+  }
+
+  // Query Firestore for reports belonging to the logged-in user
+  const reportsQuery = query(
+    collection(db, "reportList"),
+    where("userId", "==", currentUserId), // Filter by userId
+    orderBy("date", "desc")
+  );
+
   onSnapshot(reportsQuery, (querySnapshot) => {
     let reportSummary = '';
 
@@ -54,8 +70,8 @@ function renderRequestStatus() {
             data-img="${data.imageUrl || ''}"
             data-issue="${data.issue || 'No details provided'}"
             data-position="${data.position || 'Faculty'}"
-            data-faculty="${data.Name || 'Unknown'}">
-          <td>${data.Name || 'Unknown'}</td>
+            data-faculty="${data.fullName || 'Unknown'}">
+          <td>${data.fullName || 'Unknown'}</td>
           <td>${formattedDate}</td>
           <td>${data.room} - ${data.pc}</td>
           <td>${data.equipment}</td>
@@ -65,60 +81,11 @@ function renderRequestStatus() {
     });
 
     reportListEl.innerHTML = reportSummary;
-    attachRowModalListeners();
   });
 }
 
 // Handles the click logic for each row to show details modal
-function attachRowModalListeners() {
-  const rows = document.querySelectorAll('.report-row');
-  rows.forEach(row => {
-    row.addEventListener('click', () => {
-      const facultyName = row.dataset.faculty;
-      const date = row.dataset.date;
-      const location = row.dataset.location;
-      const product = row.dataset.product;
-      const issue = row.dataset.issue;
-      const position = row.dataset.position;
-      const image = row.dataset.img;
-      const status = row.querySelector('.status')?.textContent || 'Unknown';
 
-      const overlay = document.createElement('div');
-      overlay.classList.add('modal-overlay');
-      document.body.appendChild(overlay);
-
-      const modal = document.createElement('div');
-      modal.classList.add('logout-modal', 'detail-modal');
-      modal.innerHTML = `
-        <div class="logout-icon-container">
-          <img src="${image}" alt="Product Image">
-        </div>
-        <p class="confirm-text">REQUEST DETAILS</p>
-        <p class="request-status-indicator">Status: ${status}</p>
-        <div class="request-details">
-          <p><strong>Faculty:</strong> <span>${facultyName} (${position})</span></p>
-          <p><strong>Date Submitted:</strong> <span>${date}</span></p>
-          <p><strong>Room & PC:</strong> <span>${location}</span></p>
-          <p><strong>Item Type:</strong> <span>${product}</span></p>
-          <p><strong>Issue Description:</strong> <span>${issue}</span></p>
-        </div>
-        <div class="confirm-button-container">
-          <button class="declined-btn">Close</button>
-        </div>
-      `;
-      document.body.appendChild(modal);
-
-      modal.querySelector('.declined-btn').addEventListener('click', () => {
-        modal.remove();
-        overlay.remove();
-      });
-      overlay.addEventListener('click', () => {
-        modal.remove();
-        overlay.remove();
-      });
-    });
-  });
-}
 
 // Filter listeners
 function setupFilters() {
@@ -154,5 +121,20 @@ function setupFilters() {
 
 document.addEventListener('DOMContentLoaded', () => {
   setupFilters();
-  renderRequestStatus();
+
+  // Wait for the authentication state to be determined
+  onAuthStateChanged(auth, (user) => {
+    if (user) {
+      currentUserId = user.uid; // Get the logged-in user's ID
+      console.log(`Logged-in user ID: ${currentUserId}`);
+      renderRequestStatus(); // Call the function after getting the user
+    } else {
+      console.warn("No user is logged in.");
+      // Optionally, clear the report list or show a message
+      const reportListEl = document.querySelector('.report-list');
+      if (reportListEl) {
+        reportListEl.innerHTML = '<tr><td colspan="5">Please log in to view your requests.</td></tr>';
+      }
+    }
+  });
 });

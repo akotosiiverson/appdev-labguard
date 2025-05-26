@@ -17,6 +17,8 @@
   --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.1);
   --shadow-md: 0 4px 8px rgba(0, 0, 0, 0.1);
   --shadow-lg: 0 8px 16px rgba(0, 0, 0, 0.1);
+  --error-color: #ff3b3b;
+    --error-bg: rgba(255, 59, 59, 0.1);
   
   --border-radius-sm: 4px;
   --border-radius-md: 8px;
@@ -170,4 +172,24 @@
     width: 24px;
     height: 24px;
   }
- 
+     .error-message {
+    display: none;
+    background-color: var(--error-bg);
+    border-left: 4px solid var(--error-color);
+    color: var(--error-color);
+    padding: 12px;
+    border-radius: 4px;
+    margin-bottom: 20px;
+    font-size: 14px;
+    animation: shakeError 0.6s ease;
+}
+
+.error-message.show {
+    display: flex;
+    align-items: center;
+}
+
+.error-message i {
+    margin-right: 10px;
+    font-size: 18px;
+}
