@@ -92,7 +92,11 @@ async function displayItems() {
 
             <label for="return-date">Return Date</label>
             <input id="return-date" class="return-date" type="date" required />
-            
+            <!-- Error Message Container (hidden by default) -->
+                    <div id="error-message" class="error-message">
+                        <i class='bx bx-error-circle'></i>
+                        <span>Invalid date.</span>
+                    </div>
             <textarea class="purpose" placeholder="Remark/Purpose:" required></textarea>
             <button class="submit-button-request" type="submit" data-img="${product.image}" data-product-name="${product.name}">BORROW</button>
           </form>
@@ -131,5 +135,5 @@ async function displayItems() {
 // 🎯 Main
 document.addEventListener("DOMContentLoaded", async () => {
   await displayItems();
-  setupLogoutModal();
+ 
 });

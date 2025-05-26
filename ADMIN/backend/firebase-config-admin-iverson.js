@@ -40,7 +40,7 @@ export async function addReport( equipment, issue, pc, room, date) {
 
 
     const docId = docRef.id;
-    console.log("Report added successfully with ID:", docId);
+    console.log("Report added successfully with ID: Admin", docId);
 
     return docId; // You can use this ID to set as a data-set attribute
   } catch (e) {

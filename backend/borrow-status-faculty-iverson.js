@@ -3,17 +3,20 @@ import {
   onSnapshot,
   query,
   orderBy,
+  where
 } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
 import {
   db,
 } from "./firebase-config.js";
 import { items } from '../ADMIN/backend/data/borrowItem-admin-iverson.js'
+import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
 
 // Global filters
 let currentStatusFilter = "all";
 let currentStartDate = null;
 let currentEndDate = null;
+let currentUserId = null;
 
 // Normalize status values to consistent format
 function normalizeStatus(rawStatus) {
@@ -31,13 +34,23 @@ function renderRequestStatus() {
     return;
   }
 
-  const reportsQuery = query(collection(db, "borrowList"), orderBy("timestamp", "desc"));
+  if (!currentUserId) {
+    console.warn('⚠️ No logged-in user found.');
+    return;
+  }
+
+  // Query Firestore for borrow requests belonging to the logged-in user
+  const reportsQuery = query(
+    collection(db, "borrowList"),
+    where("userId", "==", currentUserId), // Filter by userId
+    orderBy("timestamp", "desc")
+  );
+
   onSnapshot(reportsQuery, (querySnapshot) => {
     let reportSummary = '';
 
     querySnapshot.forEach((doc) => {
       const data = doc.data();
-     // const jsDate = data.date?.toDate?.();
       const jsDate = data.timestamp?.toDate?.();
       if (!jsDate) return;
 
@@ -65,10 +78,10 @@ function renderRequestStatus() {
             data-product="${data.equipment}"
             data-img="${data.downloadURL || ''}"
             data-issue="${data.purpose || 'No details provided'}"
-            data-faculty="${data.Name || 'Unknown'}"
+            data-faculty="${data.fullName || 'Unknown'}"
             data-position="${data.Position || 'Unknown'}"
             data-location="${data.roomAndPc || 'Unknown'}">
-          <td>${data.Name || 'Unknown'}</td>
+          <td>${data.fullName || 'Unknown'}</td>
           <td>${formattedDate}</td>
          <td>${new Date(data.borrowDate).toLocaleDateString("en-US", {
           year: "numeric",
@@ -121,7 +134,7 @@ function attachRowModalListeners() {
           <p><strong>Faculty:</strong> <span>${facultyName} (${position})</span></p>
           <p><strong>Date Submitted:</strong> <span>${date}</span></p>
           <p><strong>Room & PC:</strong> <span>${location}</span></p>
-          <p><strong>Item Type:</strong> <span>${product}</span></p>
+          <p><strong>Unit:</strong> <span>${product}</span></p>
           <p><strong>Issue Description:</strong> <span>${issue}</span></p>
         </div>
         <div class="confirm-button-container">
@@ -171,6 +184,22 @@ function setupFilters() {
     });
   });
 }
+
+const auth = getAuth();
+
+onAuthStateChanged(auth, (user) => {
+  if (user) {
+    currentUserId = user.uid; // Get the logged-in user's ID
+    console.log(`Logged-in user ID: ${currentUserId}`);
+    renderRequestStatus(); // Call the function after getting the user
+  } else {
+    console.warn("No user is logged in.");
+    const reportListEl = document.querySelector('.report-list');
+    if (reportListEl) {
+      reportListEl.innerHTML = '<tr><td colspan="6">Please log in to view your borrow requests.</td></tr>';
+    }
+  }
+});
 
 document.addEventListener('DOMContentLoaded', () => {
   setupFilters();

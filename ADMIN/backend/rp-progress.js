@@ -10,7 +10,7 @@ import {
 import { db } from "../../backend/firebase-config.js";
 
 const pcGrid = document.querySelector('.pc-grid');
-const roomBtn = document.querySelector('.room-grid');
+const roomgrid = document.querySelector('.room-grid');
 const roomLabel = document.querySelector('.room-label');
 const totalRoomsElement = document.querySelector('.room-total');
 const totalPCsElement = document.querySelector('.pc-totals');
@@ -110,7 +110,7 @@ const renderStatsAndRooms = () => {
     .map(room => `<div class="room-btn" data-id="${room.id}">${room.number}</div>`)
     .join('');
 
-  roomBtn.innerHTML = roomsHTML;
+  roomgrid.innerHTML = roomsHTML;
 
   document.querySelectorAll('.room-btn').forEach(btn => {
     btn.addEventListener('click', async (e) => {
@@ -143,6 +143,8 @@ const renderPCs = async (roomId) => {
             </div>`).join('');
 
   pcGrid.innerHTML = pcsHTML;
+  document.querySelector('.panel-content').innerHTML ="";
+  
 
    // Add click event listener to each PC item
  document.querySelectorAll('.pc-item').forEach(pcItem => {
@@ -167,17 +169,16 @@ const renderPCs = async (roomId) => {
           mainStatus = docData.status;
         }
       }
-      
     });
 
     // Step 2: Now generate reports excluding document1
     pcReportsSnapshot.forEach(doc => {
       if (doc.id === "document1") return;
-      
+
       const report = doc.data();
       const issue = report.issue || "N/A";
       const reportedBy = report.reportedBy || "N/A";
-      const statusReport = report.statusReport || "N/A";
+      const statusReport = report.statusReport;
       const approvedDate = report.approvedDate?.toDate
         ? report.approvedDate.toDate().toLocaleDateString('en-US', {
             year: 'numeric',
@@ -187,24 +188,127 @@ const renderPCs = async (roomId) => {
         : "N/A";
 
       reportsHTML += `
-        <div class="report-item">
-          <h4>Issue: ${issue}</h4>
-          <p>Reported by: ${reportedBy}</p>
-          <p>Status: ${statusReport}</p>
-          <p>Date: ${approvedDate}</p>
+        <div class="history-item">
+          <span class="status-tag status-Repaired">Repaired</span>
+          <span class="date">${approvedDate}</span>
+          <span class="view-details"><i class='bx bx-info-circle'></i> View Details</span>
         </div>
       `;
     });
 
-    document.querySelector('.panel-content').innerHTML = `
-      <div class="repair-history">
-        <h3 class="section-title">Repair History for ${pcId}</h3>
-        <p><strong>PC Status:</strong> ${mainStatus}</p>
-        <div class="repair-history-content">
-          ${reportsHTML || "<p>No reports found for this PC.</p>"}
+    // Step 3: If no reports are found, display "No repair history"
+    if (!reportsHTML) {
+      reportsHTML = `
+        <div class="history-item">
+          No repair history
         </div>
+      `;
+    }
+
+    // Update the UI
+    roomLabel.textContent = `Room ${roomId} - PC ${pcId}`;
+    document.querySelector('.panel-content').innerHTML = `
+  <h3 class="section-title">"SPECIFICATION"</h3>
+
+  <!-- Repair Status Indicator -->
+  <div class="status-container">
+    <p class="status-label">Status:</p>
+    <span class="status-value ${mainStatus === 'available' ? "status-Repaired" : "status-repair"}">
+      ${mainStatus === 'available' ? "Available" : "In repair"}
+    </span>
+  </div>
+
+  <!-- Components Grid - Scrollable Container -->
+  <div class="components-grid">
+    <div class="component">
+      <div class="component-header"><i class="bx bx-cable-connector"></i><span>Ethernet Cable</span></div>
+      <div class="component-details">
+        <p class="component-description">Category 6 UTP 10ft Network Cable</p>
+        <p class="component-status">Description: Standard network cable with RJ-45 connectors, providing reliable Ethernet connectivity.</p>
       </div>
-    `;
+    </div>
+    <div class="component">
+      <div class="component-header"><i class="bx bx-desktop"></i><span>Case</span></div>
+      <div class="component-details">
+        <p class="component-description">DEEPCOOL MATREXX 40 3FS</p>
+        <p class="component-status">Description: Mid-tower case with excellent airflow and good cable management.</p>
+      </div>
+    </div>
+    <div class="component">
+      <div class="component-header"><i class="bx bx-power-off"></i><span>Power Supply (PSU)</span></div>
+      <div class="component-details">
+        <p class="component-description">CORSAIR CV550 550W 80 PLUS Bronze</p>
+        <p class="component-status">Description: Reliable power supply with stable delivery and 80+ Bronze efficiency.</p>
+      </div>
+    </div>
+    <div class="component">
+      <div class="component-header"><i class="bx bx-chip"></i><span>Processor (CPU)</span></div>
+      <div class="component-details">
+        <p class="component-description">INTEL CORE i3-10100F</p>
+        <p class="component-status">Description: 4-core/8-thread processor ideal for everyday tasks and moderate workloads.</p>
+      </div>
+    </div>
+    <div class="component">
+      <div class="component-header"><i class="bx bx-circuit-board"></i><span>Motherboard</span></div>
+      <div class="component-details">
+        <p class="component-description">MSI H510M-A PRO</p>
+        <p class="component-status">Description: Supports 10th/11th Gen Intel CPUs with standard connectivity ports.</p>
+      </div>
+    </div>
+    <div class="component">
+      <div class="component-header"><i class="bx bx-memory-card"></i><span>RAM</span></div>
+      <div class="component-details">
+        <p class="component-description">KINGSTON FURY Beast 8GB DDR4 3200MHz</p>
+        <p class="component-status">Description: High-speed RAM for multitasking and performance.</p>
+      </div>
+    </div>
+    <div class="component">
+      <div class="component-header"><i class="bx bx-card"></i><span>Graphics Card</span></div>
+      <div class="component-details">
+        <p class="component-description">NVIDIA GeForce GTX 1650</p>
+        <p class="component-status">Description: Entry-level GPU for light gaming and graphics work.</p>
+      </div>
+    </div>
+    <div class="component">
+      <div class="component-header"><i class="bx bx-hdd"></i><span>Storage</span></div>
+      <div class="component-details">
+        <p class="component-description">Samsung 970 EVO Plus 500GB NVMe M.2 SSD</p>
+        <p class="component-status">Description: High-performance SSD with fast load times.</p>
+      </div>
+    </div>
+    <div class="component">
+      <div class="component-header"><i class="bx bx-desktop"></i><span>Monitor</span></div>
+      <div class="component-details">
+        <p class="component-description">Dell P2419H 24-inch IPS</p>
+        <p class="component-status">Description: Full HD display with color accuracy and ergonomic stand.</p>
+      </div>
+    </div>
+    <div class="component">
+      <div class="component-header"><i class="bx bx-keyboard"></i><span>Keyboard</span></div>
+      <div class="component-details">
+        <p class="component-description">Logitech K845 Mechanical Keyboard</p>
+        <p class="component-status">Description: Durable mechanical keyboard with tactile feedback.</p>
+      </div>
+    </div>
+    <div class="component">
+      <div class="component-header"><i class="bx bx-mouse"></i><span>Mouse</span></div>
+      <div class="component-details">
+        <p class="component-description">Logitech G203 Prodigy</p>
+        <p class="component-status">Description: Wired gaming mouse with adjustable DPI and ergonomic design.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Repair History Section -->
+  <div class="repair-history">
+    <h3 class="section-title">REPAIR HISTORY</h3> 
+    <div class="repair-history-content">
+      <div class="history-items">
+        ${reportsHTML}
+      </div>
+    </div>
+  </div>
+`;
   } catch (error) {
     console.error("Error fetching reports:", error);
     document.querySelector('.panel-content').innerHTML = `
@@ -222,4 +326,3 @@ const renderPCs = async (roomId) => {
 
 
 
- 

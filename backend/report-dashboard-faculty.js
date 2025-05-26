@@ -83,8 +83,6 @@ document.querySelectorAll('.rqst-btn').forEach((button) => {
             <option value="523">523</option>
             <option value="524">524</option>
             <option value="525">525</option>
-            <option value="526">526</option>
-            <option value="527">527</option>
           </select>
           <select id="pc-number" class="pc-number" required>
             <option value="" disabled selected>Select Pc</option>

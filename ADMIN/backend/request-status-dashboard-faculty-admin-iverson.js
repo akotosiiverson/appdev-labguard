@@ -61,14 +61,14 @@ function setupRealtimeListener() {
       reportSummary += `
         <tr class="report-row"
             data-id="${docSnap.id}"
-            data-faculty="${data.Name}"
+            data-faculty="${data.fullName}"
             data-date="${formattedDate}"
             data-location="${data.room} - ${data.pc}"
             data-product="${data.equipment}"
             data-img="${data.imageUrl || ''}"
             data-issue="${data.issue || 'No details provided'}"
             data-position="${data.position || 'Faculty'}">
-          <td class="td-name-clickable">${data.Name}</td>
+          <td class="td-name-clickable">${data.fullName}</td>
           <td>${formattedDate}</td>
           <td>${data.room} - ${data.pc}</td>
           <td>${data.equipment}</td>

@@ -1,43 +1,48 @@
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+import { initializeApp, getApps } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
 import {
   getFirestore,
   collection,
   addDoc,
-  serverTimestamp,Timestamp
+  serverTimestamp
 } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
-import { getStorage, ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-storage.js";
+import {
+  getStorage,
+  ref,
+  uploadBytes,
+  getDownloadURL
+} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-storage.js";
 
+// ✅ Firebase config
 const firebaseConfig = {
   apiKey: "AIzaSyAPX65s6zZQV0P7bysB3taqPCt7IZJcJAg",
   authDomain: "labsystem-481dc.firebaseapp.com",
   projectId: "labsystem-481dc",
-  //storageBucket: "labsystem-481dc.appspot.com", // ⚠️ Corrected typo from `.app` to `.appspot.com`
-  storageBucket: "labsystem-481dc.firebasestorage.app",
+  storageBucket: "labsystem-481dc.firebasestorage.app", // ✅ Corrected
   messagingSenderId: "455369088827",
   appId: "1:455369088827:web:fe50a6219919601b82611e",
   measurementId: "G-06ZR4P16MC"
 };
-//
-const app = initializeApp(firebaseConfig);
+
+// ✅ Prevent duplicate initialization
+const app = getApps().length ? getApps()[0] : initializeApp(firebaseConfig);
 const db = getFirestore(app);
-const storage = getStorage(app); // ✅ Initialize storage
+const storage = getStorage(app);
 
-export { db, storage,app }; // ✅ Export storage
+export { db, storage, app };
 
-// Function to add a report
-// Function to add a report and return its ID
-export async function addReport(equipment, issue, pc, room, statusReport, imageFile) {
+// ✅ Add Report Function
+export async function addReport(equipment, issue, pc, room, statusReport, imageFile,fullName,userId) {
   try {
     let imageUrl = null;
 
-    // 1. Upload image to Firebase Storage if provided
+    // ✅ Upload image if provided
     if (imageFile) {
       const imageRef = ref(storage, `reportImage/${Date.now()}_${imageFile.name}`);
       const snapshot = await uploadBytes(imageRef, imageFile);
-      imageUrl = await getDownloadURL(snapshot.ref); // Get download URL
+      imageUrl = await getDownloadURL(snapshot.ref);
     }
 
-    // 2. Save the report data to Firestore
+    // ✅ Save to Firestore
     const docRef = await addDoc(collection(db, "reportList"), {
       equipment,
       issue,
@@ -45,37 +50,35 @@ export async function addReport(equipment, issue, pc, room, statusReport, imageF
       room,
       statusReport,
       imageUrl: imageUrl || null,
-      date: serverTimestamp()
+      date: serverTimestamp(),
+      fullName,
+      userId
     });
 
-    const docId = docRef.id;
-    console.log("Report added successfully with ID:", docId);
-
-    return docId; // You can use this ID to set as a data-set attribute
+    console.log("Report added successfully with ID:", docRef.id);
+    return docRef.id;
   } catch (e) {
-    console.error("Error adding document: ", e);
+    console.error("Error adding report: ", e);
   }
 }
 
-export async function addBorrow( equipment,borrowDate, returnDate, purpose,statusReport,downloadURL) {
+// ✅ Add Borrow Request Function
+export async function addBorrow(equipment, borrowDate, returnDate, purpose, statusReport, downloadURL,fullName, userId) {
   try {
     const docRef = await addDoc(collection(db, "borrowList"), {
-   
       equipment,
       borrowDate,
       returnDate,
-       purpose,
-       statusReport,
+      purpose,
+      statusReport,
       downloadURL,
-      timestamp: serverTimestamp()
+      timestamp: serverTimestamp(),
+      fullName, userId
     });
 
-
-    const docId = docRef.id;
-    console.log("Report added successfully with ID:", docId);
-
-    return docId; // You can use this ID to set as a data-set attribute
+    console.log("Borrow request added successfully with ID:", docRef.id);
+    return docRef.id;
   } catch (e) {
-    console.error("Error adding document: ", e);
+    console.error("Error adding borrow request: ", e);
   }
 }

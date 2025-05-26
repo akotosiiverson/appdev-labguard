@@ -8,7 +8,7 @@ import { db } from "../../backend/firebase-config.js";
 let currentStatusFilter = "All";
 let currentStartDate = null;
 let currentEndDate = null;
-let allReports = []; // store all reports once on load
+let allReports = [];
 
 function setupRealtimeListener() {
   const reportListEl = document.querySelector('.report-list');
@@ -55,6 +55,12 @@ function renderFilteredReports() {
           <button class="decline-btn-js" data-id="${data.id}">Decline</button>
         </div>
       `;
+    } else if (status === "Approved") {
+      actionButtons = `
+        <div class="action-buttons">
+          <button class="return-btn-js" data-id="${data.id}">Return</button>
+        </div>
+      `;
     } else {
       actionButtons = `<strong>${status}</strong>`;
     }
@@ -64,10 +70,10 @@ function renderFilteredReports() {
           data-id="${data.id}"
           data-date="${formattedDate}"
           data-product="${data.equipment}"
-          data-img="${data.imageUrl || ''}"
+          data-img="${data.downloadURL || ''}"
           data-issue="${data.purpose || 'No details provided'}"
-          data-faculty="${data.Name || 'Unknown'}">
-        <td class="td-name-clickable">${data.Name || 'Unknown'}</td>
+          data-faculty="${data.fullName || 'Unknown'}">
+        <td class="td-name-clickable">${data.fullName || 'Unknown'}</td>
         <td>${data.borrowDate}</td>
         <td>${data.returnDate}</td>
         <td>${data.equipment}</td>
@@ -75,7 +81,7 @@ function renderFilteredReports() {
       </tr>
     `;
   });
-
+  
   reportListEl.innerHTML = reportSummary;
   attachModalAndActionListeners();
   attachEventListeners();
@@ -86,6 +92,7 @@ function attachModalAndActionListeners() {
     cell.addEventListener('click', async () => {
       const row = cell.closest('.report-row');
       const { date, product, issue, img, id } = row.dataset;
+      console.log(row.dataset.img)
 
       const docSnap = await getDoc(doc(db, "borrowList", id));
       const status = docSnap.exists() ? (docSnap.data().statusReport || 'Unknown') : 'Unknown';
@@ -102,7 +109,7 @@ function attachModalAndActionListeners() {
         <p class="request-status-indicator">Status: ${status}</p>
         <div class="request-details">
           <p><strong>Date Submitted:</strong> ${date}</p>
-          <p><strong>Item Type:</strong> ${product}</p>
+          <p><strong>Unit:</strong> ${product}</p>
           <p><strong>Issue:</strong> ${issue}</p>
         </div>
         <div class="confirm-button-container"><button class="declined-btn">Close</button></div>
@@ -133,101 +140,112 @@ const updateStatus = async (id, status, button) => {
       const reportData = reportSnap.data();
       const { equipment } = reportData;
 
-      // Query the borrowItem collection by the name field
       const itemQuery = query(collection(db, "borrowItem"), where("name", "==", equipment));
       const itemSnapshot = await getDocs(itemQuery);
 
       if (!itemSnapshot.empty) {
-        const itemDoc = itemSnapshot.docs[0]; // Get the first matching document
+        const itemDoc = itemSnapshot.docs[0];
         const itemRef = itemDoc.ref;
         const currentQuantity = itemDoc.data().quantity || 0;
 
         if (currentQuantity > 0) {
-          // Decrease the quantity by 1
           await updateDoc(itemRef, { quantity: currentQuantity - 1 });
           console.log(`✅ Quantity of ${equipment} decreased by 1.`);
         } else {
-          console.warn(`⚠️ Quantity of ${equipment} is already 0.`);
+          alert(`The equipment "${equipment}" is not available.`);
           return;
         }
       } else {
-        console.warn(`⚠️ Equipment "${equipment}" not found in borrowItem.`);
-        alert(`The equipment "${equipment}" is not available in the inventory.`);
+        alert(`The equipment "${equipment}" was not found in inventory.`);
         return;
       }
 
-      // Add a "Return" button after approval
       const returnButton = document.createElement("button");
       returnButton.textContent = "Return";
       returnButton.classList.add("return-btn-js");
       returnButton.dataset.id = id;
 
-      console.log("Creating Return button:", returnButton);
-
-      // Replace the parent element's content with the "Return" button
       const actionContainer = button.closest('.action-buttons');
       if (actionContainer) {
-        console.log("Action container found:", actionContainer);
-        actionContainer.innerHTML = ""; // Clear the container
-        actionContainer.appendChild(returnButton); // Append the "Return" button
-        console.log("Return button added to the DOM.");
-
-        // Ensure the container is visible
+        actionContainer.innerHTML = "";
+        actionContainer.appendChild(returnButton);
         actionContainer.style.display = "block";
-      } else {
-        console.error("Action container not found.");
-      }
 
-      // Attach event listener to the "Return" button
-      returnButton.addEventListener("click", async () => {
-        await handleReturn(id, returnButton);
-      });
+        returnButton.addEventListener("click", async () => {
+          await handleReturn(id, returnButton);
+        });
+      }
     }
   } catch (err) {
     console.error(`❌ Failed to update status:`, err);
   }
 };
 
-// Function to handle the "Returns" button click
 const handleReturn = async (id, button) => {
-  try {
-    const reportRef = doc(db, "borrowList", id);
-    const reportSnap = await getDoc(reportRef);
+  const overlay = document.createElement("div");
+  overlay.classList.add("modal-overlay");
+  document.body.appendChild(overlay);
 
-    if (!reportSnap.exists()) {
-      console.warn(`⚠️ Report with ID ${id} not found.`);
-      return;
+  const modal = document.createElement("div");
+  modal.classList.add("logout-modal", "detail-modal");
+  modal.innerHTML = `
+    <p class="confirm-text">Confirm Return</p>
+    <p class="request-status-indicator">Are you sure you want to mark this item as returned?</p>
+    <div class="confirm-button-container">
+      <button class="confirm-return-btn">Yes, Return</button>
+      <button class="cancel-return-btn">Cancel</button>
+    </div>
+  `;
+  document.body.appendChild(modal);
+
+  modal.querySelector(".cancel-return-btn").addEventListener("click", () => {
+    modal.remove();
+    overlay.remove();
+  });
+
+  overlay.addEventListener("click", () => {
+    modal.remove();
+    overlay.remove();
+  });
+
+  modal.querySelector(".confirm-return-btn").addEventListener("click", async () => {
+    try {
+      button.disabled = true;
+      button.textContent = "Processing...";
+
+      const reportRef = doc(db, "borrowList", id);
+      const reportSnap = await getDoc(reportRef);
+      if (!reportSnap.exists()) throw new Error("Report not found");
+
+      const { equipment } = reportSnap.data();
+
+      const itemQuery = query(collection(db, "borrowItem"), where("name", "==", equipment));
+      const itemSnapshot = await getDocs(itemQuery);
+
+      if (!itemSnapshot.empty) {
+        const itemDoc = itemSnapshot.docs[0];
+        const itemRef = itemDoc.ref;
+        const currentQuantity = itemDoc.data().quantity || 0;
+
+        await updateDoc(itemRef, { quantity: currentQuantity + 1 });
+        console.log(`✅ Quantity of ${equipment} increased by 1.`);
+      } else {
+        alert(`The equipment "${equipment}" was not found.`);
+        return;
+      }
+
+      await updateDoc(reportRef, { statusReport: "Returned" });
+      console.log(`✅ Report ${id} marked as Returned.`);
+
+      button.parentElement.innerHTML = `<strong>Returned</strong>`;
+    } catch (err) {
+      console.error(`❌ Failed to return item:`, err);
+      alert("An error occurred while returning the item.");
+    } finally {
+      modal.remove();
+      overlay.remove();
     }
-
-    const reportData = reportSnap.data();
-    const { equipment } = reportData;
-
-    // Query the borrowItem collection by the name field
-    const itemQuery = query(collection(db, "borrowItem"), where("name", "==", equipment));
-    const itemSnapshot = await getDocs(itemQuery);
-
-    if (!itemSnapshot.empty) {
-      const itemDoc = itemSnapshot.docs[0]; // Get the first matching document
-      const itemRef = itemDoc.ref;
-      const currentQuantity = itemDoc.data().quantity || 0;
-
-      // Increase the quantity by 1
-      await updateDoc(itemRef, { quantity: currentQuantity + 1 });
-      console.log(`✅ Quantity of ${equipment} increased by 1.`);
-    } else {
-      console.warn(`⚠️ Equipment "${equipment}" not found in borrowItem.`);
-      return;
-    }
-
-    // Update the status of the report to "Returned"
-    await updateDoc(reportRef, { statusReport: "Returned" });
-    console.log(`✅ Report ${id} marked as "Returned".`);
-
-    // Update the UI
-    button.parentElement.innerHTML = `<strong>Returned</strong>`;
-  } catch (err) {
-    console.error(`❌ Failed to handle return:`, err);
-  }
+  });
 };
 
 const attachEventListeners = () => {
@@ -244,7 +262,6 @@ const attachEventListeners = () => {
   });
 };
 
-// Event Listeners on DOM Load
 document.addEventListener("DOMContentLoaded", () => {
   setupRealtimeListener();
 
@@ -257,16 +274,17 @@ document.addEventListener("DOMContentLoaded", () => {
     if (selected === "pending-sort") currentStatusFilter = "Pending";
     else if (selected === "approve-sort") currentStatusFilter = "Approved";
     else if (selected === "decline-sort") currentStatusFilter = "Declined";
+    else if (selected === "return-sort") currentStatusFilter = "Returned"; // New return-sort option
     else currentStatusFilter = "All";
 
-    renderFilteredReports(); // only re-render
+    renderFilteredReports();
   });
 
   const handleDateChange = () => {
     currentStartDate = startDateInput.value ? new Date(startDateInput.value) : null;
     currentEndDate = endDateInput.value ? new Date(endDateInput.value) : null;
     if (currentEndDate) currentEndDate.setHours(23, 59, 59, 999);
-    renderFilteredReports(); // only re-render
+    renderFilteredReports();
   };
 
   startDateInput.addEventListener("change", handleDateChange);
