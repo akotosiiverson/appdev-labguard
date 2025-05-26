@@ -203,22 +203,7 @@ p{
     padding-left: 5px;
 }
 
-/* Make table rows clickable */
-.activity__table .report-row {
-    cursor: pointer;
-    transition: all 0.2s;
-    position: relative;
-}
 
-.activity__table .report-row:hover {
-    background-color: var(--color-primary-light) !important;
-    transform: translateY(-2px);
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
-}
-
-.activity__table .report-row td {
-    position: relative;
-}
 
 /* Custom heading for the details modal */
 .detail-modal .confirm-text {

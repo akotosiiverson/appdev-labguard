@@ -6,11 +6,14 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <!-- External CSS Stylesheet -->
   <link rel="stylesheet" href="/CSS/design.css">
+  <link rel="stylesheet" href="/CSS/responsive.css">
+  <link rel='stylesheet' href='/CSS/logout.css'>
+  <link rel="stylesheet" href="/CSS/request-status.css">
   <!-- Boxicons Icon Library borrow-dashboard-admin-iverson.css -->
   <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
   <link rel="stylesheet" href="/CSS/borrow-dashboard.css">
-  <link href='/CSS/logout.css' rel='stylesheet'>
   <link href='/CSS/borrowForm.css' rel='stylesheet'>
+
   <title>Gordon College - Dashboard</title>
 </head>
 
@@ -119,18 +122,24 @@
     <!-- Recent Activity Sections -->
     <div class="activity">
       <div class="activity__header">
-        <h2 class="activity__title">Recent Activity</h2>
-       <div class="filters">
- <select id="sortingReequest">
-  <option value="all">All</option>
-  <option value="pending-sort">Pending</option>
-  <option value="approve-sort">Approved</option>
-  <option value="decline-sort">Declined</option>
-</select>
+        <h2 class="activity__title" style="  font-size: 40px;font-weight: 700; margin-top: 15px; text-align: center;">Recent Activity</h2>
+        <h1 class="Apply-Filter">Apply Filter</h1>
+        <div class="filters">
+          <p style="font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; ">STATUS</p>
+          <select id="sortingReequest">
+            <option value="all">All</option>
+            <option value="pending-sort">Pending</option>
+            <option value="approve-sort">Approved</option>
+            <option value="decline-sort">Declined</option>
+          </select>
 
-  <input type="date" id="startDate" />
-  <input type="date" id="endDate" />
-</div>
+          <div class="request-date-inputs">
+            <p>startDate</p>
+            <input type="date" class="sortingReequest" id="startDate" placeholder="Start Date" />
+            <p>endDate</p>
+            <input type="date" class="sortingReequest" id="endDate" placeholder="End Date" />
+          </div>
+        </div>
       </div>
       <div class="activity__table-container">
         <table class="activity__table">
@@ -150,6 +159,7 @@
       </div>
     </div>
   </div>
+  
 </main>
 <!-- End of MAIN CONTENT AREA backend.js -->
 

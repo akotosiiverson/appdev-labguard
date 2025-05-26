@@ -4,13 +4,17 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
   <!-- External CSS Stylesheet -->
-  <link rel="stylesheet" href="CSS/design-admin-iverson.css">
-     <link rel="stylesheet" href="/CSS/design.css">
+  <!-- <link rel="stylesheet" href="CSS/design-admin-iverson.css"> -->
+  <link rel="stylesheet" href="/CSS/design.css">
+  <link rel="stylesheet" href="/CSS/responsive.css">
+  <link rel='stylesheet' href='/CSS/logout.css' >
+
   <!-- Boxicons Icon Library -->
   <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
   <link rel="stylesheet" href="CSS/borrow-dashboard-admin-iverson.css">
-  <link href='CSS/logout-admin-iverson.css' rel='stylesheet'>
+  <!-- <link href='CSS/logout-admin-iverson.css' rel='stylesheet'> -->
   <link href='CSS/reportForm-admin-iverson.css' rel='stylesheet'>
   
   <title>Gordon College - Dashboard</title>
@@ -121,13 +125,14 @@
 <!-- End of MAIN CONTENT AREA -->
 
 <!-- JavaScript - Core Functionality -->
-<script type="module" src="backend/report-dashboard-faculty-admin-iverson.js"></script> <!-- ADDED LOGOUT-->
+<script type="module" src="backend/report-dashboard-faculty-admin-iverson.js"></script> <!-- remove LOGOUT-->
 <script type="module" src="backend/reportForm-admin-iverson.js"></script>
 <script type="module" src="backend/data/apiReportItem-admin-iverson.js"></script>
 
 
 <!-- JavaScript - Core Functionality -->
 <script src="/backend/backend.js"></script>
+<script src="/backend/logout.js"></script>
 
 <script type="module" src="backend/data/reportItem-admin-iverson.js"></script>
 <script type="module" src="backend/firebase-config-admin-iverson.js"></script>

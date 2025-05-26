@@ -72,7 +72,48 @@ body.dark {
     --shadow-md: 0 4px 8px rgba(0, 0, 0, 0.3);
     --shadow-lg: 0 8px 16px rgba(0, 0, 0, 0.3);
 }
+
+/* Dark mode request status*/
+body.dark .request-status-header {
+    background: var(--color-primary);
+    color: #FFF;
+}
+
+body.dark .request-table th {
+    background: #393939;
+    color: #FFF;
+}
+
+body.dark .request-table tr {
+    background: #2e2e2e;;
+    color: #FFF;
+}
+
+body.dark .request-table tr:hover {
+    background: #666;
+}
  
+
+/* Dark mode borrow status*/
+body.dark .dashboard {
+    background-color: #1e1e1e;
+    color: #ffffff;
+}
+
+
+
+body.dark .activity__header {
+    background-color: var(--color-primary);
+    color: #ffffff;
+}
+
+body.dark .activity__table-container {
+    background-color:var(--color-gray-light);
+    color: #ffffff;
+}
+
+
+
 
 /* =============================================
    SIDEBAR COMPONENT
@@ -332,236 +373,6 @@ body.dark {
     box-shadow: var(--shadow-md);
 }
 
-
-
-/* Dashboard Stats Section */
-.dashboard__stats {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    grid-gap: 24px;
-    margin-bottom: 24px;
-}
-
-/* =============================================
-   STAT CARD COMPONENT
-   ============================================= */
-.stat-card {
-    background: var(--color-white);
-    padding: 16px;
-    border-radius: var(--border-radius-md);
-    display: flex;
-    align-items: center;
-    box-shadow: var(--shadow-sm);
-    transition: transform var(--transition-speed) ease;
-}
-
-.stat-card:hover {
-    transform: translateY(-5px);
-    box-shadow: var(--shadow-md);
-}
-
-.stat-card__icon {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 48px;
-    height: 48px;
-    border-radius: var(--border-radius-round);
-    margin-right: 16px;
-    font-size: 24px;
-}
-
-.stat-card__icon--user {
-    background: var(--color-primary-light);
-    color: var(--color-primary);
-}
-
-.stat-card__icon--equipment {
-    background: var(--color-warning-light);
-    color: var(--color-warning);
-}
-
-.stat-card__icon--repair {
-    background: var(--color-accent-light);
-    color: var(--color-accent);
-}
-
-.stat-card__icon--pending {
-    background: rgba(219, 80, 74, 0.2);
-    color: var(--color-danger);
-}
-
-.stat-card__details {
-    flex: 1;
-}
-
-.stat-card__title {
-    font-size: 14px;
-    font-weight: 600;
-    color: var(--color-gray);
-    margin-bottom: 4px;
-}
-
-.stat-card__value {
-    font-size: 24px;
-    font-weight: 700;
-    color: var(--color-dark);
-}
-
-/* =============================================
-   ACTIVITY COMPONENT
-   ============================================= */
-.activity {
-    background: var(--color-white);
-    border-radius: var(--border-radius-md);
-    box-shadow: var(--shadow-sm);
-    overflow: hidden;
-}
-
-.activity__header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 20px;
-    padding: 16px;
-    border-bottom: 1px solid var(--color-gray-light);
-}
-
-.activity__title {
-    font-size: 20px;
-    font-weight: 600;
-    color: var(--color-dark);
-    margin: 0;
-}
-
-.activity__link {
-    font-size: 14px;
-    color: var(--color-accent); /* Orange instead of primary */
-}
-
-.activity__link:hover {
-    text-decoration: underline;
-}
-
-.activity__table-container {
-    overflow-x: auto;
-}
-
-.activity__table {
-    width: 100%;
-    border-collapse: collapse;
-}
-
-.activity__table th,
-.activity__table td {
-    padding: 12px 16px;
-    text-align: left;
-}
-.activity__table td{
-    color: var(--color-dark);
-}
-.activity__table th {
-    font-weight: 600;
-    color: var(--color-dark);
-    background: var(--color-gray-light);
-}
-
-.activity__table tr:nth-child(even) {
-    background: var(--color-gray-light);
-}
-
-.activity__table tr:hover {
-    background: var(--color-accent-light); /* Orange light instead of primary light */
-}
-
-/* Filters styles */
-.filters {
-    display: flex;
-    gap: 15px;
-    align-items: center;
-}
-
-.filters select,
-.filters input {
-    padding: 8px 12px;
-    border-radius: 6px;
-    border: 1px solid var(--color-gray-light);
-    background-color: var(--color-white);
-    color: var(--color-dark);
-    font-size: 14px;
-    font-family: 'Roboto', sans-serif;
-}
-
-.filters select {
-    min-width: 120px;
-    cursor: pointer;
-}
-
-.filters select:focus,
-.filters input:focus {
-    outline: none;
-    border-color: var(--color-accent);
-    box-shadow: 0 0 0 2px rgba(255, 106, 26, 0.2);
-}
-
-/* Dark mode styles for filters */
-body.dark .filters select,
-body.dark .filters input {
-    background-color: var(--color-dark-lighter);
-    border-color: var(--color-dark-lighter);
-    color: var(--color-white);
-}
-
-body.dark .filters select:focus,
-body.dark .filters input:focus {
-    border-color: var(--color-accent);
-}
-
-/* =============================================
-   STATUS COMPONENT
-   ============================================= */
-.status {
-    padding: 4px 8px;
-    border-radius: var(--border-radius-sm);
-    font-size: 12px;
-    font-weight: 600;
-    display: inline-block;
-}
-
-.status--approved {
-   /* background: var(--color-primary-light);
-    color: var(--color-primary);
-    */
-    background-color: rgb(68, 162, 68);
-    color:white;
-}
-
-.status--completed {
-    
-    background: var(--color-warning-light);
-    color: var(--color-warning);
-}
-
-.status--pending {
-    background: var(--color-accent-light);
-    color: var(--color-accent);
-}
-
-.status--processing {
-    /*background: rgba(219, 80, 74, 0.2);
-    color: var(--color-danger);
-    */
-    background-color: 	#FFA500;
-    color:white;
-}
-
-.status--declined {
-    /*background: rgba(219, 80, 74, 0.2);
-    color: var(--color-danger);
-    */
-    background-color: 	red;
-    color:white;
-}
 
 /* =============================================
    PROFILE SECTION & DARK MODE TOGGLE (ADMIN PROFILE)
@@ -899,3 +710,46 @@ body.dark .empty-state__hint {
     }
 }
 
+/* Status Badges */
+.status {
+    padding: 4px 8px;
+    border-radius: var(--border-radius-sm);
+    font-size: 12px;
+    font-weight: 600;
+    display: inline-block;
+}
+
+.status--approved {
+   /* background: var(--color-primary-light);
+    color: var(--color-primary);
+    */
+    background-color: rgb(68, 162, 68);
+    color:white;
+}
+
+.status--completed {
+    
+    background: var(--color-warning-light);
+    color: var(--color-warning);
+}
+
+.status--pending {
+    background: var(--color-accent-light);
+    color: var(--color-accent);
+}
+
+.status--processing {
+    /*background: rgba(219, 80, 74, 0.2);
+    color: var(--color-danger);
+    */
+    background-color: 	#FFA500;
+    color:white;
+}
+
+.status--declined {
+    /*background: rgba(219, 80, 74, 0.2);
+    color: var(--color-danger);
+    */
+    background-color: 	red;
+    color:white;
+}

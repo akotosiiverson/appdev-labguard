@@ -6,9 +6,11 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <!-- External CSS Stylesheet -->
   <link rel="stylesheet" href="/CSS/design.css">
+  <link rel="stylesheet" href="/CSS/responsive.css">
+  <link rel='stylesheet' href='/CSS/logout.css' >
   <!-- Boxicons Icon Library -->
   <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
-  <link href='/CSS/logout.css' rel='stylesheet'>
+
 
 
 
@@ -111,14 +113,27 @@
      =================================== -->
   <section class="profile-section">
     <div class="profile-header">
-      <div class="profile-avatar orange-avatar">
-        <i class='bx bxs-user-rectangle'></i>
+      <div class="profile-avatar" style="display: flex; justify-content: center; align-items: center; width: 100%; background: none; box-shadow: none;">
+      <img id="userProfilePicture" style="max-width:120px; border-radius:50%; display: block; margin: 0 auto; background: none; box-shadow: none;"><br>
       </div>
       <div class="profile-info">
-        <div class="profile-name">{JIRO DICHOS}</div>
         <div class="profile-role">ADMIN</div>
-      </div>
+        <div class="profile-name" id="userName"></div>
+        <h2 style="font-size:20px ;"id="userEmail"></h2> <!--addedd a style size-->
+      </div>    
     </div>
+
+     <!-- Mobile logout button - now functional with the same logout behavior as sidebar button -->
+  <div class="container">
+    <div class="mobile-logout logout-button" id="mobile-logout">
+      <a href="#" class="mobile-logout__link">
+        <i class='bx bxs-log-out-circle'></i>
+        <span>Logout</span>
+      </a>
+    </div>
+  </div>
+
+
     <div class="dark-mode-container">
       <span class="dark-mode-label"><i class='bx bx-moon'></i>Dark Mode</span>
       <label class="switch">
@@ -126,13 +141,18 @@
         <span class="slider round"></span>
       </label>
     </div>
+
   </section>
+
 </main>
 <!-- End of MAIN CONTENT AREA -->
 
 <!-- JavaScript - Core Functionality -->
 <script src="/backend/backend.js"></script>
 <script src="/backend/logout.js"></script>
+
+<!-- Firebase google fetching -->
+<script type="module" src="/backend/update.js"></script>
 
 
 <!-- Firebase JS -->
