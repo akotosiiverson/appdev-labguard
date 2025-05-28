@@ -67,6 +67,7 @@ function renderFilteredReports() {
 
     reportSummary += `
       <tr class="report-row"
+          data-status="${status}"
           data-id="${data.id}"
           data-date="${formattedDate}"
           data-borrow-date="${data.borrowDate}"
@@ -103,12 +104,9 @@ function attachModalAndActionListeners() {
   document.querySelectorAll('.td-name-clickable').forEach(cell => {
     cell.addEventListener('click', async () => {
       const row = cell.closest('.report-row');
-      const { fullName,date,returnDate,borrowDate, product, img, id,purpose } = row.dataset;
+      const { fullName,date,returnDate,borrowDate, product, img, purpose,status } = row.dataset;
       console.log(row.dataset.img)
 const imageSrc = img ? img : 'https://firebasestorage.googleapis.com/v0/b/labsystem-481dc.firebasestorage.app/o/icon%2FnoImage.png?alt=media&token=a6517e64-7d82-4959-b7a9-96b20651864d';
-
-      const docSnap = await getDoc(doc(db, "borrowList", id));
-      const status = docSnap.exists() ? (docSnap.data().statusReport || 'Unknown') : 'Unknown';
 
       let modal = document.querySelector('.details-modal');
 

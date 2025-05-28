@@ -60,6 +60,7 @@ function setupRealtimeListener() {
 
       reportSummary += `
         <tr class="report-row"
+            data-status="${status}"
             data-id="${docSnap.id}"
             data-full-name="${data.fullName}"
             data-date="${formattedDate}"
@@ -68,11 +69,11 @@ function setupRealtimeListener() {
             data-img="${data.imageUrl || ''}"
             data-issue="${data.issue || 'No details provided'}"
             data-position="${data.position || 'Faculty'}">
-          <td >${data.fullName}</td>
+          <td data-label="faculty name">${data.fullName}</td>
           <td>${formattedDate}</td>
           <td>${data.room} - ${data.pc}</td>
           <td>${data.equipment}</td>
-          <td><span class="status  status-span-row">${actionButtons}</span> </td>
+          <td><span class="status status-span-row">${actionButtons}</span> </td>
           <td> <span class="view-details td-name-clickable" ><i class='bx bx-info-circle'></i> View Details</span>
           </td>
         </tr>
@@ -89,11 +90,9 @@ function attachModalAndActionListeners() {
   document.querySelectorAll('.td-name-clickable').forEach(cell => {
     cell.addEventListener('click', async () => {
       const row = cell.closest('.report-row');
-      const { fullName, date, location, product, issue, position, img, id } = row.dataset;
+      const { fullName, date, location, product, issue, position, img, status } = row.dataset;
       const imageSrc = img ? img : 'https://firebasestorage.googleapis.com/v0/b/labsystem-481dc.firebasestorage.app/o/icon%2FnoImage.png?alt=media&token=a6517e64-7d82-4959-b7a9-96b20651864d';
 
-      const docSnap = await getDoc(doc(db, "reportList", id));
-      const status = docSnap.exists() ? (docSnap.data().statusReport || 'Unknown') : 'Unknown';
 
       let modal = document.querySelector('.details-modal');
 

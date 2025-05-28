@@ -77,8 +77,6 @@ function renderRequestStatus() {
           <td>${data.room} - ${data.pc}</td>
           <td>${data.equipment}</td>
           <td><span class="status status--${status.toLowerCase()}">${status}</span></td>
-          <td> <span class="view-details td-name-clickable" ><i class='bx bx-info-circle'></i> View Details</span>
-          </td>
         </tr>
       `;
     });

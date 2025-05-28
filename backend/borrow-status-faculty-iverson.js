@@ -74,14 +74,13 @@ function renderRequestStatus() {
       reportSummary += `
         <tr class="report-row"
             data-id="${doc.id}"
-               data-date="${formattedDate}"
-          data-borrow-date="${data.borrowDate}"
-          data-return-date="${data.returnDate}"
-          data-product="${data.equipment}"
-          data-img="${data.downloadURL || ''}"
-          data-status="${status || 'No details provided'}"
-          data-purpose="${data.purpose || 'No details provided'}"
-          data-full-name="${data.fullName || 'Unknown'}">
+            data-date="${formattedDate}"
+            data-product="${data.equipment}"
+            data-img="${data.downloadURL || ''}"
+            data-issue="${data.purpose || 'No details provided'}"
+            data-faculty="${data.fullName || 'Unknown'}"
+            data-position="${data.Position || 'Unknown'}"
+            data-location="${data.roomAndPc || 'Unknown'}">
           <td>${data.fullName || 'Unknown'}</td>
           <td>${formattedDate}</td>
          <td>${new Date(data.borrowDate).toLocaleDateString("en-US", {
@@ -96,7 +95,6 @@ function renderRequestStatus() {
         })}</td>
           <td>${data.equipment}</td>
           <td><span class="status status--${status}">${status}</span></td>
-          <td><span class="view-details td-name-clickable" ><i class='bx bx-info-circle'></i> View Details</span></td>
         </tr>
       `;
     });
@@ -174,6 +172,7 @@ const imageSrc = img ? img : 'https://firebasestorage.googleapis.com/v0/b/labsys
       </div>
       <div class="details-right">
         <img src="${imageSrc}" alt="Report Image" class="report-image" />
+        
       </div>
     </div>
   </div>

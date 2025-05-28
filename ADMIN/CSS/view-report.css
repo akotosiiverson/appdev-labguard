@@ -3,13 +3,56 @@
  * This CSS provides styling for the "View Details" links in repair history items
  */
 
+
+
+
+/* =============================================
+   dark mode styles
+   ============================================= */
+  
+
+body.dark .details-modal-content {
+    background-color: #1E1E1E;
+    color: #f0f0f0;
+}
+
+body.dark .detail-label,
+body.dark .detail-value {
+    color: #f0f0f0;
+    
+}
+body.dark .report-image{
+    border: 2px solid #AAAAAA;
+}
+
+/*added new(jiro)*/
+.report-image {
+  max-width: 100%;
+  width: 150px;
+  box-shadow: 0 0 3px rgba(0, 0, 0, 0.1);
+  border: 2px solid black;
+  padding: 5px;
+  border-radius: 20px;
+  display: block;
+  transition: all 0.3s ease;
+}
+
+/* Adjust image size on smaller screens */
+@media (max-width: 480px) {
+  .report-image {
+    width: 180px;
+  }
+}
+
+
+
 /* =============================================
    VIEW DETAILS LINK STYLES
    ============================================= */
 .view-details {
     display: inline-block;
     cursor: pointer;
-    color: #ff8000;
+    color: #FF6A1A;
     font-size: 12px;
     margin-left: 10px;
     transition: color 0.2s ease;
@@ -23,7 +66,7 @@
 }
 
 .view-details:hover {
-    color: #e67300;
+    color: #FF6A1A;
     text-decoration: underline;
 }
 
@@ -80,7 +123,7 @@
 .details-modal-title {
     font-size: 18px;
     font-weight: bold;
-    color: #ff8000;
+    color: #FF6A1A;
     margin: 0;
 }
 
@@ -94,7 +137,7 @@
 }
 
 .details-modal-close:hover {
-    color: #ff8000;
+    color: #FF6A1A;
 }
 
 /* =============================================
@@ -149,15 +192,10 @@
   flex: 1;
   display: flex;
   justify-content: center;
-  align-items: flex-start;
+  align-items: center;
 }
 
-.report-image {
-  max-width: 100%;
-  width: 200px;
-  border-radius: 8px;
-  box-shadow: 0 0 8px rgba(0, 0, 0, 0.1);
-}
+
 
 /* Detail text styling */
 .detail-row {
@@ -189,5 +227,21 @@
   .detail-label {
     min-width: 150px;
     margin-bottom: 0;
+  }
+}
+
+/* Mobile: image at top, centered */
+@media (max-width: 767px) {
+  .details-wrapper {
+    flex-direction: column-reverse;
+  }
+  
+  .details-right {
+    margin-bottom: 20px;
+    justify-content: center;
+  }
+  
+  .report-image {
+    margin: 0 auto;
   }
 }
