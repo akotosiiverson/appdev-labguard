@@ -17,12 +17,11 @@ const firebaseConfig = {
   apiKey: "AIzaSyAPX65s6zZQV0P7bysB3taqPCt7IZJcJAg",
   authDomain: "labsystem-481dc.firebaseapp.com",
   projectId: "labsystem-481dc",
-  storageBucket: "labsystem-481dc.firebasestorage.app", // ✅ Corrected
+  storageBucket: "labsystem-481dc.firebasestorage.app",
   messagingSenderId: "455369088827",
   appId: "1:455369088827:web:fe50a6219919601b82611e",
   measurementId: "G-06ZR4P16MC"
 };
-
 // ✅ Prevent duplicate initialization
 const app = getApps().length ? getApps()[0] : initializeApp(firebaseConfig);
 const db = getFirestore(app);

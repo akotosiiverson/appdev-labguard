@@ -4,15 +4,19 @@ import {
   doc,
   getDoc,
   updateDoc,
+  deleteDoc,
   query,
-  where
+  where,
+  setDoc
 } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+import { getStorage, ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-storage.js";
 
 import { db } from "./firebase-config-admin-iverson.js";
 import { items as staticItems } from '../backend/data/borrowItem-admin-iverson.js';
 import { printYourrequestInfo } from '../backend/borrowForm-admin-iverson.js';
 
 export const mainDashboard = document.querySelector('.dashboard');
+const storage = getStorage(); // Initialize Firebase Storage
 
 function getProduct(itemId) {
   return staticItems.find((item) => item.id === itemId);
@@ -37,28 +41,26 @@ async function displayItems() {
           <img src="${item.image}" alt="${item.name}">
         </div>
         <p class="item-name">${item.name}</p>
-        <button class="rqst-btn" data-name="${item.name}" data-quantity="${item.quantity}" data-img="${item.image}" data-item-id="${item.id}">EDIT</button>
+        <button class="rqst-btn" 
+                data-item-id="${item.id}" 
+                data-name="${item.name}" 
+                data-quantity="${item.quantity}" 
+                data-img="${item.image}">
+          EDIT
+        </button>
       </div>
     `;
   });
 
-  const addItemHTML = `
-    <div class="item-container">
-      <div class="img-container">
-        <img src="/asset/icons/add-icon.png" alt="Add Icon">
-      </div>
-      <p class="item-name"></p>
-      <button class="add-btn">ADD ITEM</button>
-    </div>
-  `;
-
-  itemHTML += addItemHTML;
   document.querySelector('.available-item').innerHTML = itemHTML;
 
+  // Edit Button Handler
   document.querySelectorAll('.rqst-btn').forEach((button) => {
     button.addEventListener('click', () => {
-      const {itemId,name,quantity,img}= button.dataset;
-      
+      const itemId = button.getAttribute('data-item-id');
+      const name = button.getAttribute('data-name');
+      const quantity = button.getAttribute('data-quantity');
+      const img = button.getAttribute('data-img');
 
       document.querySelector('.available-item').classList.add('no-scroll');
 
@@ -84,6 +86,7 @@ async function displayItems() {
                   </span>
                 </div>
                 <div class="detail-row">
+                  <button class="delete-button">Delete</button>
                   <button class="edit-button">Save</button>
                 </div>
               </div>
@@ -100,21 +103,17 @@ async function displayItems() {
       container.innerHTML = formHTML;
       mainDashboard.appendChild(container);
 
-      const closeButton = container.querySelector('.details-modal-close');
-      closeButton.addEventListener('click', () => {
+      const closeModal = () => {
         container.remove();
         document.querySelector('.available-item').classList.remove('no-scroll');
-      });
+      };
 
-      container.addEventListener('click', (e) => {
-        if (e.target === container) {
-          container.remove();
-          document.querySelector('.available-item').classList.remove('no-scroll');
-        }
-      });
+      container.querySelector('.details-modal-close').addEventListener('click', closeModal);
+      container.addEventListener('click', (e) => { if (e.target === container) closeModal(); });
 
-      const saveButton = container.querySelector('.edit-button');
-      saveButton.addEventListener("click", async () => {
+      // Save Edit
+      container.querySelector('.edit-button').addEventListener("click", async () => {
+        const saveButton = container.querySelector('.edit-button');
         try {
           saveButton.disabled = true;
           saveButton.textContent = "Saving...";
@@ -129,7 +128,6 @@ async function displayItems() {
             return;
           }
 
-          // Update borrowItem
           const itemRef = doc(db, "borrowItem", itemId);
           const itemSnap = await getDoc(itemRef);
           if (!itemSnap.exists()) throw new Error("Item not found.");
@@ -138,16 +136,14 @@ async function displayItems() {
             quantity: editedQuantity
           });
 
-          // Update statusReport in borrowList
           const reportRef = doc(db, "borrowList", itemId);
           const reportSnap = await getDoc(reportRef);
           if (reportSnap.exists()) {
             await updateDoc(reportRef, { statusReport: "Returned" });
-            console.log(`✅ Report ${itemId} marked as Returned.`);
           }
-          container.remove();
-          document.querySelector('.available-item').classList.remove('no-scroll');
-          displayItems(); // Re-render list
+
+          closeModal();
+          displayItems();
 
         } catch (err) {
           console.error("❌ Failed to save item:", err);
@@ -157,7 +153,36 @@ async function displayItems() {
         }
       });
 
-      printYourrequestInfo(); // Optional depending on your form
+      // Delete Item
+      container.querySelector('.delete-button').addEventListener('click', async () => {
+        const deleteButton = container.querySelector('.delete-button');
+        try {
+          deleteButton.disabled = true;
+          deleteButton.textContent = "Deleting...";
+
+          const itemRef = doc(db, "borrowItem", itemId);
+          const itemSnap = await getDoc(itemRef);
+          if (!itemSnap.exists()) throw new Error("Item not found.");
+          await deleteDoc(itemRef);
+
+          const reportRef = doc(db, "borrowList", itemId);
+          const reportSnap = await getDoc(reportRef);
+          if (reportSnap.exists()) {
+            await deleteDoc(reportRef);
+          }
+
+          closeModal();
+          displayItems();
+
+        } catch (err) {
+          console.error("❌ Failed to delete item:", err);
+          alert("An error occurred while deleting the item.");
+          deleteButton.disabled = false;
+          deleteButton.textContent = "Delete";
+        }
+      });
+
+      printYourrequestInfo(); // Optional
     });
   });
 

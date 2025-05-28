@@ -718,6 +718,7 @@ body.dark .empty-state__hint {
     font-size: 12px;
     font-weight: 600;
     display: inline-block;
+    border:none;
 }
 
 .status--approved {
@@ -753,4 +754,56 @@ body.dark .empty-state__hint {
     */
     background-color: 	red;
     color:white;
+}
+
+
+
+.approve-btn-js {
+   /* background: var(--color-primary-light);
+    color: var(--color-primary);
+    */
+    background-color: rgb(68, 162, 68);
+    color:white;
+}
+
+.status--completed {
+    
+    background: var(--color-warning-light);
+    color: var(--color-warning);
+}
+
+.status--pending {
+    background: var(--color-accent-light);
+    color: var(--color-accent);
+}
+
+.processing-btn-js {
+    /*background: rgba(219, 80, 74, 0.2);
+    color: var(--color-danger);
+    */
+    background-color: 	#FFA500;
+    color:white;
+}
+
+.decline-btn-js {
+    /*background: rgba(219, 80, 74, 0.2);
+    color: var(--color-danger);
+    */
+    background-color: 	red;
+    color:white;
+}
+
+.return-btn-js {
+    background-color: #007bff; color: white;
+}
+
+/* status text color */
+.Approved{
+  color:rgb(41, 168, 41)
+}
+.Declined{
+  color:rgb(221, 24, 24)
+}
+.Returned{
+  color:#007bff
 }

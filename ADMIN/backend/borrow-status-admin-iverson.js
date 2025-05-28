@@ -51,18 +51,18 @@ function renderFilteredReports() {
     if (status === "Pending") {
       actionButtons = `
         <div class="action-buttons">
-          <button class="approve-btn-js" data-id="${data.id}">Approve</button>
-          <button class="decline-btn-js" data-id="${data.id}">Decline</button>
+          <button class="approve-btn-js status" data-id="${data.id}">Approve</button>
+          <button class="decline-btn-js status" data-id="${data.id}">Decline</button>
         </div>
       `;
     } else if (status === "Approved") {
       actionButtons = `
         <div class="action-buttons">
-          <button class="return-btn-js" data-id="${data.id}">Return</button>
+          <button class="return-btn-js status" data-id="${data.id}">Return</button>
         </div>
       `;
     } else {
-      actionButtons = `<strong>${status}</strong>`;
+      actionButtons = `<strong class="${status}">${status}</strong>`;
     }
 
     reportSummary += `
@@ -88,7 +88,7 @@ function renderFilteredReports() {
           day: "numeric"
         })}</td>
           <td>${data.equipment}</td>
-          <td><span class="status status--${status}">${status}</span></td>
+          <td><span class="status status--${status}">${actionButtons}</span></td>
           <td><span class="view-details td-name-clickable" ><i class='bx bx-info-circle'></i> View Details</span></td>
       </tr>
     `;
@@ -245,70 +245,39 @@ const updateStatus = async (id, status, button) => {
 };
 
 const handleReturn = async (id, button) => {
-  const overlay = document.createElement("div");
-  overlay.classList.add("modal-overlay");
-  document.body.appendChild(overlay);
+  try {
+    button.disabled = true;
+    button.textContent = "Processing...";
 
-  const modal = document.createElement("div");
-  modal.classList.add("logout-modal", "detail-modal");
-  modal.innerHTML = `
-    <p class="confirm-text">Confirm Return</p>
-    <p class="request-status-indicator">Are you sure you want to mark this item as returned?</p>
-    <div class="confirm-button-container">
-      <button class="confirm-return-btn">Yes, Return</button>
-      <button class="cancel-return-btn">Cancel</button>
-    </div>
-  `;
-  document.body.appendChild(modal);
+    const reportRef = doc(db, "borrowList", id);
+    const reportSnap = await getDoc(reportRef);
+    if (!reportSnap.exists()) throw new Error("Report not found");
 
-  modal.querySelector(".cancel-return-btn").addEventListener("click", () => {
-    modal.remove();
-    overlay.remove();
-  });
+    const { equipment } = reportSnap.data();
 
-  overlay.addEventListener("click", () => {
-    modal.remove();
-    overlay.remove();
-  });
+    const itemQuery = query(collection(db, "borrowItem"), where("name", "==", equipment));
+    const itemSnapshot = await getDocs(itemQuery);
 
-  modal.querySelector(".confirm-return-btn").addEventListener("click", async () => {
-    try {
-      button.disabled = true;
-      button.textContent = "Processing...";
+    if (!itemSnapshot.empty) {
+      const itemDoc = itemSnapshot.docs[0];
+      const itemRef = itemDoc.ref;
+      const currentQuantity = itemDoc.data().quantity || 0;
 
-      const reportRef = doc(db, "borrowList", id);
-      const reportSnap = await getDoc(reportRef);
-      if (!reportSnap.exists()) throw new Error("Report not found");
-
-      const { equipment } = reportSnap.data();
-
-      const itemQuery = query(collection(db, "borrowItem"), where("name", "==", equipment));
-      const itemSnapshot = await getDocs(itemQuery);
-
-      if (!itemSnapshot.empty) {
-        const itemDoc = itemSnapshot.docs[0];
-        const itemRef = itemDoc.ref;
-        const currentQuantity = itemDoc.data().quantity || 0;
-
-        await updateDoc(itemRef, { quantity: currentQuantity + 1 });
-        console.log(`✅ Quantity of ${equipment} increased by 1.`);
-      } else {
-        alert(`The equipment "${equipment}" was not found.`);
-        return;
-      }
-
-      await updateDoc(reportRef, { statusReport: "Returned" });
-      console.log(`✅ Report ${id} marked as Returned.`);
-
-      button.parentElement.innerHTML = `<strong>Returned</strong>`;
-    } catch (err) {
-      console.error(`❌ Failed to return item:`, err);
-      alert("An error occurred while returning the item.");
-    } finally {
-      modal.remove();
-      overlay.remove();
+      await updateDoc(itemRef, { quantity: currentQuantity + 1 });
+      console.log(`✅ Quantity of ${equipment} increased by 1.`);
+    } else {
+      alert(`The equipment "${equipment}" was not found.`);
+      return;
     }
-  });
+
+    await updateDoc(reportRef, { statusReport: "Returned" });
+    console.log(`✅ Report ${id} marked as Returned.`);
+
+    button.parentElement.innerHTML = `<strong>Returned</strong>`;
+  } catch (err) {
+    console.error(`❌ Failed to return item:`, err);
+    alert("An error occurred while returning the item.");
+  }
 };
 
 const attachEventListeners = () => {

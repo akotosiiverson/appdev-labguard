@@ -45,17 +45,17 @@ function setupRealtimeListener() {
       let actionButtons = '';
       if (status === "Pending") {
         actionButtons = `
-          <button class="approve-btn-js" data-id="${docSnap.id}">Approve</button>
-          <button class="processing-btn-js" data-id="${docSnap.id}">Processing</button>
-          <button class="decline-btn-js" data-id="${docSnap.id}">Decline</button>
+          <button class="approve-btn-js status" data-id="${docSnap.id}">Approve</button>
+          <button class="processing-btn-js status" data-id="${docSnap.id}">Processing</button>
+          <button class="decline-btn-js status" data-id="${docSnap.id}">Decline</button>
         `;
       } else if (status === "Processing") {
         actionButtons = `
-          <button class="approve-btn-js" data-id="${docSnap.id}">Approve</button>
-          <button class="decline-btn-js" data-id="${docSnap.id}">Decline</button>
+          <button class="approve-btn-js status" data-id="${docSnap.id}">Approve</button>
+          <button class="decline-btn-js status" data-id="${docSnap.id}">Decline</button>
         `;
       } else {
-        actionButtons = `<strong>${status}</strong>`;
+        actionButtons = `<strong class="${status}">${status}</strong>`;
       }
 
       reportSummary += `
@@ -72,7 +72,7 @@ function setupRealtimeListener() {
           <td>${formattedDate}</td>
           <td>${data.room} - ${data.pc}</td>
           <td>${data.equipment}</td>
-          <td><span class="status status-span-row">${actionButtons}</span> </td>
+          <td><span class="status  status-span-row">${actionButtons}</span> </td>
           <td> <span class="view-details td-name-clickable" ><i class='bx bx-info-circle'></i> View Details</span>
           </td>
         </tr>

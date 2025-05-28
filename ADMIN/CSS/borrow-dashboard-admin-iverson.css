@@ -152,6 +152,17 @@ body{
     cursor: pointer;
     padding: 10px 0;
 }
+.delete-button {
+    width: 100%;
+    background-color:  rgb(218, 11, 11);
+    font-family: 'Roboto', sans-serif;
+    color:var(--color-white);
+    font-weight: bold;
+    border: none;
+    border-radius: 15px;
+    cursor: pointer;
+    padding: 10px 0;
+}
 
 /* 🔁 Responsive Adjustments */
 @media (max-width: 768px) {
@@ -184,7 +195,7 @@ body{
         font-size: 16px;
     }
 
-    .rqst-btn, .add-btn, .edit-button {
+    .rqst-btn, .add-btn, .edit-button, .delete-button {
         font-size: 14px;
         padding: 8px 0;
     }
@@ -213,7 +224,7 @@ body{
         font-size: 14px;
     }
 
-    .rqst-btn   , .add-btn, .edit-button {
+    .rqst-btn   , .add-btn, .edit-button, .delete-button {
         font-size: 13px;
         padding: 7px 0;
     }

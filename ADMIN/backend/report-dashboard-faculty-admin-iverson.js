@@ -28,7 +28,7 @@ items.forEach((item) => {
         <img src="${item.image}" alt="Computer Icon">
       </div>
       <p class="item-name">${item.name}</p>
-      <button class="rqst-btn" data-item-id="${item.id}">EDIT</button>
+      <button class="rqst-btn" data-item-id="${item.id}">REPORT</button>
     </div>
   `;
 });
@@ -40,93 +40,9 @@ const addItemHTML = `<div class="item-container">
       <button class="rqst-btn" ">ADD ITEM</button>
     </div>
   `;
-  itemHTML +=addItemHTML;
 document.querySelector('.available-item').innerHTML = itemHTML;
 
-document.querySelectorAll('.rqst-btn').forEach((button) => {
-  button.addEventListener('click', (event) => {
-    const product = getProduct(+button.dataset.itemId);
 
-    document.querySelectorAll('.rqst-btn').forEach((btn) => {
-      btn.disabled = true;
-    });
-    document.querySelector('.available-item').classList.add('no-scroll');
-
-    let formHTML = `
-      <button class="close-button js-close-button">
-        <img src="/asset/icons/close-icon.png" alt="Close" />
-      </button>
-      <div class="form-left">
-        <div class="gc-logo">
-          <img src="/asset/image/CCS-GCLOGO.png" alt="Gordon College Logo" class="logo" />
-          <div>
-            <h1>GORDON COLLEGE</h1>
-            <p class="unit">Management Information Unit - MIS Unit</p>
-          </div>
-        </div>
-
-        <form>
-          
-          <select class="room-number" required>
-            <option value="" disabled selected>Select Room</option>
-            <option value="517">517</option>
-            <option value="518">518</option>
-            <option value="519">519</option>
-            <option value="520">520</option>
-            <option value="521">521</option>
-            <option value="522">522</option>
-            <option value="523">523</option>
-            <option value="524">524</option>
-            <option value="525">525</option>
-            <option value="526">526</option>
-            <option value="527">527</option>
-          </select>
-          <select id="pc-number" class="pc-number" required>
-            <option value="" disabled selected>Select Pc</option>
-          </select>
-          <input type="file" id="upload-report-image" class="uplload-report-image" accept="image/*" required />
-
-          <textarea class="issue" placeholder="Problem/issue:" required></textarea>
-          <button class="submit-button-request js-submit-button-report" type="submit" data-product-name="${product.name}">SUBMIT</button>
-        </form>
-      </div>
-
-      <div class="form-right">
-        <h2><u>REPORT FORM</u></h2>
-        <img src="${product.image}" data-report-image="${product.image}" alt="${product.name}" class="tv-icon report-image" />
-        <p class="tv-label">${product.name}</p>
-        <div class="notice">
-          <strong>Important Information:</strong>
-          <p>This report form is intended for reporting any issues with laboratory equipment at Gordon College. If you encounter a problem, please complete the form with accurate details to ensure timely inspection and resolution by the Management Information Unit (MIS).</p>
-        </div>
-      </div>
-    `;
-
-    let container = document.createElement('div');
-    container.classList.add('container');
-    container.innerHTML = formHTML;
-    mainDashboard.appendChild(container);
-
-    const selectPc = container.querySelector('#pc-number');
-    for (let i = 1; i <= 30; i++) {
-      const option = document.createElement('option');
-      option.value = `${i}`;
-      option.textContent = `PC ${i}`;
-      selectPc.appendChild(option);
-    }
-
-    printYourrequestInfo();
-
-    container.querySelector('.js-close-button').addEventListener('click', function () {
-      container.remove();
-      document.querySelector('.available-item').classList.remove('no-scroll');
-      document.querySelectorAll('.rqst-btn').forEach((btn) => {
-        btn.disabled = false;
-        updateRequestButtonStates();
-      });
-    });
-  });
-});
 
 document.addEventListener('DOMContentLoaded', () => {
   const logoutBtn = document.querySelector('.logout-button');
@@ -169,7 +85,7 @@ function updateRequestButtonStates() {
     const item = getProduct(itemId);
     if (item) {
       
-      btn.textContent = 'EDIR';
+      btn.textContent = 'EDIT';
     }
   });
 }
