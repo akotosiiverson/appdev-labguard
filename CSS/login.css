@@ -671,6 +671,11 @@ input:checked + .slider:before {
     .logo-container {
         margin-bottom: 5px;
         margin-right: 10px;
+    }    
+    img {
+        margin-bottom: 5px;
+        margin-left: 45px;
+        
     }
     
     .logo {
@@ -737,7 +742,7 @@ input:checked + .slider:before {
 }
 
 /* Very Small Phones (below 360px) */
-@media screen and (max-width: 360px) {
+@media screen and (max-width: 320px) {
     body {
         padding: 8px;
         padding-top: 10px;

@@ -11,11 +11,25 @@ export function printYourrequestInfo() {
   const pcNumber = document.querySelector('.pc-number');
   const issue = document.querySelector('.issue');
   const imageInput = document.querySelector('#upload-report-image');
+  const errorMessage = document.querySelector('#error-message');
   const statusReport = 'Pending';
 
   if (requestButton) {
     requestButton.addEventListener('click', async (e) => {
       e.preventDefault();
+
+      // Validate form fields
+      if (!roomNumber.value || !pcNumber.value || !issue.value) {
+        // Show error message
+        errorMessage.classList.add('show');
+        errorMessage.querySelector('span').textContent = 'Please complete all required fields.';
+        
+        // Hide error message after 3 seconds
+        setTimeout(() => {
+          errorMessage.classList.remove('show');
+        }, 3000);
+        return;
+      }
 
       if (roomNumber.value && pcNumber.value && issue.value) {
         const productName = requestButton.dataset.productName;

@@ -7,11 +7,11 @@ import {
   addDoc,
   serverTimestamp
 } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
-import { 
-  getStorage, 
-  ref, 
-  uploadBytes, 
-  getDownloadURL 
+import {
+  getStorage,
+  ref,
+  uploadBytes,
+  getDownloadURL
 } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-storage.js";
 
 export const mainDashboard = document.querySelector('.dashboard');
@@ -60,18 +60,14 @@ document.querySelectorAll('.rqst-btn').forEach((button) => {
     let formHTML = `
       <button class="close-button js-close-button">
         <img src="/asset/icons/close-icon.png" alt="Close" />
-      </button>
-      <div class="form-left">
+      </button>      <div class="form-left">
         <div class="gc-logo">
           <img src="/asset/image/CCS-GCLOGO.png" alt="Gordon College Logo" class="logo" />
-          <div>
-            <h1>GORDON COLLEGE</h1>
-            <p class="unit">Management Information Unit - MIS Unit</p>
-          </div>
+          <h1 class="college-title">GORDON COLLEGE</h1>
         </div>
+        <p class="unit">Management Information Unit - MIS Unit</p>
 
         <form>
-          
           <select class="room-number" required>
             <option value="" disabled selected>Select Room</option>
             <option value="517">517</option>
@@ -83,16 +79,27 @@ document.querySelectorAll('.rqst-btn').forEach((button) => {
             <option value="523">523</option>
             <option value="524">524</option>
             <option value="525">525</option>
-          </select>
-          <select id="pc-number" class="pc-number" required>
+          </select>          <select id="pc-number" class="pc-number" required>
             <option value="" disabled selected>Select Pc</option>
-          </select>
-          <input type="file" id="upload-report-image" class="uplload-report-image" accept="image/*" required />
+          </select>          <div class="file-input-container">
+            <label for="upload-report-image" class="file-input-label">
+              <i class='bx bx-upload'></i>
+              <span>Upload Image (Optional)</span>
+            </label>
+            <input type="file" id="upload-report-image" class="upload-report-image" accept="image/*" />
+          </div>
+
+          <!-- Error Message Container (hidden by default) -->
+          <div id="error-message" class="error-message">
+            <i class='bx bx-error-circle'></i>
+            <span>Please complete all required fields.</span>
+          </div>
 
           <textarea class="issue" placeholder="Problem/issue:" required></textarea>
           <button class="submit-button-request js-submit-button-report" type="submit" data-product-name="${product.name}">SUBMIT</button>
         </form>
       </div>
+
 
       <div class="form-right">
         <h2><u>REPORT FORM</u></h2>
@@ -129,22 +136,24 @@ document.querySelectorAll('.rqst-btn').forEach((button) => {
       });
     });
 
-    // Add image preview functionality
-    const imageUpload = container.querySelector('#upload-report-image');
+    // Add image preview functionality    const imageUpload = container.querySelector('#upload-report-image');
+    const fileInputLabel = container.querySelector('.file-input-label span');
 
-    // Create or select the preview image element (place it after the upload input)
+    // Create or select the preview image element (place it after the file input container)
     let previewImg = container.querySelector('#report-image-preview');
     if (!previewImg) {
       previewImg = document.createElement('img');
       previewImg.id = 'report-image-preview';
       previewImg.classList.add('report-image-preview'); // Add the CSS class
-      // Insert after the file input
-      imageUpload.parentNode.insertBefore(previewImg, imageUpload.nextSibling);
-    }
-
-    imageUpload.addEventListener('change', function (e) {
+      // Insert after the file input container
+      const fileInputContainer = imageUpload.closest('.file-input-container');
+      fileInputContainer.parentNode.insertBefore(previewImg, fileInputContainer.nextSibling);
+    } imageUpload.addEventListener('change', function (e) {
       const file = e.target.files[0];
       if (file) {
+        // Update the file input label with the file name
+        fileInputLabel.textContent = file.name;
+
         const reader = new FileReader();
         reader.onload = function (e) {
           previewImg.src = e.target.result;
@@ -153,8 +162,19 @@ document.querySelectorAll('.rqst-btn').forEach((button) => {
         reader.readAsDataURL(file);
       } else {
         previewImg.style.display = 'none'; // Hide the image if no file is selected
+        fileInputLabel.textContent = 'Upload Image (Optional)';
       }
     });
+
+    // Reset function for form clearing
+    const resetFormElements = () => {
+      if (previewImg) {
+        previewImg.style.display = 'none';
+      }
+      if (fileInputLabel) {
+        fileInputLabel.textContent = 'Upload Image (Optional)';
+      }
+    };
   });
 });
 
@@ -170,25 +190,25 @@ function updateRequestButtonStates() {
 }
 
 // Modified addReport function to handle image upload
-export async function addReport(statusReport,equipment, issue, pc, room, date, imageFile) {
+export async function addReport(statusReport, equipment, issue, pc, room, date, imageFile) {
   try {
     let imageUrl = null;
-    
+
     // If an image file is provided, upload it to Firebase Storage
     if (imageFile) {
       // Create a reference to the storage location
       const storageRef = ref(storage, `report-images/${Date.now()}_${imageFile.name}`);
-      
+
       // Upload the file
       const snapshot = await uploadBytes(storageRef, imageFile);
-      
+
       // Get the download URL
       imageUrl = await getDownloadURL(snapshot.ref);
     }
 
     // Add the report to Firestore with the image URL
     const docRef = await addDoc(collection(db, "reportList"), {
-      
+
       equipment,
       issue,
       pc,

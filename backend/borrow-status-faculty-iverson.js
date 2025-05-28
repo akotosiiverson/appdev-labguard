@@ -81,20 +81,20 @@ function renderRequestStatus() {
             data-faculty="${data.fullName || 'Unknown'}"
             data-position="${data.Position || 'Unknown'}"
             data-location="${data.roomAndPc || 'Unknown'}">
-          <td>${data.fullName || 'Unknown'}</td>
-          <td>${formattedDate}</td>
-         <td>${new Date(data.borrowDate).toLocaleDateString("en-US", {
+          <td data-label="Faculty Name">${data.fullName || 'Unknown'}</td>
+          <td data-label="Request Date">${formattedDate}</td>
+         <td data-label="Borrow Date">${new Date(data.borrowDate).toLocaleDateString("en-US", {
           year: "numeric",
           month: "long",
           day: "numeric"
         })}</td>
-        <td>${new Date(data.returnDate).toLocaleDateString("en-US", {
+        <td data-label="Return Date">${new Date(data.returnDate).toLocaleDateString("en-US", {
           year: "numeric",
           month: "long",
           day: "numeric"
         })}</td>
-          <td>${data.equipment}</td>
-          <td><span class="status status--${status}">${status}</span></td>
+          <td data-label="Unit">${data.equipment}</td>
+          <td data-label="Action"><span class="status status--${status}">${status}</span></td>
         </tr>
       `;
     });

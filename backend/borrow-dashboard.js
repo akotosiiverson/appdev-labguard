@@ -76,15 +76,13 @@ async function displayItems() {
       let formHTML = `
         <button class="close-button js-close-button">
           <img src="/asset/icons/close-icon.png" alt="Close" />
-        </button>
+        </button>        
         <div class="form-left">
-          <div class="gc-logo">
-            <img src="/asset/image/CCS-GCLOGO.png" alt="Gordon College Logo" class="logo" />
-            <div>
-              <h1>GORDON COLLEGE</h1>
-              <p class="unit">Management Information Unit - MIS Unit</p>
-            </div>
-          </div>
+        <div class="gc-logo">
+          <img src="/asset/image/CCS-GCLOGO.png" alt="Gordon College Logo" class="logo" />
+          <h1 class="college-title">GORDON COLLEGE</h1>
+        </div>
+        <p class="unit">Management Information Unit - MIS Unit</p>
 
           <form>
             <label for="borrowed-date">Borrowed Date</label>
