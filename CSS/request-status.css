@@ -374,23 +374,25 @@ body {
     font-size: 10px;
     width: 100%;
   }
-
   .request-date-inputs {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
     width: 100%;
+    flex-wrap: nowrap; /* Prevent wrapping to next line */
   }
 
   .request-date-inputs p {
     font-size: 10px;
     margin: 0;
+    white-space: nowrap; /* Prevent text wrapping */
   }
 
   .request-date-inputs input {
     font-size: 10px;
     flex: 1;
     margin-left: 5px;
+    box-sizing: border-box; /* Ensure padding is included in width */
   }
 }
 
@@ -403,6 +405,26 @@ body {
 @media (min-width: 577px) {
   .request-date-inputs p {
     display: block;
+  }
+}
+
+/* Fix for very small screens (375px and below) */
+@media (max-width: 375px) {
+  .request-date-inputs {
+    gap: 8px;
+  }
+  
+  .request-date-inputs input {
+    padding: 8px;
+    font-size: 10px;
+    min-width: 0; /* Allow inputs to shrink below their default size */
+    width: calc(50% - 4px); /* Each takes roughly half minus gap */
+    margin-left: 0; /* Remove left margin to prevent overflow */
+  }
+  
+  /* Add smaller calendar icon for date inputs */
+  .request-date-inputs input[type="date"] {
+    padding-right: 6px; /* Make space for the calendar icon */
   }
 }
 

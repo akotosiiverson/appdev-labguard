@@ -556,6 +556,7 @@ body.dark input:checked + .slider {
     margin-bottom: 18px;
   }
   .profile-section .profile-avatar {
+    margin-top: 10px;
     width: 56px;
     height: 56px;
   }
