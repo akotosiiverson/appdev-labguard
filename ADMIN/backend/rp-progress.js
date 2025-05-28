@@ -8,6 +8,7 @@ import {
   getDocs
 } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 import { db } from "../../backend/firebase-config.js";
+//import { initializeViewDetailsFeature } from "./view-details.js";
 
 const pcGrid = document.querySelector('.pc-grid');
 const roomgrid = document.querySelector('.room-grid');
@@ -160,8 +161,12 @@ const renderPCs = async (roomId) => {
 
     let reportsHTML = "";
     let mainStatus = "N/A";
+    let approvedDate = "N/A";
+    let issue = "N/A";
+    let equipment = "N/A";
+    
 
-    // Step 1: Get status from document1 first
+    // Step 1: Get status from document1 firs
     pcReportsSnapshot.forEach(doc => {
       if (doc.id === "document1") {
         const docData = doc.data();
@@ -176,26 +181,27 @@ const renderPCs = async (roomId) => {
       if (doc.id === "document1") return;
 
       const report = doc.data();
-      const issue = report.issue || "N/A";
-      const reportedBy = report.reportedBy || "N/A";
-      const statusReport = report.statusReport;
-      const approvedDate = report.approvedDate?.toDate
+       issue = report.issue || "N/A";
+       equipment = report.equipment;
+      
+       approvedDate = report.approvedDate?.toDate
         ? report.approvedDate.toDate().toLocaleDateString('en-US', {
             year: 'numeric',
             month: 'long',
             day: 'numeric'
           })
         : "N/A";
+    
 
       reportsHTML += `
         <div class="history-item">
           <span class="status-tag status-Repaired">Repaired</span>
           <span class="date">${approvedDate}</span>
-          <span class="view-details"><i class='bx bx-info-circle'></i> View Details</span>
+          <span class="view-details" data-approved-date="${approvedDate}" data-issue="${issue}" data-equipment="${equipment}"><i class='bx bx-info-circle'></i> View Details</span>
         </div>
       `;
     });
-
+    
     // Step 3: If no reports are found, display "No repair history"
     if (!reportsHTML) {
       reportsHTML = `
@@ -204,7 +210,6 @@ const renderPCs = async (roomId) => {
         </div>
       `;
     }
-
     // Update the UI
     roomLabel.textContent = `Room ${roomId} - PC ${pcId}`;
     document.querySelector('.panel-content').innerHTML = `
@@ -309,6 +314,9 @@ const renderPCs = async (roomId) => {
     </div>
   </div>
 `;
+initializeViewDetailsFeature();
+
+
   } catch (error) {
     console.error("Error fetching reports:", error);
     document.querySelector('.panel-content').innerHTML = `
@@ -326,3 +334,57 @@ const renderPCs = async (roomId) => {
 
 
 
+function initializeViewDetailsFeature() {
+  document.querySelectorAll('.view-details').forEach(cell => {
+    cell.addEventListener('click', () => {
+      const approvedDate = cell.dataset.approvedDate || "N/A";
+      const issue = cell.dataset.issue || "N/A";
+      const equipment = cell.dataset.equipment || "N/A";
+
+      let modal = document.querySelector('.details-modal');
+
+      if (!modal) {
+        modal = document.createElement('div');
+        modal.classList.add('details-modal');
+        document.body.appendChild(modal);
+      }
+
+      modal.innerHTML = `
+        <div class="details-modal-content">
+          <div class="details-modal-header">
+            <h3 class="details-modal-title">Repair Details</h3>
+            <button class="details-modal-close">&times;</button>
+          </div>
+          <div class="details-modal-body">
+            <div class="detail-row">
+              <span class="detail-label">Date:</span>
+              <span class="detail-value">${approvedDate}</span>
+            </div>
+            <div class="detail-row">
+              <span class="detail-label">Issue:</span>
+              <span class="detail-value">${issue}</span>
+            </div>
+            <div class="detail-row">
+              <span class="detail-label">Equipment:</span>
+              <span class="detail-value">${equipment}</span>
+            </div>
+          </div>
+        </div>
+      `;
+
+      modal.classList.add('active');
+
+      const closeButton = modal.querySelector('.details-modal-close');
+      closeButton.addEventListener('click', () => {
+        modal.classList.remove('active');
+      });
+
+      // Optional: close modal when clicking outside
+      modal.addEventListener('click', (e) => {
+        if (e.target === modal) {
+          modal.classList.remove('active');
+        }
+      });
+    });
+  });
+}

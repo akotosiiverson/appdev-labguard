@@ -69,15 +69,27 @@ function renderFilteredReports() {
       <tr class="report-row"
           data-id="${data.id}"
           data-date="${formattedDate}"
+          data-borrow-date="${data.borrowDate}"
+          data-return-date="${data.returnDate}"
           data-product="${data.equipment}"
           data-img="${data.downloadURL || ''}"
-          data-issue="${data.purpose || 'No details provided'}"
-          data-faculty="${data.fullName || 'Unknown'}">
-        <td class="td-name-clickable">${data.fullName || 'Unknown'}</td>
-        <td>${data.borrowDate}</td>
-        <td>${data.returnDate}</td>
-        <td>${data.equipment}</td>
-        <td><span class="status status-span-row">${actionButtons}</span></td>
+          data-purpose="${data.purpose || 'No details provided'}"
+          data-full-name="${data.fullName || 'Unknown'}">
+       <td >${data.fullName || 'Unknown'}</td>
+          <td>${formattedDate}</td>
+         <td>${new Date(data.borrowDate).toLocaleDateString("en-US", {
+          year: "numeric",
+          month: "long",
+          day: "numeric"
+        })}</td>
+        <td>${new Date(data.returnDate).toLocaleDateString("en-US", {
+          year: "numeric",
+          month: "long",
+          day: "numeric"
+        })}</td>
+          <td>${data.equipment}</td>
+          <td><span class="status status--${status}">${status}</span></td>
+          <td><span class="view-details td-name-clickable" ><i class='bx bx-info-circle'></i> View Details</span></td>
       </tr>
     `;
   });
@@ -91,38 +103,89 @@ function attachModalAndActionListeners() {
   document.querySelectorAll('.td-name-clickable').forEach(cell => {
     cell.addEventListener('click', async () => {
       const row = cell.closest('.report-row');
-      const { date, product, issue, img, id } = row.dataset;
+      const { fullName,date,returnDate,borrowDate, product, img, id,purpose } = row.dataset;
       console.log(row.dataset.img)
+const imageSrc = img ? img : 'https://firebasestorage.googleapis.com/v0/b/labsystem-481dc.firebasestorage.app/o/icon%2FnoImage.png?alt=media&token=a6517e64-7d82-4959-b7a9-96b20651864d';
 
       const docSnap = await getDoc(doc(db, "borrowList", id));
       const status = docSnap.exists() ? (docSnap.data().statusReport || 'Unknown') : 'Unknown';
 
-      const overlay = document.createElement('div');
-      overlay.classList.add('modal-overlay');
-      document.body.appendChild(overlay);
+      let modal = document.querySelector('.details-modal');
 
-      const modal = document.createElement('div');
-      modal.classList.add('logout-modal', 'detail-modal');
+      if (!modal) {
+        modal = document.createElement('div');
+        modal.classList.add('details-modal');
+        document.body.appendChild(modal);
+      }
       modal.innerHTML = `
-        <div class="logout-icon-container"><img src="${img}" alt="Product Image"></div>
-        <p class="confirm-text">REQUEST DETAILS</p>
-        <p class="request-status-indicator">Status: ${status}</p>
-        <div class="request-details">
-          <p><strong>Date Submitted:</strong> ${date}</p>
-          <p><strong>Unit:</strong> ${product}</p>
-          <p><strong>Issue:</strong> ${issue}</p>
+
+         <div class="details-modal-content">
+  <div class="details-modal-header">
+    <h3 class="details-modal-title">Borrow Details</h3>
+    <button class="details-modal-close">&times;</button>
+  </div>
+  <div class="details-modal-body">
+    <div class="details-wrapper">
+      <div class="details-left">
+      
+        <div class="detail-row">
+          <span class="detail-label">Name:</span>
+          <span class="detail-value">${fullName} </span>
         </div>
-        <div class="confirm-button-container"><button class="declined-btn">Close</button></div>
+        <div class="detail-row">
+          <span class="detail-label">Status:</span>
+          <span class="detail-value">${status}</span>
+        </div>
+        <div class="detail-row">
+          <span class="detail-label">Equipment:</span>
+          <span class="detail-value">${product}</span>
+        </div>
+        <div class="detail-row">
+          <span class="detail-label">Date Submitted:</span>
+          <span class="detail-value">${date}</span>
+        </div>
+        <div class="detail-row">
+          <span class="detail-label">Borrow Date:</span>
+          <span class="detail-value">${new Date(borrowDate).toLocaleDateString("en-US", {
+          year: "numeric",
+          month: "long",
+          day: "numeric"
+        })}</span>
+        </div>
+        <div class="detail-row">
+          <span class="detail-label">Return Date:</span>
+          <span class="detail-value">${new Date(returnDate).toLocaleDateString("en-US", {
+          year: "numeric",
+          month: "long",
+          day: "numeric"
+        })}</span>
+        </div>
+        <div class="detail-row">
+          <span class="detail-label">Purpose:</span>
+          <span class="detail-value">${purpose}</span>
+        </div>
+      </div>
+      <div class="details-right">
+        <img src="${imageSrc}" alt="Report Image" class="report-image" />
+      </div>
+    </div>
+  </div>
+</div>
       `;
       document.body.appendChild(modal);
 
-      modal.querySelector('.declined-btn').addEventListener('click', () => {
-        modal.remove();
-        overlay.remove();
+      modal.classList.add('active');
+
+      const closeButton = modal.querySelector('.details-modal-close');
+      closeButton.addEventListener('click', () => {
+        modal.classList.remove('active');
       });
-      overlay.addEventListener('click', () => {
-        modal.remove();
-        overlay.remove();
+
+      // Optional: close modal when clicking outside
+      modal.addEventListener('click', (e) => {
+        if (e.target === modal) {
+          modal.classList.remove('active');
+        }
       });
     });
   });

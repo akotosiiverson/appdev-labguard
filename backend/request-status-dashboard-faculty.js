@@ -63,29 +63,109 @@ function renderRequestStatus() {
 
       reportSummary += `
         <tr class="report-row"
-            data-id="${doc.id}"
+           data-full-name="${data.fullName}"
+           data-status="${status}"
             data-date="${formattedDate}"
             data-location="${data.room} - ${data.pc}"
             data-product="${data.equipment}"
             data-img="${data.imageUrl || ''}"
             data-issue="${data.issue || 'No details provided'}"
-            data-position="${data.position || 'Faculty'}"
-            data-faculty="${data.fullName || 'Unknown'}">
+            data-position="${data.position || 'Faculty'}">
           <td>${data.fullName || 'Unknown'}</td>
           <td>${formattedDate}</td>
           <td>${data.room} - ${data.pc}</td>
           <td>${data.equipment}</td>
           <td><span class="status status--${status.toLowerCase()}">${status}</span></td>
+          <td> <span class="view-details td-name-clickable" ><i class='bx bx-info-circle'></i> View Details</span>
+          </td>
         </tr>
       `;
     });
 
     reportListEl.innerHTML = reportSummary;
+    attachModalAndActionListeners();
   });
 }
 
 // Handles the click logic for each row to show details modal
+function attachModalAndActionListeners() {
+  document.querySelectorAll('.td-name-clickable').forEach(cell => {
+    cell.addEventListener('click',  () => {
+      const row = cell.closest('.report-row');
+      const { fullName, date, location, product, issue, position, img, status } = row.dataset;
+      const imageSrc = img ? img : 'https://firebasestorage.googleapis.com/v0/b/labsystem-481dc.firebasestorage.app/o/icon%2FnoImage.png?alt=media&token=a6517e64-7d82-4959-b7a9-96b20651864d';
 
+      
+
+      let modal = document.querySelector('.details-modal');
+
+      if (!modal) {
+        modal = document.createElement('div');
+        modal.classList.add('details-modal');
+        document.body.appendChild(modal);
+      }
+      
+      modal.innerHTML = `
+      <div class="details-modal-content">
+  <div class="details-modal-header">
+    <h3 class="details-modal-title">Report Details</h3>
+    <button class="details-modal-close">&times;</button>
+  </div>
+  <div class="details-modal-body">
+    <div class="details-wrapper">
+      <div class="details-left">
+      
+        <div class="detail-row">
+          <span class="detail-label">Name:</span>
+          <span class="detail-value">${fullName} (${position})</span>
+        </div>
+        <div class="detail-row">
+          <span class="detail-label">Status:</span>
+          <span class="detail-value">${status}</span>
+        </div>
+        <div class="detail-row">
+          <span class="detail-label">Date Submitted:</span>
+          <span class="detail-value">${date}</span>
+        </div>
+        <div class="detail-row">
+          <span class="detail-label">Room & PC:</span>
+          <span class="detail-value">${location}</span>
+        </div>
+        <div class="detail-row">
+          <span class="detail-label">Item Type:</span>
+          <span class="detail-value">${product}</span>
+        </div>
+        <div class="detail-row">
+          <span class="detail-label">Issue:</span>
+          <span class="detail-value">${issue}</span>
+        </div>
+      </div>
+      <div class="details-right">
+        <img src="${imageSrc}" alt="Report Image" class="report-image" />
+      </div>
+    </div>
+  </div>
+</div>
+
+      `;
+      document.body.appendChild(modal);
+
+      modal.classList.add('active');
+
+      const closeButton = modal.querySelector('.details-modal-close');
+      closeButton.addEventListener('click', () => {
+        modal.classList.remove('active');
+      });
+
+      // Optional: close modal when clicking outside
+      modal.addEventListener('click', (e) => {
+        if (e.target === modal) {
+          modal.classList.remove('active');
+        }
+      });
+    });
+  });
+}
 
 // Filter listeners
 function setupFilters() {

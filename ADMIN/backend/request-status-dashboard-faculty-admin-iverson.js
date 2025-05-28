@@ -61,18 +61,20 @@ function setupRealtimeListener() {
       reportSummary += `
         <tr class="report-row"
             data-id="${docSnap.id}"
-            data-faculty="${data.fullName}"
+            data-full-name="${data.fullName}"
             data-date="${formattedDate}"
             data-location="${data.room} - ${data.pc}"
             data-product="${data.equipment}"
             data-img="${data.imageUrl || ''}"
             data-issue="${data.issue || 'No details provided'}"
             data-position="${data.position || 'Faculty'}">
-          <td class="td-name-clickable">${data.fullName}</td>
+          <td >${data.fullName}</td>
           <td>${formattedDate}</td>
           <td>${data.room} - ${data.pc}</td>
           <td>${data.equipment}</td>
-          <td><span class="status status-span-row">${actionButtons}</span></td>
+          <td><span class="status status-span-row">${actionButtons}</span> </td>
+          <td> <span class="view-details td-name-clickable" ><i class='bx bx-info-circle'></i> View Details</span>
+          </td>
         </tr>
       `;
     });
@@ -87,39 +89,77 @@ function attachModalAndActionListeners() {
   document.querySelectorAll('.td-name-clickable').forEach(cell => {
     cell.addEventListener('click', async () => {
       const row = cell.closest('.report-row');
-      const { faculty, date, location, product, issue, position, img, id } = row.dataset;
+      const { fullName, date, location, product, issue, position, img, id } = row.dataset;
+      const imageSrc = img ? img : 'https://firebasestorage.googleapis.com/v0/b/labsystem-481dc.firebasestorage.app/o/icon%2FnoImage.png?alt=media&token=a6517e64-7d82-4959-b7a9-96b20651864d';
 
       const docSnap = await getDoc(doc(db, "reportList", id));
       const status = docSnap.exists() ? (docSnap.data().statusReport || 'Unknown') : 'Unknown';
 
-      const overlay = document.createElement('div');
-      overlay.classList.add('modal-overlay');
-      document.body.appendChild(overlay);
+      let modal = document.querySelector('.details-modal');
 
-      const modal = document.createElement('div');
-      modal.classList.add('logout-modal', 'detail-modal');
+      if (!modal) {
+        modal = document.createElement('div');
+        modal.classList.add('details-modal');
+        document.body.appendChild(modal);
+      }
+      
       modal.innerHTML = `
-        <div class="logout-icon-container"><img src="${img}" alt="Product Image"></div>
-        <p class="confirm-text">REQUEST DETAILS</p>
-        <p class="request-status-indicator">Status: ${status}</p>
-        <div class="request-details">
-          <p><strong>Faculty:</strong> ${faculty} (${position})</p>
-          <p><strong>Date Submitted:</strong> ${date}</p>
-          <p><strong>Room & PC:</strong> ${location}</p>
-          <p><strong>Item Type:</strong> ${product}</p>
-          <p><strong>Issue:</strong> ${issue}</p>
+      <div class="details-modal-content">
+  <div class="details-modal-header">
+    <h3 class="details-modal-title">Report Details</h3>
+    <button class="details-modal-close">&times;</button>
+  </div>
+  <div class="details-modal-body">
+    <div class="details-wrapper">
+      <div class="details-left">
+      
+        <div class="detail-row">
+          <span class="detail-label">Name:</span>
+          <span class="detail-value">${fullName} (${position})</span>
         </div>
-        <div class="confirm-button-container"><button class="declined-btn">Close</button></div>
+        <div class="detail-row">
+          <span class="detail-label">Status:</span>
+          <span class="detail-value">${status}</span>
+        </div>
+        <div class="detail-row">
+          <span class="detail-label">Date Submitted:</span>
+          <span class="detail-value">${date}</span>
+        </div>
+        <div class="detail-row">
+          <span class="detail-label">Room & PC:</span>
+          <span class="detail-value">${location}</span>
+        </div>
+        <div class="detail-row">
+          <span class="detail-label">Item Type:</span>
+          <span class="detail-value">${product}</span>
+        </div>
+        <div class="detail-row">
+          <span class="detail-label">Issue:</span>
+          <span class="detail-value">${issue}</span>
+        </div>
+      </div>
+      <div class="details-right">
+        <img src="${imageSrc}" alt="Report Image" class="report-image" />
+      </div>
+    </div>
+  </div>
+</div>
+
       `;
       document.body.appendChild(modal);
 
-      modal.querySelector('.declined-btn').addEventListener('click', () => {
-        modal.remove();
-        overlay.remove();
+      modal.classList.add('active');
+
+      const closeButton = modal.querySelector('.details-modal-close');
+      closeButton.addEventListener('click', () => {
+        modal.classList.remove('active');
       });
-      overlay.addEventListener('click', () => {
-        modal.remove();
-        overlay.remove();
+
+      // Optional: close modal when clicking outside
+      modal.addEventListener('click', (e) => {
+        if (e.target === modal) {
+          modal.classList.remove('active');
+        }
       });
     });
   });

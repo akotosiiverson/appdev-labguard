@@ -141,7 +141,7 @@ body{
     cursor:none;
     opacity:.5;
 }
-.rqst-btn {
+.rqst-btn, .add-btn, .edit-button {
     width: 100%;
     background-color:  var(--color-accent);
     font-family: 'Roboto', sans-serif;
@@ -184,7 +184,7 @@ body{
         font-size: 16px;
     }
 
-    .rqst-btn {
+    .rqst-btn, .add-btn, .edit-button {
         font-size: 14px;
         padding: 8px 0;
     }
@@ -213,7 +213,7 @@ body{
         font-size: 14px;
     }
 
-    .rqst-btn {
+    .rqst-btn   , .add-btn, .edit-button {
         font-size: 13px;
         padding: 7px 0;
     }

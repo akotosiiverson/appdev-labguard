@@ -17,22 +17,33 @@
 @import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;500;600;700&family=Roboto:wght@300;400;500;700&display=swap');
 
 /* Font Variables */
+
 :root {
     --font-primary: 'Roboto', sans-serif;
-    --font-secondary: 'Open Sans', sans-serif;
-    --font-size-xs: 12px;
-    --font-size-sm: 14px;
-    --font-size-md: 16px;
-    --font-size-lg: 18px;
-    --font-size-xl: 24px;
-    --font-size-xxl: 36px;
-    --font-weight-light: 300;
-    --font-weight-regular: 400;
-    --font-weight-medium: 500;
-    --font-weight-bold: 700;
-    --line-height-compact: 1.2;
-    --line-height-normal: 1.5;
-    --line-height-relaxed: 1.8;
+    --font-secondary: 'Lato', sans-serif;
+
+    --color-white: #F9F9F9;
+    --color-primary: #3C91E6;
+    --color-primary-light: #CFE8FF;
+    --color-gray-light: #eee;
+    --color-gray: #AAAAAA;
+    --color-dark: #342E37;
+    --color-danger: #DB504A;
+    --color-warning: #FFCE26;
+    --color-warning-light: #FFF2C6;
+    --color-accent: #FD7238;
+    --color-accent-light: #FFE0D3;
+    
+    --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.1);
+    --shadow-md: 0 4px 8px rgba(0, 0, 0, 0.1);
+    --shadow-lg: 0 8px 16px rgba(0, 0, 0, 0.1);
+    
+    --border-radius-sm: 4px;
+    --border-radius-md: 8px;
+    --border-radius-lg: 16px;
+    --border-radius-round: 50%;
+    
+    --transition-speed: 0.3s;
 }
 
 /* Global font settings */
@@ -55,7 +66,6 @@ h1, h2, h3, h4, h5, h6 {
 
 
 
-
 /* =============================================
    MAIN CONTENT STYLES
    ============================================= */
@@ -69,7 +79,7 @@ html, body {
 /* Main content container */
 .body {
     padding: 24px;
-    background-color: #EEEEEE;
+    background-color: var(--color-gray-light);
     height: calc(100vh - 60px); /* Viewport height minus navbar */
     overflow: hidden;          /* Prevents scrolling at container level */
 }

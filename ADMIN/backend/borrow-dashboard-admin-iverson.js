@@ -1,37 +1,33 @@
 import {
   collection,
-  getDocs
+  getDocs,
+  doc,
+  getDoc,
+  updateDoc,
+  query,
+  where
 } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
-import { db } from "./firebase-config-admin-iverson.js";
-import { items } from '../backend/data/borrowItem-admin-iverson.js'//borrowItem 
-import { printYourrequestInfo } from '../backend/borrowForm-admin-iverson.js';
-export const  mainDashboard = document.querySelector('.dashboard');
-/* Matching product */
-function getProduct(itemId){
-  let matchingProduct;
-  items.forEach((item)=>{
-                if (item.id === itemId){
-                    matchingProduct = item
-                }
-            });
-            return matchingProduct
-}
 
+import { db } from "./firebase-config-admin-iverson.js";
+import { items as staticItems } from '../backend/data/borrowItem-admin-iverson.js';
+import { printYourrequestInfo } from '../backend/borrowForm-admin-iverson.js';
+
+export const mainDashboard = document.querySelector('.dashboard');
+
+function getProduct(itemId) {
+  return staticItems.find((item) => item.id === itemId);
+}
 
 async function displayItems() {
   const querySnapshot = await getDocs(collection(db, "borrowItem"));
-  const items = [];
+  const fetchedItems = [];
 
-  // Step 1: Push Firestore data to items array
   querySnapshot.forEach((doc) => {
-    items.push({ id: doc.id, ...doc.data() });
+    fetchedItems.push({ id: doc.id, ...doc.data() });
   });
 
-  // Step 2: Build HTML
   let itemHTML = '';
-  items.forEach((item) => {
-
-
+  fetchedItems.forEach((item) => {
     itemHTML += `
       <div class="item-container">
         <div class="img-container">
@@ -41,157 +37,141 @@ async function displayItems() {
           <img src="${item.image}" alt="${item.name}">
         </div>
         <p class="item-name">${item.name}</p>
-        <button class="rqst-btn" data-img="${item.image}" data-item-id="${item.id}" >
-          EDIT
-        </button>
+        <button class="rqst-btn" data-name="${item.name}" data-quantity="${item.quantity}" data-img="${item.image}" data-item-id="${item.id}">EDIT</button>
       </div>
     `;
   });
-const addItemHTML =`
+
+  const addItemHTML = `
     <div class="item-container">
       <div class="img-container">
-        
-        <img src="/asset/icons/add-icon.png" alt="Computer Icon">
+        <img src="/asset/icons/add-icon.png" alt="Add Icon">
       </div>
       <p class="item-name"></p>
-      <button class="rqst-btn"  >ADD ITEM</button>
+      <button class="add-btn">ADD ITEM</button>
     </div>
   `;
-  // Step 3: Display in HTML
+
   itemHTML += addItemHTML;
   document.querySelector('.available-item').innerHTML = itemHTML;
+
+  document.querySelectorAll('.rqst-btn').forEach((button) => {
+    button.addEventListener('click', () => {
+      const {itemId,name,quantity,img}= button.dataset;
+      
+
+      document.querySelector('.available-item').classList.add('no-scroll');
+
+      const formHTML = `
+        <div class="details-modal-content">
+          <div class="details-modal-header">
+            <h3 class="details-modal-title">Edit Item</h3>
+            <button class="details-modal-close">&times;</button>
+          </div>
+          <div class="details-modal-body">
+            <div class="details-wrapper">
+              <div class="details-left">
+                <div class="detail-row">
+                  <span class="detail-label">Edit Item Name:</span>
+                  <span class="detail-value">
+                    <input class="item" type="text" placeholder="Item Name" value="${name}">
+                  </span>
+                </div>
+                <div class="detail-row">
+                  <span class="detail-label">Edit Quantity:</span>
+                  <span class="detail-value">
+                    <input class="quantity" type="number" min="0" placeholder="0" value="${quantity}">
+                  </span>
+                </div>
+                <div class="detail-row">
+                  <button class="edit-button">Save</button>
+                </div>
+              </div>
+              <div class="details-right">
+                <img src="${img}" alt="Item Image" class="report-image" />
+              </div>
+            </div>
+          </div>
+        </div>
+      `;
+
+      const container = document.createElement('div');
+      container.classList.add('details-modal', 'active');
+      container.innerHTML = formHTML;
+      mainDashboard.appendChild(container);
+
+      const closeButton = container.querySelector('.details-modal-close');
+      closeButton.addEventListener('click', () => {
+        container.remove();
+        document.querySelector('.available-item').classList.remove('no-scroll');
+      });
+
+      container.addEventListener('click', (e) => {
+        if (e.target === container) {
+          container.remove();
+          document.querySelector('.available-item').classList.remove('no-scroll');
+        }
+      });
+
+      const saveButton = container.querySelector('.edit-button');
+      saveButton.addEventListener("click", async () => {
+        try {
+          saveButton.disabled = true;
+          saveButton.textContent = "Saving...";
+
+          const editedName = container.querySelector("input.item").value.trim();
+          const editedQuantity = parseInt(container.querySelector("input.quantity").value.trim(), 10);
+
+          if (!editedName || isNaN(editedQuantity)) {
+            alert("Please provide valid name and quantity.");
+            saveButton.disabled = false;
+            saveButton.textContent = "Save";
+            return;
+          }
+
+          // Update borrowItem
+          const itemRef = doc(db, "borrowItem", itemId);
+          const itemSnap = await getDoc(itemRef);
+          if (!itemSnap.exists()) throw new Error("Item not found.");
+          await updateDoc(itemRef, {
+            name: editedName,
+            quantity: editedQuantity
+          });
+
+          // Update statusReport in borrowList
+          const reportRef = doc(db, "borrowList", itemId);
+          const reportSnap = await getDoc(reportRef);
+          if (reportSnap.exists()) {
+            await updateDoc(reportRef, { statusReport: "Returned" });
+            console.log(`✅ Report ${itemId} marked as Returned.`);
+          }
+          container.remove();
+          document.querySelector('.available-item').classList.remove('no-scroll');
+          displayItems(); // Re-render list
+
+        } catch (err) {
+          console.error("❌ Failed to save item:", err);
+          alert("An error occurred while saving the item.");
+          saveButton.disabled = false;
+          saveButton.textContent = "Save";
+        }
+      });
+
+      printYourrequestInfo(); // Optional depending on your form
+    });
+  });
+
+  updateRequestButtonStates();
 }
 
 document.addEventListener("DOMContentLoaded", displayItems);
 
-
-
-document.querySelectorAll('.rqst-btn').forEach((button) => {
-  button.addEventListener('click', (event) => {
-    console.log( button.dataset.itemId);
-    console.log('working');
-    
-    console.log(getProduct(+button.dataset.itemId));
-    
-    // Disable all other buttons
-    document.querySelectorAll('.rqst-btn').forEach(btn => {
-      btn.disabled = true;
-    });
-    // Disable scrolling
-    document.querySelector('.available-item').classList.add('no-scroll');
-    let formHTML = `
-      <button class="close-button js-close-button">
-        <img src="/asset/icons/close-icon.png" alt="Close" />
-      </button>
-      <div class="form-left">
-        <div class="gc-logo">
-          <img src="/asset/image/CCS-GCLOGO.png" alt="Gordon College Logo" class="logo" />
-          <div>
-            <h1>GORDON COLLEGE</h1>
-            <p class="unit">Management Information Unit - MIS Unit</p>
-          </div>
-        </div>
-
-        <form>
-          <input class="full-name" type="text" placeholder="Full name:" required />
-          <select class="faculty-position" required>
-            <option value="" disabled selected>Select Full-time/Part-time</option>
-            <option value="Full-time">Full-time</option>
-            <option value="Part-time">Part-time</option>
-          </select>
-          <input class="borrowed-date" type="date" required placeholder="Borrowed Date" />
-          <input class="return-date" type="date" required placeholder="Return Date" />
-          <textarea class="purpose" placeholder="Remark/Purpose:" required></textarea>
-          <button class="submit-button-request" type="submit">BORROW</button>
-        </form>
-      </div>
-
-      <div class="form-right">
-        <h2><u>BORROWER’S FORM</u></h2>
-        <img src="${getProduct(+button.dataset.itemId).image}" alt="${getProduct(+button.dataset.itemId).name}" class="tv-icon" />
-        <p class="tv-label">${getProduct(+button.dataset.itemId).name}</p>
-        <div class="notice">
-          <strong>Notice:</strong>
-          <p>This item/equipment belongs to Gordon College. The borrower agrees to accept responsibility for the return of this equipment on time, and to return the equipment in the same functional condition, with all included accessories if any. If damage occurs to the item/equipment, repair or replacement with the same unit and model shall be at the expense of the borrower.</p>
-        </div>
-      </div>
-    `;
-
-    let container = document.createElement('div');
-    container.classList.add('container');
-    container.innerHTML = formHTML;
-    
-    mainDashboard.appendChild(container);
-     // Call printYourrequestInfo() AFTER appending the form
-     printYourrequestInfo();
-
-    // Add close event after form is appended
-    container.querySelector('.js-close-button').addEventListener('click', function () {
-      
-      container.remove();
-      // Disable scrolling 
-    document.querySelector('.available-item').classList.remove('no-scroll');
-     
-      // Enable buttons again when popup is closed
-      document.querySelectorAll('.rqst-btn').forEach(btn => {
-        btn.disabled = false;
-        updateRequestButtonStates();
-      });
-    });
-  });
-});
-
-
-/* borrowed form dom */
-document.addEventListener('DOMContentLoaded', () => {
-  const logoutBtn = document.querySelector('.logout-button');
-  if (!logoutBtn) return;
-
-  logoutBtn.addEventListener('click', () => {
-    // Create overlay
-    const overlay = document.createElement('div');
-    overlay.classList.add('modal-overlay');
-    document.body.appendChild(overlay);
-
-    // Create modal
-    const modal = document.createElement('div');
-    modal.classList.add('logout-modal');
-    modal.innerHTML = `
-      <div class="logout-icon-container">
-        <img src="/asset/icons/qmark-icon.png" alt="Question Icon">
-      </div>
-      <p class="confirm-text">CONFIRM LOGOUT</p>
-      <p class="confirmation-text">Are you sure you want to exit the application?</p>
-      <div class="confirm-button-container">
-        <button class="confirmed-btn">Yes, Log me out!</button>
-        <button class="declined-btn">Cancel</button>
-      </div>
-    `;
-    document.body.appendChild(modal);
-
-    // Cancel button
-    modal.querySelector('.declined-btn').addEventListener('click', () => {
-      modal.remove();
-      overlay.remove();                                                                                 
-    });
-
-    // Confirm button
-    modal.querySelector('.confirmed-btn').addEventListener('click', () => {
-      window.location.href = 'grid.html'; // Or your logout logic
-    });
-  });
-});
-
-
 function updateRequestButtonStates() {
-  document.querySelectorAll('.rqst-btn').forEach(btn => {
-    // Recalculate the button state based on the availability of the items
-    const itemId = +btn.dataset.itemId;
+  document.querySelectorAll('.rqst-btn').forEach((btn) => {
+    const itemId = btn.dataset.itemId;
     const item = getProduct(itemId);
     if (item) {
-      
       btn.textContent = 'EDIT';
-    } 
+    }
   });
 }
-
