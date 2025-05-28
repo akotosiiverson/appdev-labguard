@@ -72,11 +72,12 @@ function renderRequestStatus() {
             data-issue="${data.issue || 'No details provided'}"
             data-position="${data.position || 'Faculty'}"
             data-faculty="${data.fullName || 'Unknown'}">
-          <td>${data.fullName || 'Unknown'}</td>
-          <td>${formattedDate}</td>
-          <td>${data.room} - ${data.pc}</td>
-          <td>${data.equipment}</td>
-          <td><span class="status status--${status.toLowerCase()}">${status}</span></td>
+          <td data-label="Faculty Name">${data.fullName || 'Unknown'}</td>
+          <td data-label=" date">${formattedDate}</td>
+          <td data-label=" Room & PC No.">${data.room} - ${data.pc}</td>
+          <td data-label=" unit">${data.equipment}</td>
+          <td data-label=" Status"><span class="status status--${status.toLowerCase()}">${status}</span></td>
+          <td data-label=" action"> <span class="view-details td-name-clickable" ><i class='bx bx-info-circle'></i> View Details</span></td>
         </tr>
       `;
     });
