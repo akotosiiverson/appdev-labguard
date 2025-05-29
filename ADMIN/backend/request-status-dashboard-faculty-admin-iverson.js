@@ -70,11 +70,11 @@ function setupRealtimeListener() {
             data-issue="${data.issue || 'No details provided'}"
             data-position="${data.position || 'Faculty'}">
           <td data-label="faculty name">${data.fullName}</td>
-          <td>${formattedDate}</td>
-          <td>${data.room} - ${data.pc}</td>
-          <td>${data.equipment}</td>
-          <td><span class="status status-span-row">${actionButtons}</span> </td>
-          <td> <span class="view-details td-name-clickable" ><i class='bx bx-info-circle'></i> View Details</span>
+          <td data-label="date">${formattedDate}</td>
+          <td data-label="Room & PC No.">${data.room} - ${data.pc}</td>
+          <td data-label="unit">${data.equipment}</td>
+          <td data-label="status"><span class="status status-span-row">${actionButtons}</span> </td>
+          <td data-label="action"> <span class="view-details td-name-clickable" ><i class='bx bx-info-circle'></i> View Details</span>
           </td>
         </tr>
       `;

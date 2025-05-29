@@ -3,8 +3,7 @@
    ============================================= */
 
 /* Base styles for mobile devices first */
-@media only screen and (max-width: 600px) {
-    /* Convert sidebar to bottom navigation */
+@media only screen and (max-width: 600px) {    /* Convert sidebar to bottom navigation */
     .sidebar {
         position: fixed;
         top: auto;
@@ -15,40 +14,34 @@
         background: var(--color-white);
         z-index: 2000;
         box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
-    }
-      /* Smaller summary cards for mobile - maintain inline layout */
-    .summary-cards {
+    }      /* Smaller summary cards for mobile - maintain inline layout */      .summary-cards {
         display: flex;
         flex-direction: row;
-        gap: 4px; /* Minimized gap for tightly packed cards */
-        padding: 0 4px; /* Minimal padding */
+        gap: 6px; /* Reduced gap for mobile */
+        padding: 0 6px;
         margin-bottom: 15px;
-        overflow-x: visible; /* Ensure content is visible */
+        overflow-x: visible; /* Make sure all content is visible */
         justify-content: space-between;
+        -webkit-overflow-scrolling: touch; /* For smooth scrolling on iOS */
         width: 100%;
         max-width: 100%;
         box-sizing: border-box; /* Include padding in width calculation */
     }
-    
-    .summary-card {
-        padding: 8px 4px;
-        width: 32%; /* Fixed width for consistent sizing */
+      .summary-card {
+        padding: 10px 5px;
+        width: 32%; /* Fixed width instead of min-width */
         max-width: 32%;
-        flex: 1 1 0; /* Allow equal growth and shrinking */
+        flex: 1 1 0;
         margin-bottom: 0;
-        box-sizing: border-box; /* Include padding in width calculation */
     }
       .summary-card h3 {
-        font-size: 9px;
+        font-size: 10px;
         margin: 0 0 2px 0;
         white-space: normal; /* Allow text wrapping */
-        line-height: 1;
+        line-height: 1.1;
         overflow: hidden;
         text-overflow: ellipsis;
-        padding: 0;
-        letter-spacing: -0.3px; /* Tighter letter spacing */
-        word-break: break-word;
-        max-height: 2em; /* Limit to 2 lines max */
+        padding: 0 2px;
     }
       .summary-card .count {
         font-size: 13px;
@@ -56,20 +49,53 @@
         display: block;
         padding: 0;
         margin: 0;
-        line-height: 1.3;
+        line-height: 1.3;    }
+}
+
+/* Extra small screen adjustments */
+@media only screen and (max-width: 375px) {
+        .summary-cards {
+            gap: 3px;
+            padding: 0 3px;
+        }
+        
+        .summary-card {
+            padding: 5px 2px;
+            width: 32%; /* Fixed width for each card */
+            max-width: 32%;
+            flex: 1 0 0; /* Don't allow flex growth beyond width */
+            min-width: 0; /* Allow shrinking if needed */
+        }
+        
+        .summary-card h3 {
+            font-size: 7px; /* Smaller font size */
+            margin-bottom: 1px;
+            white-space: normal; /* Allow text to wrap if needed */
+            line-height: 1;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            letter-spacing: -0.4px; /* Tighter letter spacing */
+        }
+        
+        /* Specific adjustment for "TOTAL AVAILABLE PC" card */
+        .summary-card:last-child h3 {
+            font-size: 6px; /* Even smaller for the longer title */
+            letter-spacing: -0.5px;
+            word-break: break-all; /* Break anywhere to prevent overflow */
+            padding: 0; /* Remove extra padding */
+        }
+        
+        .pc-totals-available {
+            font-size: 10px;
+        }
+        
+        .summary-card .count {
+            font-size: 11px;
+            margin-top: 0;
+            line-height: 1.2;
+        }
     }
-    
-    /* Special handling for the third card (TOTAL AVAILABLE PC) */
-    .summary-card:last-child h3 {
-        font-size: 8px; /* Smaller font size for longer text */
-        letter-spacing: -0.4px;
-    }
-    
-    /* Hide "Available" text on small screens */
-    .hide-small {
-        display: none;
-    }
-    
+
     /* Hide brand on mobile */
     .sidebar__brand {
         display: none;
@@ -85,9 +111,7 @@
     .sidebar__menu--main {
         margin-top: 0;
         padding: 10px 0;
-    }
-    
-    /* Bottom menu is now integrated with main menu */
+    }    /* Bottom menu is now integrated with main menu */
     .sidebar__menu--bottom {
         position: relative;
         bottom: auto;
@@ -148,9 +172,7 @@
     /* Always show sidebar on mobile */
     .sidebar.hide {
         width: 100%;
-    }
-    
-    /* Adjust content area when sidebar is hidden */
+    }    /* Adjust content area when sidebar is hidden */
     .sidebar.hide ~ .main {
         width: 100%;
         left: 0;
@@ -159,6 +181,13 @@
     /* Ensure dashboard link is visible */
     .navbar__link {
         display: inline-block;
+    }
+
+    /* Specific styles for PC-related cards, especially for "TOTAL AVAILABLE PC" */
+    .summary-card:last-child h3 {
+        font-size: 12px;
+        letter-spacing: -0.3px; /* Tighter letter spacing */
+        line-height: 1.1;
     }
 
     /* Mobile logout button styling for small screens */
@@ -178,115 +207,6 @@
     
     .mobile-logout__link span {
         font-size: 13px;
-    }
-    
-    /* Specific style for the "TOTAL AVAILABLE PC" card title on mobile */
-    .summary-card:last-child h3 {
-        font-size: 9px;
-        letter-spacing: -0.5px;
-    }
-}
-
-/* Extra small screen (375px and below) adjustments */
-@media only screen and (max-width: 375px) {
-    /* Tighter layout for summary cards */
-    .summary-cards {
-        gap: 2px;
-        padding: 0 2px;
-    }
-    
-    .summary-card {
-        padding: 5px 2px;
-        width: 32%; /* Fixed width for equal distribution */
-        min-width: 0; /* Allow full shrinking if needed */
-        max-width: 32.5%; /* Slightly wider to use all available space */
-    }
-    
-    .summary-card h3 {
-        font-size: 7px; /* Smaller font size */
-        margin-bottom: 1px;
-        line-height: 0.9;
-        letter-spacing: -0.5px;
-    }
-    
-    .summary-card:last-child h3 {
-        font-size: 6px; /* Even smaller for longer text */
-        letter-spacing: -0.6px;
-        word-break: break-all; /* Allow breaking at any character */
-    }
-    
-    .summary-card .count {
-        font-size: 10px;
-        margin-top: 0;
-        padding-top: 0;
-        line-height: 1.1;
-    }
-    .summary-cards {
-        gap: 3px;
-        padding: 0 3px;
-    }
-    
-    .summary-card {
-        padding: 5px 3px;
-        min-width: 30%; /* Use percentage width */
-        max-width: 32%;
-        flex: 1;
-    }
-    
-    .summary-card h3 {
-        font-size: 8px;
-        margin-bottom: 1px;
-        white-space: normal; /* Allow text to wrap */
-        line-height: 1.1;
-        overflow: hidden;
-        text-overflow: ellipsis;
-    }
-    
-    /* Specific adjustment for "TOTAL AVAILABLE PC" card */
-    .pc-totals-available {
-        font-size: 7px;
-    }
-    
-    .summary-card .count {
-        font-size: 11px;
-        margin-top: 0;
-        line-height: 1.2;
-    }
-    
-    .summary-card:last-child h3 {
-        font-size: 7px;
-        letter-spacing: -0.5px;
-    }
-}
-
-/* Specific styles for 500px viewport */
-@media only screen and (min-width: 476px) and (max-width: 500px) {
-    .summary-cards {
-        gap: 8px;
-        padding: 0 8px;
-        justify-content: flex-start;
-    }
-    
-    .summary-card {
-        padding: 10px 8px;
-        min-width: 115px;
-        max-width: 32%;
-        flex: 1 0 auto;
-    }
-    
-    .summary-card h3 {
-        font-size: 11px;
-        margin: 0 0 3px 0;
-        line-height: 1.2;
-    }
-    
-    .summary-card .count {
-        font-size: 14px;
-        line-height: 1.4;
-    }
-    
-    .summary-card:last-child h3 {
-        font-size: 10px;
     }
 }
 
@@ -337,8 +257,7 @@
         width: calc(100% - 60px);
         left: 60px; 
     }
-    
-    /* Medium-sized summary cards for tablets - maintain row layout */
+      /* Medium-sized summary cards for tablets - maintain row layout */
     .summary-cards {
         display: flex;
         flex-direction: row;
@@ -346,8 +265,7 @@
         gap: 12px;
         padding: 0 15px;
     }
-    
-    .summary-card {
+      .summary-card {
         padding: 12px;
         min-width: 100px;
         max-width: 150px;
@@ -361,11 +279,6 @@
     .summary-card .count {
         font-size: 15px;
     }
-    
-    .summary-card:last-child h3 {
-        font-size: 12px;
-        letter-spacing: -0.3px;
-    }
 }
 
 /* Desktop styles */
@@ -376,11 +289,24 @@
     .mobile-logout {
         display: none;
     }
-    
-    /* Adjust summary cards for desktop */
+}
+
+/* Specific styles for PC-related cards, especially for "TOTAL AVAILABLE PC" */
+.summary-card:last-child h3 {
+    font-size: 12px;
+    letter-spacing: -0.3px; /* Tighter letter spacing */
+    line-height: 1.1;
+}
+
+@media only screen and (max-width: 600px) {
     .summary-card:last-child h3 {
-        font-size: 12px;
-        letter-spacing: -0.3px; /* Tighter letter spacing */
-        line-height: 1.1;
+        /* font-size: 14px; */
+        letter-spacing: -0.5px;
+    }
+    
+    /* Hide "Available" on small screens */
+    .hide-small {
+        display: none;
     }
 }
+

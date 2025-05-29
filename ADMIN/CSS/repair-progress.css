@@ -1,17 +1,3 @@
-/**
- * LabGuard Repair Progress Page Styles
- * 
- * This CSS file defines the styling for the repair progress tracking page
- * in the LabGuard system. It includes styles for the sidebar navigation,
- * component cards, repair history cards, and room selection buttons.
- */
-
-/* =============================================
-   IMPORTS & BASIC SETUP
-   ============================================= */
-
-/* Import base styles from main design system */
-@import url('../CSS/design-admin-iverson.css');
 
 /* Import Google Fonts - Roboto and Open Sans */
 @import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;500;600;700&family=Roboto:wght@300;400;500;700&display=swap');
@@ -200,6 +186,12 @@ html, body {
 @media (max-width: 1024px) {
     .main-content {
         grid-template-columns: 1fr; /* Stack components on smaller screens */
+        gap: 15px; /* Reduced gap for better mobile spacing */
+    }
+    
+    /* Adjust rooms panel for mobile view */
+    .rooms-panel {
+        margin-top: 0;
     }
 }
 
@@ -209,7 +201,7 @@ html, body {
     border-radius: 8px;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
     overflow: hidden;
-    max-height: calc(100vh - 200px); /* Allow for scrolling within panel */
+    max-height: calc(100vh - 220px); /* Adjusted for better overall scrolling */
 }
 
 /* Panel header with title */

@@ -310,6 +310,10 @@ body {
     font-size: 12px;
     letter-spacing: 0.5px;
   }
+  body.dark .request-table th {
+    background: #393939;
+    color: #FFF;
+}
   
   .activity__table td,
   .request-table td {

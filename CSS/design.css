@@ -112,7 +112,10 @@ body.dark .activity__table-container {
     color: #ffffff;
 }
 
-
+body.dark .activity__table th {
+    background-color: #393939;
+    color: #ffffff;
+}
 
 
 /* =============================================
