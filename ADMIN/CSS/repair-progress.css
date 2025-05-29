@@ -256,6 +256,17 @@ html, body {
     margin-right: -10px; /* Compensate for scrollbar width */
 }
 
+/* Mobile styling for components grid at 500px viewport */
+@media (max-width: 500px) {
+    .components-grid {
+        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); /* Smaller components */
+        gap: 10px;
+        padding-right: 5px;
+        margin-right: -5px;
+        max-height: 350px; /* Reduce height on mobile */
+    }
+}
+
 /* Custom scrollbar styling for components grid */
 .components-grid::-webkit-scrollbar {
     width: 8px;
@@ -293,6 +304,18 @@ html, body {
     border-bottom: 1px solid #ffe0cc;
 }
 
+/* Mobile styling for component cards */
+@media (max-width: 500px) {
+    .component {
+        border-radius: 6px;
+    }
+    
+    .component-header {
+        padding: 8px 10px;
+        gap: 6px;
+    }
+}
+
 .component-header i {
     font-size: 20px; /* Icon size */
 }
@@ -307,6 +330,23 @@ html, body {
 /* Component details area */
 .component-details {
     padding: 15px;
+}
+
+/* Mobile styling for component details */
+@media (max-width: 500px) {
+    .component-header i {
+        font-size: 16px; /* Smaller icon on mobile */
+    }
+    
+    .component-header span {
+        font-size: 12px; /* Smaller text on mobile */
+        letter-spacing: 0.2px;
+    }
+    
+    .component-details {
+        padding: 10px;
+        font-size: 12px; /* Smaller detail text on mobile */
+    }
 }
 
 /* =============================================
@@ -327,15 +367,36 @@ html, body {
     letter-spacing: 0.5px;
 }
 
+/* Mobile styling for status tags */
+@media (max-width: 500px) {
+    .status-tag {
+        padding: 2px 6px;
+        font-size: 11px;
+        margin: 0 0 6px 0;
+        letter-spacing: 0.2px;
+    }
+}
+
 /* Component name/description */
 .component-description {
     font-weight: var(--font-weight-bold);
     margin: 0 0 10px 0;
     color: #555;
+}
+
+/* Mobile styling for component description */
+@media (max-width: 500px) {
+    .component-description {
+        margin: 0 0 6px 0;
+        font-size: 11px;   
+        
     font-size: var(--font-size-sm);
     font-family: var(--font-secondary);
     line-height: var(--line-height-normal);
 }
+    }
+    
+ 
 
 /* Component details text */
 .component-status {
